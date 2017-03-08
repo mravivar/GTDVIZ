@@ -11,7 +11,45 @@ module.exports = {
     callback(a+10);
   },
 
-  aggregateEventsByYear: function(callback){
+  findAllByyr: function(startyr, endyr,callback){
+    MongoClient.connect(url, function(err, db) {
+      assert.equal(null, err);
+      console.log("Connected successfully to server"+startyr+":"+ typeof endyr);
+      var collection = db.collection(TABLE_NAME);
+
+     collection.find({iyear:{ $gte: startyr, $lte: endyr }}
+          ).toArray(function(err, docs) {
+          assert.equal(null, err);
+          console.log('In the DBHelper'+docs.length);
+          callback(docs);
+          db.close();
+        });
+    });
+  },
+
+  aggregateEventsWithYear: function(startyr, endyr, callback){
+    MongoClient.connect(url, function(err, db) {
+      assert.equal(null, err);
+      console.log("Connected successfully to server"+startyr+":"+ typeof endyr);
+      var collection = db.collection(TABLE_NAME);
+
+     collection.aggregate([
+              {$match: {iyear:{ $gte: startyr, $lte: endyr }}}
+            , {$group:
+                {_id: '$iyear',
+                count : {$sum: 1}
+              }
+              }
+          ]).toArray(function(err, docs) {
+          assert.equal(null, err);
+          console.log('In the DBHelper'+docs.length);
+          callback(docs);
+          db.close();
+        });
+    });
+  },
+
+  aggregateEventsByYrs: function(callback){
     MongoClient.connect(url, function(err, db) {
       assert.equal(null, err);
       console.log("Connected successfully to server");

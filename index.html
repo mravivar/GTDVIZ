@@ -1,14 +1,59 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <script src="./js/jquery311.js" type="application/javascript"></script>
+  <script src="./lib/jquery311.js" type="application/javascript"></script>
 </head>
 <body>
-  <button onclick='show()'>Hello</button>
+   Start Year:<br>
+   <input type="year" id="startyr" value="1997">
+   <br>
+   End Year:<br>
+   <input type="year" id="endyr" value="2016">
+   <br><br>
+   <button id='getbut'>Get Aggregated Data</button>
+   <button id='getDatbut'>Get All Data</button>
     <div id='res'></div>
 </body>
 <script type="application/javascript">
-'use strict';
+  'use strict';
+  $("#getbut").click(function(){
+    $.ajax({
+        url: 'getDatayr',
+        type:"GET",
+        dataType: "text",
+        data: {
+          startyr:$('#startyr').val(),
+          endyr:$('#endyr').val()
+        },
+        success: function(data) {
+          console.log('success');
+            $("#res").text(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('error ' + textStatus + " " + errorThrown);
+        }
+    });
+  });
+
+  $("#getDatbut").click(function(){
+    $.ajax({
+        url: 'getAllDatayr',
+        type:"GET",
+        dataType: "text",
+        data: {
+          startyr:$('#startyr').val(),
+          endyr:$('#endyr').val()
+        },
+        success: function(data) {
+          console.log('success');
+            $("#res").text(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('error ' + textStatus + " " + errorThrown);
+        }
+    });
+  });
+
 function show(){
         $.ajax({
             url: 'getData',
