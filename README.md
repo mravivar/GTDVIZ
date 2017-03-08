@@ -5,9 +5,8 @@ This project is for visualization of global terrorist database
 Tools Used:
 -----------
 Back End   - Database - MongoDB
-Middleware - Node js
-              * Express js
-Front End  - HTML, javascript
+Middleware - Node js, Express js
+Front End  - HTML, javascript,D3
 
 Setting the DB:
 ---------------
