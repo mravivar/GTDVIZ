@@ -16,11 +16,12 @@ module.exports = {
       assert.equal(null, err);
       console.log("Connected successfully to server"+startyr+":"+ typeof endyr);
       var collection = db.collection(TABLE_NAME);
-
-     collection.find({iyear:{ $gte: startyr, $lte: endyr }}
+      //added projection
+     collection.find({iyear:{ $gte: startyr, $lte: endyr }}, {iyear: 1}
           ).toArray(function(err, docs) {
           assert.equal(null, err);
           console.log('In the DBHelper'+docs.length);
+          console.log(docs[0]);
           callback(docs);
           db.close();
         });
