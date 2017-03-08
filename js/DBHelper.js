@@ -26,6 +26,27 @@ module.exports = {
         });
     });
   },
+  aggregateEventsWithYearAndCont: function(startyr, endyr, callback){
+    MongoClient.connect(url, function(err, db) {
+      assert.equal(null, err);
+      console.log("Connected successfully to server"+startyr+":"+ typeof endyr);
+      var collection = db.collection(TABLE_NAME);
+
+     collection.aggregate([
+              {$match: {iyear:{ $gte: startyr, $lte: endyr }}},
+              {$group:
+                {'_id': {year: '$iyear', continent: '$region_txt'},
+                count : {$sum: 1}
+              }
+              }
+          ]).toArray(function(err, docs) {
+          assert.equal(null, err);
+          console.log('In the DBHelper'+docs.length);
+          callback(docs);
+          db.close();
+        });
+    });
+  },
 
   aggregateEventsWithYear: function(startyr, endyr, callback){
     MongoClient.connect(url, function(err, db) {

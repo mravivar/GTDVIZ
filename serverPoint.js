@@ -20,8 +20,8 @@ app.get('/test', function (req, res) {
 });
 
 app.get('/getDatayr', function (req, res) {
-  console.log('getDatayr() called.');
-  DBHelper.aggregateEventsWithYear(Number(req.query.startyr), Number(req.query.endyr), function(docs){
+  console.log('aggregateEventsWithYearAndCont() called.');
+  DBHelper.aggregateEventsWithYearAndCont(Number(req.query.startyr), Number(req.query.endyr), function(docs){
       res.send(docs)
       console.log('response sent');
   });
