@@ -1,0 +1,19 @@
+{
+  "name": "gtdviz",
+  "version": "1.0.0",
+  "description": "Data visualization project",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aravindGear4/GTDVIZ.git"
+  },
+  "author": "Aravind",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aravindGear4/GTDVIZ/issues"
+  },
+  "homepage": "https://github.com/aravindGear4/GTDVIZ#readme"
+}
