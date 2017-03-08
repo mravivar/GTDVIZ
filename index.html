@@ -1,0 +1,27 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="./js/jquery311.js" type="application/javascript"></script>
+</head>
+<body>
+  <button onclick='show()'>Hello</button>
+    <div id='res'></div>
+</body>
+<script type="application/javascript">
+'use strict';
+function show(){
+        $.ajax({
+            url: 'getData',
+            type:"GET",
+            dataType: "text",
+            success: function(data) {
+              console.log('success');
+                $("#res").append(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('error ' + textStatus + " " + errorThrown);
+            }
+        });
+}
+</script>
+</html>
