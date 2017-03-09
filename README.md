@@ -10,16 +10,17 @@ Front End  - HTML, javascript,D3
 
 Setting the DB:
 ---------------
-install mongo db
-create a folder for the db(probably inside the mongodb folder)
+1. install mongo db
+2. create a folder for the db(probably inside the mongodb folder). E.g. C:\Program Files\MongoDB\db
+3. To configure mongodb and run: 
+(i) open command prompt in Admin mode
+(ii) Go to the bin folder of mongodb
+>mongod --directoryperdb --dbpath <path to the DB> --logpath <path to log file> --rest --install
+E.g. mongod --directoryperdb --dbpath "C:\Program Files\MongoDB\db" --logpath "C:\Program Files\MongoDB\server.log" --rest --install
 
-Configure mongodb and run:
-open command prompt in Admin mode
-Go to the bin folder of mongodb
->mongod --dirctoryperdb --dbpath <path to the DB> --logpath <path to log file> --rest --install
 Run mongodb
 >net start MongoDB
-https://www.youtube.com/watch?v=pWbMrx5rVBE&t=1619s
+(Reference)https://www.youtube.com/watch?v=pWbMrx5rVBE&t=1619s
 Open mongodb shell
 >mongo
 create a DB named gtd
@@ -27,18 +28,22 @@ create a DB named gtd
 create a collection called events
 >db.createCollection('events')
 
-Exit the shell
+Exit the mongo shell
 importing the gtd records into the DB:
 Convert our data into csv file
 Go to mongodb bin
 
 >mongoimport --db gtd --collection events --type csv --headerline --file <path to csv>
+E.g. mongoimport --db gtd --collection events --type csv --headerline --file "C:\Users\murlee417\Documents\GTD_0616dist\gtd.csv"
 
 Setting up the Middleware:
 --------------------------
 install node js
->npm install express
->npm install mongodb
+Goto <github_GTD_Project_HOME>
+>npm install express --save
+>npm install mongodb --save
+
+//ignore the below commands
 To configure the project
 >npm init 
 set the starting point to index.html
