@@ -18,8 +18,8 @@ module.exports = {
       console.log("Connected successfully to server"+startyr+":"+ typeof endyr);
       var collection = db.collection(TABLE_NAME);
       //added projection
-     collection.find({iyear:{ $gte: startyr, $lte: endyr }}, {iyear: 1}, {longitude: 1}, {latitude: 1}, {country_txt
- : 1}, {targtype1_txt :1},{gname :1}
+     collection.find(
+         {iyear:{ $gte: startyr, $lte: endyr }}, {iyear: 1, longitude: 1, latitude: 1}
           ).toArray(function(err, docs) {
           assert.equal(null, err);
           console.log('In the DBHelper'+docs.length);

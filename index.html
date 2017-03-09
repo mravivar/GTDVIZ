@@ -9,18 +9,35 @@
   <!--
   <script src="./js/parallel.js">
   -->
-
+  <script src="./lib/d3.js"></script>
+  <script src="./lib/topojson.js"></script>
+  <script src="./js/coffee.js"></script>
+  <style>
+    svg {
+      background: white;
+    }
+    .country {
+      fill: grey;
+      stroke: black;
+      stroke-width: 0.3;
+    }
+    .selected {
+      fill: yellow;
+      name: country;
+    }
+  </style>
 </head>
-<body>
+<body onload="init()"> <!-- init() defined in coffee.js-->
 
    Start Year:<br>
-   <input type="year" id="startyr" value="1997">
+   <input type="year" id="startyr" value="2015">
    <br>
    End Year:<br>
    <input type="year" id="endyr" value="2016">
    <br><br>
    <button id='getbut'>Get Aggregated Data</button>
    <button id='getDatbut'>Get All Data</button>
+    <div id="vis"></div>
     <pre id='res'></pre>
     <div id="example" class="parcoords" style="width:800px;height:220px"></div>
     <div id="example1" class="parcoords" style="width:800px;height:220px"></div>
@@ -70,6 +87,7 @@ $("document").ready(function(){
         data.forEach(function(ob){
           //ob['country_txt']=ob._id['country_txt']
           delete ob._id;
+          delete ob['__proto__'];
         });
         $("#res").append(data);
         var pc = d3.parcoords()("#example1")
@@ -91,6 +109,8 @@ function convertJsonObjectsTo2dArray(data){
   //"nwound":0}
   for (var i = 0; i < data.length; i++){
     data[i]['org_name']=data[i]._id.gname;
+    delete data[i]['__proto__'];
+    delete data[i]['_id'];
   }
   return data;
 }
