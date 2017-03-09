@@ -27,6 +27,22 @@ app.get('/getDatayr', function (req, res) {
   });
 });
 
+app.get('/getDataAggOrg', function (req, res) {
+  console.log('aggregateEventsByOrg() called.');
+  DBHelper.aggregateEventsByOrg(Number(req.query.startyr), Number(req.query.endyr), function(docs){
+      res.send(docs)
+      console.log('response sent');
+  });
+});
+
+app.get('/getDataAggCountry', function (req, res) {
+  console.log('aggregateEventsByCountry() called.');
+  DBHelper.aggregateEventsByCountry(Number(req.query.startyr), Number(req.query.endyr), function(docs){
+      res.send(docs)
+      console.log('response sent');
+  });
+});
+
 app.get('/getAllDatayr', function (req, res) {
   console.log('getAllDatayr() called.');
   DBHelper.findAllByyr(Number(req.query.startyr), Number(req.query.endyr), function(docs){
