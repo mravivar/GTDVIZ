@@ -8,6 +8,9 @@ var router = express.Router();
 //adding  static file
 console.log(__dirname);
 app.use('/lib', express.static(__dirname + '/lib'));
+app.use('/data', express.static(__dirname + '/data'));
+app.use('/css', express.static(__dirname + '/css'));
+app.use('/js', express.static(__dirname + '/js'));
 //supplying the starting page
 app.get('/', function(req, res){
   console.log('Supplying the index file');

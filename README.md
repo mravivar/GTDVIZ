@@ -17,46 +17,46 @@ Setting the DB:
 (ii) Go to the bin folder of mongodb
 >mongod --directoryperdb --dbpath <path to the DB> --logpath <path to log file> --rest --install
 E.g. mongod --directoryperdb --dbpath "C:\Program Files\MongoDB\db" --logpath "C:\Program Files\MongoDB\server.log" --rest --install
-
-Run mongodb
+(iii) Run mongodb
 >net start MongoDB
 (Reference)https://www.youtube.com/watch?v=pWbMrx5rVBE&t=1619s
-Open mongodb shell
+
+4. Open mongodb shell:
 >mongo
-create a DB named gtd
+create a DB named gtd:
 >use gtd
-create a collection called events
+create a collection called events:
 >db.createCollection('events')
+Exit the mongo shell:
+>ctrl+c
 
-Exit the mongo shell
-importing the gtd records into the DB:
-Convert our data into csv file
-Go to mongodb bin
-
+5. To import the gtd records into the DB:
+(i)Convert our data into csv file. open your gtd.xls file, save as csv.
+(ii)Go to mongodb bin:
 >mongoimport --db gtd --collection events --type csv --headerline --file <path to csv>
 E.g. mongoimport --db gtd --collection events --type csv --headerline --file "C:\Users\murlee417\Documents\GTD_0616dist\gtd.csv"
 
 Setting up the Middleware:
 --------------------------
-install node js
-Goto <github_GTD_Project_HOME>
+1. install node js
+2. Open command prompt. Go to <github_GTD_Project_HOME>. Run the commands:
 >npm install express --save
 >npm install mongodb --save
 
-//ignore the below commands
-To configure the project
+<!--
+ignore the below commands
+-------------------------
+To configure the project:
 >npm init 
 set the starting point to index.html
-
+-->
 
 How to Run:
 -----------
-I assume that you have already ran the MongoDB server or as a service.
-Run the middleware
-Goto the main folder where serverPoint.js is present.
+1. I assume that you have already ran the MongoDB server or as a service.
+2. Run the middleware. Goto the main folder where serverPoint.js is present:
 >node serverPoint.js
-
-Open the module in the browser with the below link
+3. Open the module in the browser with the below link
 http://localhost:3000
 
 
