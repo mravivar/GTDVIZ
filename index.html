@@ -2,8 +2,17 @@
 <head>
   <meta charset="UTF-8">
   <script src="./lib/jquery311.js" type="application/javascript"></script>
+
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="./lib/parallel-coordinates-master/d3.parcoords.js"></script>
+  <link rel="stylesheet" type="text/css" href="./lib/parallel-coordinates-master/d3.parcoords.css">
+  <!--
+  <script src="./js/parallel.js">
+  -->
+
 </head>
 <body>
+
    Start Year:<br>
    <input type="year" id="startyr" value="1997">
    <br>
@@ -12,9 +21,82 @@
    <br><br>
    <button id='getbut'>Get Aggregated Data</button>
    <button id='getDatbut'>Get All Data</button>
-    <div id='res'></div>
+    <pre id='res'></pre>
+    <div id="example" class="parcoords" style="width:800px;height:220px"></div>
+    <div id="example1" class="parcoords" style="width:800px;height:220px"></div>
 </body>
-<script type="application/javascript">
+<script>
+/*parallel-coordinates- */
+//aggregate by organisation
+//examples/table.html highlightioing corresponding org and country with this sample
+//veterans.html, examples/setterForBrushes.html filtering through this
+$("document").ready(function(){
+  $.ajax({
+      url: 'getDataAggOrg',
+      type:"GET",
+      dataType: "json",
+      data: {
+        startyr:$('#startyr').val(),
+        endyr:$('#endyr').val()
+      },
+      success: function(data) {
+        var dimensions = {"org_name":{orient: 'left',type: 'string',tickPadding: 0,innerTickSize: 8}};
+        console.log('success');
+        listData=convertJsonObjectsTo2dArray(data)
+        $("#res").append(listData);
+        var pc = d3.parcoords()("#example")
+          .data(listData)
+          .hideAxis(['_id', 'org_name'])
+          .render().createAxes().reorderable();
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          alert('error ' + textStatus + " " + errorThrown);
+      }
+  });
+});
+//aggregate by county
+$("document").ready(function(){
+  $.ajax({
+      url: 'getDataAggCountry',
+      type:"GET",
+      dataType: "json",
+      data: {
+        startyr:$('#startyr').val(),
+        endyr:$('#endyr').val()
+      },
+      success: function(data) {
+        console.log('success');
+        //data=data.slice(0,3);
+        data.forEach(function(ob){
+          //ob['country_txt']=ob._id['country_txt']
+          delete ob._id;
+        });
+        $("#res").append(data);
+        var pc = d3.parcoords()("#example1")
+          .hideAxis(['_id', 'country_txt'])
+          .data(data).rotateLabels(true)
+          .render()
+          .createAxes().reorderable();
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          alert('error ' + textStatus + " " + errorThrown);
+      }
+  });
+});
+
+function convertJsonObjectsTo2dArray(data){
+  //{"_id":{"year":2015,"continent":"Central America & Caribbean"},
+  //"numEvents":1,
+  //"nkill":0,
+  //"nwound":0}
+  for (var i = 0; i < data.length; i++){
+    data[i]['org_name']=data[i]._id.gname;
+  }
+  return data;
+}
+</script>
+
+<script>
   'use strict';
   $("#getbut").click(function(){
     $.ajax({
