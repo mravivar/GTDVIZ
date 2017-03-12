@@ -2,33 +2,18 @@
 <head>
   <meta charset="UTF-8">
   <script src="./lib/jquery311.js" type="application/javascript"></script>
-
+  <script src="./lib/d3.js"></script>
+  <script>
+  var d3_v4=d3;
+  var store="Aravind stored";
+  </script>
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="./lib/parallel-coordinates-master/d3.parcoords.js"></script>
-  <link rel="stylesheet" type="text/css" href="./lib/parallel-coordinates-master/d3.parcoords.css">
-  <!--
-  <script src="./js/parallel.js">
-  -->
-  <script src="./lib/d3.js"></script>
+  <link rel="stylesheet" type="text/css" href="./lib/parallel-coordinates-master/d3.parcoords.css"></link>
   <script src="./lib/topojson.js"></script>
   <script src="./js/coffee.js"></script>
-  <style>
-    svg {
-      background: white;
-    }
-    .country {
-      fill: grey;
-      stroke: black;
-      stroke-width: 0.3;
-    }
-    .selected {
-      fill: yellow;
-      name: country;
-    }
-  </style>
 </head>
 <body onload="init()"> <!-- init() defined in coffee.js-->
-
    Start Year:<br>
    <input type="year" id="startyr" value="2015">
    <br>
@@ -37,10 +22,11 @@
    <br><br>
    <button id='getbut'>Get Aggregated Data</button>
    <button id='getDatbut'>Get All Data</button>
+   <button id='updateMap' onclick="update_worldMap()">Update the Map</button>
     <div id="vis"></div>
     <pre id='res'></pre>
-    <div id="example" class="parcoords" style="width:800px;height:220px"></div>
-    <div id="example1" class="parcoords" style="width:800px;height:220px"></div>
+    <div id="organisation" class="parcoords" style="width:800px;height:220px">Organisation<br/></div>
+    <div id="country" class="parcoords" style="width:800px;height:220px">Country<br/></div>
 </body>
 <script>
 /*parallel-coordinates- */
@@ -59,19 +45,19 @@ $("document").ready(function(){
       success: function(data) {
         var dimensions = {"org_name":{orient: 'left',type: 'string',tickPadding: 0,innerTickSize: 8}};
         console.log('success');
-        listData=convertJsonObjectsTo2dArray(data)
+        listData=convertJsonObjectsTo2dArray(data);
         $("#res").append(listData);
-        var pc = d3.parcoords()("#example")
-          .data(listData)
-          .hideAxis(['_id', 'org_name'])
-          .render().createAxes().reorderable();
+        var pc = d3.parcoords()("#organisation")
+          .data(listData).hideAxis(['org_name', 'nperps'])
+          .render().createAxes();
       },
       error: function(jqXHR, textStatus, errorThrown) {
           alert('error ' + textStatus + " " + errorThrown);
       }
   });
 });
-//aggregate by county
+//aggregate by country
+
 $("document").ready(function(){
   $.ajax({
       url: 'getDataAggCountry',
@@ -87,12 +73,11 @@ $("document").ready(function(){
         data.forEach(function(ob){
           //ob['country_txt']=ob._id['country_txt']
           delete ob._id;
-          delete ob['__proto__'];
+          //delete ob['__proto__'];
         });
         $("#res").append(data);
-        var pc = d3.parcoords()("#example1")
-          .hideAxis(['_id', 'country_txt'])
-          .data(data).rotateLabels(true)
+        var pc = d3.parcoords()("#country")
+          .data(data).hideAxis(['nperps'])
           .render()
           .createAxes().reorderable();
       },
@@ -109,15 +94,12 @@ function convertJsonObjectsTo2dArray(data){
   //"nwound":0}
   for (var i = 0; i < data.length; i++){
     data[i]['org_name']=data[i]._id.gname;
-    delete data[i]['__proto__'];
+    //delete data[i]['__proto__'];
     delete data[i]['_id'];
   }
   return data;
 }
-</script>
 
-<script>
-  'use strict';
   $("#getbut").click(function(){
     $.ajax({
         url: 'getDatayr',
