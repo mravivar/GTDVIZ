@@ -39,6 +39,8 @@ E.g. mongoimport --db gtd --collection events --type csv --headerline --file "C:
 Setting up the Middleware:
 --------------------------
 1. install node js
+1.a.  install npm 
+>npm install
 2. Open command prompt. Go to <github_GTD_Project_HOME>. Run the commands:
 >npm install express --save
 >npm install mongodb --save
