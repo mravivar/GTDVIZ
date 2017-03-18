@@ -41,7 +41,8 @@ Setting up the Middleware:
 1. install node js
 1.a.  install npm 
 >npm install
-2. Open command prompt. Go to <github_GTD_Project_HOME>. Run the commands:
+2. Open command prompt. Go to <github_GTD_Project_HOME>. 
+Run the commands:
 >npm install express --save
 >npm install mongodb --save
 
@@ -58,7 +59,7 @@ How to Run:
 1. I assume that you have already ran the MongoDB server or as a service.
 2. Run the middleware. Goto the main folder where serverPoint.js is present:
 >node serverPoint.js
-3. Open the module in the browser with the below link
+3. Open the the below link in the browser to see the magic !
 http://localhost:3000
 
 
