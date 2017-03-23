@@ -11,7 +11,11 @@ function init(){
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
-          .attr("transform", "translate(30,30)");;
+          .attr("transform", "translate(30,30)")
+          .call(d3_v4.zoom().on("zoom", function () {
+              chart.attr("transform", d3_v4.event.transform)
+          }))
+
   vis = chart.append("g");
   update_worldMap();
 // themeriver("../data/data.csv");
