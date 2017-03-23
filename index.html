@@ -13,9 +13,30 @@
   <script src="./lib/topojson.js"></script>
   <script src="./js/coffee.js"></script>
 </head>
+<style type="text/css">
+  body {
+  font: 10px sans-serif;
+}
+
+.themeriver { 
+  background: #fff;
+}
+
+p {
+  font: 12px helvetica;
+}
+
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
+</style>>
 <body onload="init()"> <!-- init() defined in coffee.js-->
    Start Year:<br>
-   <input type="year" id="startyr" value="2015">
+   <input type="year" id="startyr" value="1992">
    <br>
    End Year:<br>
    <input type="year" id="endyr" value="2016">
@@ -25,10 +46,15 @@
    <button id='updateMap' onclick="update_worldMap()">Update the Map</button>
     <div id="vis"></div>
     <pre id='res'></pre>
-    <div id="organisation" class="parcoords" style="width:800px;height:220px">Organisation<br/></div>
-    <div id="country" class="parcoords" style="width:800px;height:220px">Country<br/></div>
+    <div id="organisation" class="parcoords" style="width:1000px;height:220px">Organisation<br/></div>
+    <div id="country" class="parcoords" style="width:1000px;height:220px">Country<br/></div>
+    <div id="themeriver" class="themeriver" style="width:1000px;height:220px">Themeriver<br/></div>
+
 </body>
+
 <script>
+
+
 /*parallel-coordinates- */
 //aggregate by organisation
 //examples/table.html highlightioing corresponding org and country with this sample
@@ -72,9 +98,12 @@ $("document").ready(function(){
         //data=data.slice(0,3);
         data.forEach(function(ob){
           //ob['country_txt']=ob._id['country_txt']
+          
           delete ob._id;
+
           //delete ob['__proto__'];
         });
+//       console.log(oc);
         $("#res").append(data);
         var pc = d3.parcoords()("#country")
           .data(data).hideAxis(['nperps'])
@@ -86,20 +115,61 @@ $("document").ready(function(){
       }
   });
 });
+//aggregatedata by region
+$("document").ready(function(){
+  $.ajax({
+      url: 'getDatayr',
+      type:"GET",
+      dataType: "json",
+      data: {
+        startyr:$('#startyr').val(),
+        endyr:$('#endyr').val()
+      },
+      success: function(data) {
+        regData=convertJsonTo2dArray(data);
+        
+        themeriver(regData);
+        //console.log(regData);
+        
+      },
+  });
+});
+
+//end
+
+function convertJsonTo2dArray(data)
+{
+  for(var i=0;i<data.length;i++)
+  {
+    data[i]['key']=data[i]._id.continent;
+    data[i]['date']=data[i]._id.year;
+    delete data[i]['_id']; 
+    delete data[i]['nkill'];
+    delete data[i]['nperps']; 
+    delete data[i]['nkillter'];
+    delete data[i]['nwound'];
+    //delete data[i]['__proto__'];
+  }
+ // console.log(data);
+  assigneddata=assignmissing(data);
+  return assigneddata;
+}
 
 function convertJsonObjectsTo2dArray(data){
   //{"_id":{"year":2015,"continent":"Central America & Caribbean"},
   //"numEvents":1,
   //"nkill":0,
   //"nwound":0}
+//  console.log(data);
   for (var i = 0; i < data.length; i++){
     data[i]['org_name']=data[i]._id.gname;
     //delete data[i]['__proto__'];
     delete data[i]['_id'];
+
   }
+//  console.log(data);
   return data;
 }
-
   $("#getbut").click(function(){
     $.ajax({
         url: 'getDatayr',
@@ -111,6 +181,7 @@ function convertJsonObjectsTo2dArray(data){
         },
         success: function(data) {
           console.log('success');
+          //console.log(data);
             $("#res").text(data);
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -152,5 +223,73 @@ function show(){
             }
         });
 }
+
+function assignmissing(dataset)
+{
+  var defaultValue=0;
+  var keys = ["Australasia & Oceania","Central America & Caribbean","Central Asia","East Asia","Eastern Europe","Middle East & North Africa","North America","South America","South Asia","Southeast Asia","Sub-Saharan Africa","Western Europe"];
+    var newData = [];
+    var sortByDate = function(a,b){ return a.date > b.date ? 1 : -1; };
+    dataset.sort(sortByDate);
+    var sortByName = function(a,b){
+      if((a.key >= b.key) && (a.date>=b.date)){ return 1; }
+      else {return -1;}
+    };
+    var startingyear = dataset[0].date;
+    dataset.sort(sortByName);
+    console.log("Fixing missing data");
+    var iyear=startingyear;
+    var j=0;
+   dataset.forEach(function(row){
+      //console.log(row.key);
+      //console.log(keys[j]);
+      while(row.key!=keys[j]){
+                 newData.push( { key: keys[j], 
+                         value: +defaultValue, 
+                         date: iyear })
+                 j=j+1;
+       if(j==12){
+        j=0;
+        iyear=iyear+1;
+   }  
+    
+    }
+                 j=j+1;
+       if(j==12){
+        j=0;
+        iyear=iyear+1;
+   }
+  });
+
+    console.log("Fixed Missing data");
+    return dataset.concat(newData).sort(sortByDate);
+    //return dataset.concat(newData).sort(sortByDate);
+}
+
+/*      if((row.key!=keys[j]))
+      {
+         newData.push( { key: keys[j], 
+                         value: defaultValue, 
+                         date: iyear })
+        j=j+2;
+      if(j==12){
+        j=0;
+        iyear=iyear+1;
+      }
+
+      }
+      else
+      {
+        while(row.key!=keys[j])
+        {
+          j=j+1;
+       if(j==12){
+        j=0;
+        iyear=iyear+1;
+      }
+      }
+*/   
+
+
 </script>
 </html>
