@@ -10,15 +10,18 @@
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="./lib/parallel-coordinates-master/d3.parcoords.js"></script>
   <link rel="stylesheet" type="text/css" href="./lib/parallel-coordinates-master/d3.parcoords.css"></link>
+  <script src="./lib/d3-tablesort-master/d3-tablesort.js" type="application/javascript"></script>
+
   <script src="./lib/topojson.js"></script>
   <script src="./js/coffee.js"></script>
+  <script src="./js/detailsView.js"></script>
 </head>
 <style type="text/css">
   body {
   font: 10px sans-serif;
 }
 
-.themeriver { 
+.themeriver {
   background: #fff;
 }
 
@@ -36,7 +39,7 @@ p {
 </style>>
 <body onload="init()"> <!-- init() defined in coffee.js-->
    Start Year:<br>
-   <input type="year" id="startyr" value="1992">
+   <input type="year" id="startyr" value="2013">
    <br>
    End Year:<br>
    <input type="year" id="endyr" value="2016">
@@ -46,10 +49,12 @@ p {
    <button id='updateMap' onclick="update_worldMap()">Update the Map</button>
     <div id="vis"></div>
     <pre id='res'></pre>
-    <div id="organisation" class="parcoords" style="width:1000px;height:220px">Organisation<br/></div>
-    <div id="country" class="parcoords" style="width:1000px;height:220px">Country<br/></div>
+    Organisation<br/>
+    <div id="organisation" class="parcoords" style="width:1000px;height:220px"></div>
+    Country<br/>
+    <div id="country" class="parcoords" style="width:1000px;height:220px"></div>
+    <div id="detailsTable"></div>
     <div id="themeriver" class="themeriver" style="width:1000px;height:220px">Themeriver<br/></div>
-
 </body>
 
 <script>
@@ -59,6 +64,7 @@ p {
 //aggregate by organisation
 //examples/table.html highlightioing corresponding org and country with this sample
 //veterans.html, examples/setterForBrushes.html filtering through this
+var orgParcoords, orgData;
 $("document").ready(function(){
   $.ajax({
       url: 'getDataAggOrg',
@@ -69,13 +75,15 @@ $("document").ready(function(){
         endyr:$('#endyr').val()
       },
       success: function(data) {
+        //dummy function TODO
+        function processSelected(data){
+          console.log(data.length);
+        }
         var dimensions = {"org_name":{orient: 'left',type: 'string',tickPadding: 0,innerTickSize: 8}};
-        console.log('success');
-        listData=convertJsonObjectsTo2dArray(data);
-        $("#res").append(listData);
-        var pc = d3.parcoords()("#organisation")
-          .data(listData).hideAxis(['org_name', 'nperps'])
-          .render().createAxes();
+        orgData=convertJsonObjectsTo2dArray(data);
+        orgParcoords = d3.parcoords()("#organisation")
+          .data(orgData).hideAxis(['gname', 'nperps'])
+          .render().createAxes();//.brushMode("1D-axes").on("brush",processSelected) ;
       },
       error: function(jqXHR, textStatus, errorThrown) {
           alert('error ' + textStatus + " " + errorThrown);
@@ -83,7 +91,7 @@ $("document").ready(function(){
   });
 });
 //aggregate by country
-
+var countryParcoords, countryData;
 $("document").ready(function(){
   $.ajax({
       url: 'getDataAggCountry',
@@ -94,21 +102,16 @@ $("document").ready(function(){
         endyr:$('#endyr').val()
       },
       success: function(data) {
-        console.log('success');
-        //data=data.slice(0,3);
         data.forEach(function(ob){
-          //ob['country_txt']=ob._id['country_txt']
-          
+          ob['country_txt']=ob._id['country_txt']
           delete ob._id;
-
           //delete ob['__proto__'];
         });
-//       console.log(oc);
-        $("#res").append(data);
-        var pc = d3.parcoords()("#country")
-          .data(data).hideAxis(['nperps'])
-          .render()
-          .createAxes().reorderable();
+        countryData=data;
+        countryParcoords = d3.parcoords()("#country")
+        .data(data).hideAxis(['country_txt', 'nperps'])
+        .render()
+        .createAxes().reorderable();//.brushMode("1D-axes");
       },
       error: function(jqXHR, textStatus, errorThrown) {
           alert('error ' + textStatus + " " + errorThrown);
@@ -127,10 +130,10 @@ $("document").ready(function(){
       },
       success: function(data) {
         regData=convertJsonTo2dArray(data);
-        
+
         themeriver(regData);
         //console.log(regData);
-        
+
       },
   });
 });
@@ -143,9 +146,9 @@ function convertJsonTo2dArray(data)
   {
     data[i]['key']=data[i]._id.continent;
     data[i]['date']=data[i]._id.year;
-    delete data[i]['_id']; 
+    delete data[i]['_id'];
     delete data[i]['nkill'];
-    delete data[i]['nperps']; 
+    delete data[i]['nperps'];
     delete data[i]['nkillter'];
     delete data[i]['nwound'];
     //delete data[i]['__proto__'];
@@ -162,7 +165,7 @@ function convertJsonObjectsTo2dArray(data){
   //"nwound":0}
 //  console.log(data);
   for (var i = 0; i < data.length; i++){
-    data[i]['org_name']=data[i]._id.gname;
+    data[i]['gname']=data[i]._id.gname;
     //delete data[i]['__proto__'];
     delete data[i]['_id'];
 
@@ -244,15 +247,15 @@ function assignmissing(dataset)
       //console.log(row.key);
       //console.log(keys[j]);
       while(row.key!=keys[j]){
-                 newData.push( { key: keys[j], 
-                         value: +defaultValue, 
+                 newData.push( { key: keys[j],
+                         value: +defaultValue,
                          date: iyear })
                  j=j+1;
        if(j==12){
         j=0;
         iyear=iyear+1;
-   }  
-    
+   }
+
     }
                  j=j+1;
        if(j==12){
@@ -268,8 +271,8 @@ function assignmissing(dataset)
 
 /*      if((row.key!=keys[j]))
       {
-         newData.push( { key: keys[j], 
-                         value: defaultValue, 
+         newData.push( { key: keys[j],
+                         value: defaultValue,
                          date: iyear })
         j=j+2;
       if(j==12){
@@ -288,7 +291,7 @@ function assignmissing(dataset)
         iyear=iyear+1;
       }
       }
-*/   
+*/
 
 
 </script>

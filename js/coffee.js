@@ -4,7 +4,7 @@ var chart, vis;
 var height = 500;
 var width = 900;
 var margin = {top: 20, right: 50, bottom: 30, left: 30};
-
+var previous=0;
 //Gets called when the page is loaded.
 function init(){
   chart = d3_v4.select('#vis').append('svg')
@@ -81,7 +81,7 @@ var svg = d3.select(".themeriver").append("svg")
     d.numEvents = +d.numEvents;
   }
   });
-  console.log(data); 
+  console.log(data);
   var layers = stack(nest.entries(data));
   console.log(layers);
   x.domain(d3.extent(data, function(d) { return d.date; }));
@@ -129,14 +129,14 @@ function ready(error,data) {
      .data(countries)
      .enter().append("path")
      .attr("class", "country")
-     .attr("d",path)
+     .attr("d",path);/*
      .on('mouseover', function(d){
        d3_v4.select(this).classed("selected", true)
 
      })
      .on('mouseout', function(d){
        d3_v4.select(this).classed("selected", false)
-     })
+     })*/
 
 
        $.ajax({
@@ -148,7 +148,7 @@ function ready(error,data) {
              endyr:$('#endyr').val()
            },
            success: function(capitals) {
-               //console.log(capitals)
+               loadDataIntoDetailsView(capitals);
                chart.selectAll(".city-circle").data(capitals)
                .enter().append("circle")
                .attr("r",2)
@@ -161,13 +161,52 @@ function ready(error,data) {
                    var coords = projection([d.longitude, d.latitude])
                    //console.log(coords)
                    return coords[1];
+                 }).on('mouseover', function(d){
+                                  d3_v4.select(this).classed("selected", true)
+                                  //call the highlighter here
+                                  console.log(d.eventid);
+                                  if(previous!=0){
+                                    //d3.select("tr[chosen='true']").attr('chosen', false);
+                                    d3.select("#e"+previous).attr('bgcolor', 'white');
+                                  }
+                                  previous=d.eventid;
+                                  d3.select("#e"+d.eventid).attr('bgcolor', 'yellow');
+                                  //d3.select("#e"+d.eventid).attr('chosen', true);
+                                  //lets scroll to the highlighted row
+                                  //'.scroll-table' is the class name used inside the d3-tablesort
+                                  console.log($('#e'+d.eventid).position().top-$('.scroll-table').position().top);
+                                  $('.scroll-table').scrollTop(0);
+                                  $('.scroll-table').scrollTop($('#e'+d.eventid).position().top-$('.scroll-table').position().top);
+                                 //highlight the things in parallel-coordinates
+                                 //query the data from the server and highlight
+                                 //countryParcoords.clear("highlight");
+                                 highlightParrallelCoordinate(d.country_txt, d.gname)
+                                 //parcoords.highlight([[0,-0,0,0,0,1]]);
+                                })
+                                .on('mouseout', function(d){
+                                  d3_v4.select(this).classed("selected", false)
                })
            },
            error: function(jqXHR, textStatus, errorThrown) {
                console.log('error ' + textStatus + " " + errorThrown);
            }
        });
-
+       async function highlightParrallelCoordinate(countryName, orgName){
+       for(var i=0;i<countryData.length;i++){
+         if(countryData[i].country_txt==countryName){
+           console.log(countryData[i]);
+           countryParcoords.highlight([countryData[i]]);
+           break;
+         }
+       }
+       for(var i=0;i<orgData.length;i++){
+         if(orgData[i].gname==orgName){
+           console.log(orgData[i]);
+           orgParcoords.highlight([orgData[i]]);
+           break;
+         }
+       }
+     }
 /*
      console.log(capitals)
      chart.selectAll(".city-circle").data(capitals)
