@@ -7,39 +7,39 @@
   var d3_v4=d3;
   var store="Aravind stored";
   </script>
+  <!-- external libraries-->
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="./lib/parallel-coordinates-master/d3.parcoords.js"></script>
   <link rel="stylesheet" type="text/css" href="./lib/parallel-coordinates-master/d3.parcoords.css"></link>
   <script src="./lib/d3-tablesort-master/d3-tablesort.js" type="application/javascript"></script>
-
+  <script src="./lib/noUiSlider-master/distribute/nouislider.js"></script>
+  <!--JS files-->
   <script src="./lib/topojson.js"></script>
   <script src="./js/coffee.js"></script>
   <script src="./js/detailsView.js"></script>
+  <script src="./js/slider.js"></script>
 </head>
 <style type="text/css">
   body {
   font: 10px sans-serif;
 }
-
 .themeriver {
   background: #fff;
 }
-
 p {
   font: 12px helvetica;
 }
-
-
 .axis path, .axis line {
   fill: none;
   stroke: #000;
   stroke-width: 2px;
   shape-rendering: crispEdges;
 }
-</style>>
+</style>
 <body onload="init()"> <!-- init() defined in coffee.js-->
+  <div id="noUiSlider" style="width:100px;height:15px"></div>
    Start Year:<br>
-   <input type="year" id="startyr" value="2013">
+   <input type="year" id="startyr" value="2015">
    <br>
    End Year:<br>
    <input type="year" id="endyr" value="2016">
@@ -58,8 +58,7 @@ p {
 </body>
 
 <script>
-
-
+addSlider();
 /*parallel-coordinates- */
 //aggregate by organisation
 //examples/table.html highlightioing corresponding org and country with this sample
