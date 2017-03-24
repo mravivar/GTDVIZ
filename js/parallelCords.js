@@ -1,3 +1,5 @@
+var orgParcoords, orgData;
+var countryParcoords, countryData;
 function updatePrallelCords(){
   /*parallel-coordinates- */
   //TODO set different domain for coubtry and org
@@ -8,7 +10,6 @@ function updatePrallelCords(){
   //aggregate by organisation
   //examples/table.html highlightioing corresponding org and country with this sample
   //veterans.html, examples/setterForBrushes.html filtering through this
-  var orgParcoords, orgData;
   $("document").ready(function(){
     $.ajax({
         url: 'getDataAggOrg',
@@ -45,7 +46,6 @@ function updatePrallelCords(){
     });
   });
   //aggregate by country
-  var countryParcoords, countryData;
   $("document").ready(function(){
     $.ajax({
         url: 'getDataAggCountry',
