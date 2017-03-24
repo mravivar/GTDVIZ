@@ -85,9 +85,7 @@ var svg = d3.select(".themeriver").append("svg")
     d.numEvents = +d.numEvents;
   }
   });
-  //console.log(data);
   var layers = stack(nest.entries(data));
-  //console.log(layers);
   x.domain(d3.extent(data, function(d) { return d.date; }));
   y.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
 
@@ -110,6 +108,7 @@ var svg = d3.select(".themeriver").append("svg")
 
 
 }
+
 
 function update_worldMap(){
 d3_v4.queue()
