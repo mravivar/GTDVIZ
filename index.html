@@ -18,6 +18,7 @@
   <script src="./js/coffee.js"></script>
   <script src="./js/detailsView.js"></script>
   <script src="./js/slider.js"></script>
+  <script src="./js/parallelCords.js"></script>
 </head>
 <style type="text/css">
   body {
@@ -38,11 +39,12 @@ p {
 </style>
 <body onload="init()"> <!-- init() defined in coffee.js-->
   <div id="noUiSlider" style="width:100px;height:15px"></div>
-   Start Year:<br>
-   <input type="year" id="startyr" value="2015">
+   Start Year:
+   <!--TODO change this to label, else update the slider based on the input value-->
+   <input type="year" id="startyr" value=2015></input>
    <br>
-   End Year:<br>
-   <input type="year" id="endyr" value="2016">
+   End Year:
+   <input type="year" id="endyr" value=2016></input>
    <br><br>
    <button id='getbut'>Get Aggregated Data</button>
    <button id='getDatbut'>Get All Data</button>
@@ -59,64 +61,7 @@ p {
 
 <script>
 addSlider();
-/*parallel-coordinates- */
-//aggregate by organisation
-//examples/table.html highlightioing corresponding org and country with this sample
-//veterans.html, examples/setterForBrushes.html filtering through this
-var orgParcoords, orgData;
-$("document").ready(function(){
-  $.ajax({
-      url: 'getDataAggOrg',
-      type:"GET",
-      dataType: "json",
-      data: {
-        startyr:$('#startyr').val(),
-        endyr:$('#endyr').val()
-      },
-      success: function(data) {
-        //dummy function TODO
-        function processSelected(data){
-          console.log(data.length);
-        }
-        var dimensions = {"org_name":{orient: 'left',type: 'string',tickPadding: 0,innerTickSize: 8}};
-        orgData=convertJsonObjectsTo2dArray(data);
-        orgParcoords = d3.parcoords()("#organisation")
-          .data(orgData).hideAxis(['gname', 'nperps'])
-          .render().createAxes();//.brushMode("1D-axes").on("brush",processSelected) ;
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          alert('error ' + textStatus + " " + errorThrown);
-      }
-  });
-});
-//aggregate by country
-var countryParcoords, countryData;
-$("document").ready(function(){
-  $.ajax({
-      url: 'getDataAggCountry',
-      type:"GET",
-      dataType: "json",
-      data: {
-        startyr:$('#startyr').val(),
-        endyr:$('#endyr').val()
-      },
-      success: function(data) {
-        data.forEach(function(ob){
-          ob['country_txt']=ob._id['country_txt']
-          delete ob._id;
-          //delete ob['__proto__'];
-        });
-        countryData=data;
-        countryParcoords = d3.parcoords()("#country")
-        .data(data).hideAxis(['country_txt', 'nperps'])
-        .render()
-        .createAxes().reorderable();//.brushMode("1D-axes");
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          alert('error ' + textStatus + " " + errorThrown);
-      }
-  });
-});
+updatePrallelCords();
 //aggregatedata by region
 $("document").ready(function(){
   $.ajax({
@@ -129,20 +74,17 @@ $("document").ready(function(){
       },
       success: function(data) {
         regData=convertJsonTo2dArray(data);
-
         themeriver(regData);
         //console.log(regData);
-
       },
   });
 });
-
 //end
-
 function convertJsonTo2dArray(data)
 {
   for(var i=0;i<data.length;i++)
   {
+    //TODO if we dont want this much data then only get only those data that is needed
     data[i]['key']=data[i]._id.continent;
     data[i]['date']=data[i]._id.year;
     delete data[i]['_id'];
@@ -155,75 +97,6 @@ function convertJsonTo2dArray(data)
  // console.log(data);
   assigneddata=assignmissing(data);
   return assigneddata;
-}
-
-function convertJsonObjectsTo2dArray(data){
-  //{"_id":{"year":2015,"continent":"Central America & Caribbean"},
-  //"numEvents":1,
-  //"nkill":0,
-  //"nwound":0}
-//  console.log(data);
-  for (var i = 0; i < data.length; i++){
-    data[i]['gname']=data[i]._id.gname;
-    //delete data[i]['__proto__'];
-    delete data[i]['_id'];
-
-  }
-//  console.log(data);
-  return data;
-}
-  $("#getbut").click(function(){
-    $.ajax({
-        url: 'getDatayr',
-        type:"GET",
-        dataType: "text",
-        data: {
-          startyr:$('#startyr').val(),
-          endyr:$('#endyr').val()
-        },
-        success: function(data) {
-          console.log('success');
-          //console.log(data);
-            $("#res").text(data);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert('error ' + textStatus + " " + errorThrown);
-        }
-    });
-  });
-
-  $("#getDatbut").click(function(){
-    $.ajax({
-        url: 'getAllDatayr',
-        type:"GET",
-        dataType: "text",
-        data: {
-          startyr:$('#startyr').val(),
-          endyr:$('#endyr').val()
-        },
-        success: function(data) {
-          console.log('success');
-            $("#res").text(data);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert('error ' + textStatus + " " + errorThrown);
-        }
-    });
-  });
-
-function show(){
-        $.ajax({
-            url: 'getData',
-            type:"GET",
-            dataType: "text",
-            success: function(data) {
-              console.log('success');
-                $("#res").append(data);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert('error ' + textStatus + " " + errorThrown);
-            }
-        });
 }
 
 function assignmissing(dataset)
@@ -262,12 +135,10 @@ function assignmissing(dataset)
         iyear=iyear+1;
    }
   });
-
     console.log("Fixed Missing data");
     return dataset.concat(newData).sort(sortByDate);
     //return dataset.concat(newData).sort(sortByDate);
 }
-
 /*      if((row.key!=keys[j]))
       {
          newData.push( { key: keys[j],
@@ -291,7 +162,5 @@ function assignmissing(dataset)
       }
       }
 */
-
-
 </script>
 </html>

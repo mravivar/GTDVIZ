@@ -19,7 +19,7 @@ function init(){
   vis = chart.append("g");
   update_worldMap();
 // themeriver("../data/data.csv");
-  console.log(store);
+  //console.log(store);
 }
 var datearray = [];
 var colorrange = [];
@@ -85,9 +85,9 @@ var svg = d3.select(".themeriver").append("svg")
     d.numEvents = +d.numEvents;
   }
   });
-  console.log(data);
+  //console.log(data);
   var layers = stack(nest.entries(data));
-  console.log(layers);
+  //console.log(layers);
   x.domain(d3.extent(data, function(d) { return d.date; }));
   y.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
 
@@ -141,8 +141,6 @@ function ready(error,data) {
      .on('mouseout', function(d){
        d3_v4.select(this).classed("selected", false)
      })*/
-
-
        $.ajax({
            url: 'getAllDatayr',
            type:"GET",
