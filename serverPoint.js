@@ -62,6 +62,40 @@ app.get('/getData', function (req, res) {
   });
 });
 
+
+app.get('/getOrganization', function (req, res) {
+  console.log('getOrganization() called.');
+  DBHelper.getUniqueOrganization(function(docs){
+      res.send(docs)
+      console.log('response sent');
+  });
+});
+
+
+app.get('/getAttackType', function (req, res) {
+  console.log('getUniqueAttack() called.');
+  DBHelper.getUniqueAttack(function(docs){
+      res.send(docs)
+      console.log('response sent');
+  });
+});
+
+app.get('/getWeaponType', function (req, res) {
+  console.log('getUniqueWeapon() called.');
+  DBHelper.getUniqueWeapon(function(docs){
+      res.send(docs)
+      console.log('response sent');
+  });
+});
+
+app.get('/getTargetType', function (req, res) {
+  console.log('getUniqueTarget() called.');
+  DBHelper.getUniqueTarget(function(docs){
+      res.send(docs)
+      console.log('response sent');
+  });
+});
+
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 });
