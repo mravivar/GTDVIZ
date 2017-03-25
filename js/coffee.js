@@ -153,23 +153,6 @@ function ready(error,data) {
          }
        }
      }
-/*
-     console.log(capitals)
-     chart.selectAll(".city-circle").data(capitals)
-     .enter().append("circle")
-     .attr("r",2)
-     .attr("cx",function(d){
-         var coords = projection([d.long, d.lat])
-         console.log(coords)
-         return coords[0];
-     })
-     .attr("cy",function(d){
-         var coords = projection([d.long, d.lat])
-         console.log(coords)
-         return coords[1];
-     })
-     */
-
    }
 }
 
@@ -184,7 +167,7 @@ function updateWorldMapPoints(data){
           maxy=d.nkill;
         }
      })
-     var rvalue = d3.scale.linear()
+     var rvalue = d3_v4.scaleLinear()
           .domain([0,maxy])
            .range([2,20])
 

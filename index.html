@@ -19,6 +19,7 @@
   <script src="./js/detailsView.js"></script>
   <script src="./js/slider.js"></script>
   <script src="./js/parallelCords.js"></script>
+  <script src="./js/drop_down.js"></script>
 </head>
 <style type="text/css">
   body {
@@ -38,6 +39,15 @@ p {
 }
 </style>
 <body onload="init()"> <!-- init() defined in coffee.js-->
+  Attribute: <select id="select-list">
+  <option id ='org'>Organization</option>
+  <option id='attack'>Attack Type</option>
+  <option id='weapon'>Weapon Type</option>
+   <option id='target'>Target Type</option>
+ </select>
+ <br>
+ <pre id='selectedAttribute'></pre>
+ <br>
   <div id="noUiSlider" style="width:100px;height:15px"></div>
    Start Year:
    <!--TODO change this to label, else update the slider based on the input value-->
@@ -61,6 +71,7 @@ p {
 </body>
 
 <script>
+addDropDownList();
 addSlider();
 //updateParallelCordsEvents();
 //updatePrallelCords();
