@@ -1,52 +1,70 @@
 # GTDVIZ
 CSE 578 Project 2017 Spring.
 This project is for visualization of global terrorist database.
+
 Source of the dataset http://www.start.umd.edu/gtd/contact/.
 
 
 ## Goal:
 Milestone 1:
+
 Milestone 2:
+
 Milestone 3: Demo the project, Fully functioning system.
+
 Milestone 4: Polished project
 
 
 ## Tools Used:
+
 Back End   - MongoDB
+
 Middleware - Node-js, Express-js
+
 Front End  - D3, javascript, JQuery, HTML, CSS
 
-##Exrenal Libraries Used:
+
+## Exrenal Libraries Used:
+
 Parallel Coordinates : https://syntagmatic.github.io/parallel-coordinates/
+
 Scrollable Tables - https://github.com/ile/d3-tablesort
+
 Slider for year selcet: https://refreshless.com/nouislider/
+
 
 ## Runing the Project
 ### Setting the DB:
 1. install mongo db
 2. create a folder for the db(probably inside the mongodb folder). E.g. C:\Program Files\MongoDB\db
 3. To configure mongodb and run: 
-(i) open command prompt in Admin mode
-(ii) Go to the bin folder of mongodb
->mongod --directoryperdb --dbpath <path to the DB> --logpath <path to log file> --rest --install
-E.g. mongod --directoryperdb --dbpath "C:\Program Files\MongoDB\db" --logpath "C:\Program Files\MongoDB\server.log" --rest --install
-(iii) Run mongodb
->net start MongoDB
-(Reference)https://www.youtube.com/watch?v=pWbMrx5rVBE&t=1619s
-4. Open mongodb shell:
->mongo
-create a DB named gtd:
->use gtd
-create a collection called events:
->db.createCollection('events')
-Exit the mongo shell:
->ctrl+c
+    1. open command prompt in Admin mode
+    2. Go to the bin folder of mongodb
 
-5. To import the gtd records into the DB:
-(i)Convert our data into csv file. open your gtd.xls file, save as csv.
-(ii)Go to mongodb bin:
->mongoimport --db gtd --collection events --type csv --headerline --file <path to csv>
-E.g. mongoimport --db gtd --collection events --type csv --headerline --file "C:\Users\murlee417\Documents\GTD_0616dist\gtd.csv"
+    >mongod --directoryperdb --dbpath < path to the DB> --logpath < path to log file> --rest --install
+
+    For Example, 
+
+    >mongod --directoryperdb --dbpath "C:\Program Files\MongoDB\db" --logpath "C:\Program Files\MongoDB\server.log" --rest --install
+    3.Run mongodb
+
+    >net start MongoDB
+
+    (Reference)https://www.youtube.com/watch?v=pWbMrx5rVBE&t=1619s
+    4. Open mongodb shell:
+    >mongo
+    create a DB named gtd:
+    >use gtd
+    create a collection called events:
+    >db.createCollection('events')
+    Exit the mongo shell:
+    >ctrl+c
+
+    5. To import the gtd records into the DB:
+        1.Convert our data into csv file. open your gtd.xls file, save as csv.
+        2.Go to mongodb bin:
+        >mongoimport --db gtd --collection events --type csv --headerline --file <path to csv>
+        E.g. mongoimport --db gtd --collection events --type csv --headerline --file "C:\Users\murlee417\Documents\GTD_0616dist\gtd.csv"
 
 ### Setting up the Middleware:
 1. install node js
