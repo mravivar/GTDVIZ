@@ -123,6 +123,7 @@ function ready(error,data) {
   var countries = topojson.feature(data, data.objects.countries1).features
   //console.log(countries)
 
+
   var projection = d3_v4.geoMercator()
                      .translate([width/2,height/2])
                      .scale(150)
@@ -151,10 +152,26 @@ function ready(error,data) {
              endyr:$('#endyr').val()
            },
            success: function(capitals) {
+                           //console.log(capitals);
+               capitals.forEach(function(d){
+                if(d.nkill=="")
+                  d.nkill=+0;
+                else
+                  d.nkill=+d.nkill;
+               })
+               var rvalue = d3.scale.linear()
+                    .domain([0,d3.max(capitals,function(d){return d.nkill;})])
+                    .range([2,20])
+
                loadDataIntoDetailsView(capitals);
                chart.selectAll(".city-circle").data(capitals)
                .enter().append("circle")
-               .attr("r",2)
+                .attr("r",function(d){
+                              if((d.nkill==""))
+                                {return rvalue(+0);}
+                              else
+                                {return rvalue(+d.nkill);}
+                                })
                .attr("cx",function(d){
                    var coords = projection([d.longitude, d.latitude])
                    //console.log(coords)
