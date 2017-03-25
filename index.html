@@ -16,7 +16,6 @@
   <!--JS files-->
   <script src="./lib/topojson.js"></script>
   <script src="./js/coffee.js"></script>
-  <script src="./js/drop_down.js"></script>
   <script src="./js/detailsView.js"></script>
   <script src="./js/slider.js"></script>
   <script src="./js/parallelCords.js"></script>
@@ -39,21 +38,10 @@ p {
 }
 </style>
 <body onload="init()"> <!-- init() defined in coffee.js-->
-   Attribute: <select id="select-list">
-  <option id ='org'>Organization</option> 
-  <option id='attack'>Attack Type</option>
-  <option id='weapon'>Weapon Type</option>
-  <option id='target'>Target Type</option>
-</select>
-<br>
-<pre id='selectedAttribute'></pre>
-<br>
-
-
   <div id="noUiSlider" style="width:100px;height:15px"></div>
    Start Year:
    <!--TODO change this to label, else update the slider based on the input value-->
-   <input type="year" id="startyr" value=2014></input>
+   <input type="year" id="startyr" value=2015></input>
    <br>
    End Year:
    <input type="year" id="endyr" value=2016></input>
@@ -62,18 +50,20 @@ p {
    <button id='getDatbut'>Get All Data</button>
    <button id='updateMap' onclick="update_worldMap()">Update the Map</button>
     <div id="vis"></div>
-    <pre id='res'></pre>
+    <pre id='res'></pre><!--
     Organisation<br/>
     <div id="organisation" class="parcoords" style="width:1000px;height:220px"></div>
     Country<br/>
-    <div id="country" class="parcoords" style="width:1000px;height:220px"></div>
+    <div id="country" class="parcoords" style="width:1000px;height:220px"></div>-->
+    <div id="gtdParacords" class="parcoords" style="height:400px"></div>
     <div id="detailsTable"></div>
     <div id="themeriver" class="themeriver" style="width:1000px;height:220px">Themeriver<br/></div>
 </body>
 
 <script>
-addDropDownList();
 addSlider();
+//updateParallelCordsEvents();
+//updatePrallelCords();
 //aggregatedata by region
 $("document").ready(function(){
   $.ajax({
@@ -87,26 +77,24 @@ $("document").ready(function(){
       success: function(data) {
         regData=convertJsonTo2dArray(data);
         themeriver(regData);
-       // console.log(regData);
-        
+        //console.log(regData);
       },
   });
 });
-
 //end
-
 function convertJsonTo2dArray(data)
 {
-
   for(var i=0;i<data.length;i++)
   {
+    //TODO if we dont want this much data then only get only those data that is needed
     data[i]['key']=data[i]._id.continent;
     data[i]['date']=data[i]._id.year;
-    delete data[i]['_id']; 
+    delete data[i]['_id'];
     delete data[i]['nkill'];
-    delete data[i]['nperps']; 
+    delete data[i]['nperps'];
     delete data[i]['nkillter'];
     delete data[i]['nwound'];
+    //delete data[i]['__proto__'];
   }
  // console.log(data);
   assigneddata=assignmissing(data);
@@ -133,15 +121,15 @@ function assignmissing(dataset)
       //console.log(row.key);
       //console.log(keys[j]);
       while(row.key!=keys[j]){
-                 newData.push( { key: keys[j], 
-                         value: defaultValue, 
+                 newData.push( { key: keys[j],
+                         value: +defaultValue,
                          date: iyear })
                  j=j+1;
        if(j==12){
         j=0;
         iyear=iyear+1;
-   }  
-    
+   }
+
     }
                  j=j+1;
        if(j==12){
@@ -149,13 +137,32 @@ function assignmissing(dataset)
         iyear=iyear+1;
    }
   });
-
     console.log("Fixed Missing data");
     return dataset.concat(newData).sort(sortByDate);
+    //return dataset.concat(newData).sort(sortByDate);
 }
+/*      if((row.key!=keys[j]))
+      {
+         newData.push( { key: keys[j],
+                         value: defaultValue,
+                         date: iyear })
+        j=j+2;
+      if(j==12){
+        j=0;
+        iyear=iyear+1;
+      }
 
-
-updatePrallelCords();
-
+      }
+      else
+      {
+        while(row.key!=keys[j])
+        {
+          j=j+1;
+       if(j==12){
+        j=0;
+        iyear=iyear+1;
+      }
+      }
+*/
 </script>
 </html>

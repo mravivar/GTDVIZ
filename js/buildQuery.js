@@ -11,5 +11,6 @@ function buildQueryJson(){
 
   //get the selected the weapon type(s)
 
+  //get selected eventids from 
   //TODO add anything if required
 }

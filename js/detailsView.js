@@ -1,5 +1,5 @@
 'use strict';
-function loadDataIntoDetailsView(data){
+async function loadDataIntoDetailsView(data){
   var table_id="#detailsView", array_of_columns, array_of_data, dimensions;
     array_of_columns=[];
     //TODO give proper table headings for the table header

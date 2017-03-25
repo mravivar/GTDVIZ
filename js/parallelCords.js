@@ -1,7 +1,35 @@
+var gtdParacords;
+function updateParallelCordsEvents(data){
+  //orgData=convertJsonObjectsTo2dArray(data);
+
+  gtdParacords = d3.parcoords()("#gtdParacords")
+    .data(data).detectDimensions().hideAxis(['_id', 'gname', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1'])
+    .mode('queue').width($(window).width())
+    //.color(function(d){
+      //  return blue_to_brown(d.numEvents);
+    //})//.alpha(0.2)//Change the opacity of the polylines, also the foreground context's globalAlpha.
+    .render().createAxes().brushMode("1D-axes").on("brush",processSelected);
+    //gtdParacords.brushReset()
+    //.alphaOnBrushed(0.1).smoothness(.2);
+    //1D-axes,1D-axes-multi,2D-strums,angular
+}
+var brushedData;
+function processSelected(data){
+  //TODO probably call the update function with this
+  /*
+  var ar=[]
+  data.forEach(function(d){
+      ar.push(d.gname)
+  })
+  console.log(ar.toString());*/
+  brushedData=data;
+  updateWorldMapPoints(brushedData);
+  //update the table
+}
 var orgParcoords, orgData;
 var countryParcoords, countryData;
 function updatePrallelCords(){
-  /*parallel-coordinates- */
+  //parallel-coordinates-
   //TODO set different domain for coubtry and org
   var blue_to_brown = d3.scale.linear()
     .domain([0, 4000])
@@ -20,15 +48,6 @@ function updatePrallelCords(){
           endyr:$('#endyr').val()
         },
         success: function(data) {
-
-          function processSelected(data){
-            //TODO probably call the update function with this
-            var ar=[]
-            data.forEach(function(d){
-                ar.push(d.gname)
-            })
-            console.log(ar.toString());
-          }
           var dimensions = {"org_name":{orient: 'left',type: 'string',tickPadding: 0,innerTickSize: 8}};
           orgData=convertJsonObjectsTo2dArray(data);
           orgParcoords = d3.parcoords()("#organisation")
@@ -36,9 +55,8 @@ function updatePrallelCords(){
             .color(function(d){
                 return blue_to_brown(d.numEvents);
             })//.alpha(0.2)//Change the opacity of the polylines, also the foreground context's globalAlpha.
-
             .render().createAxes().brushMode("1D-axes").on("brush",processSelected) ;
-            /*1D-axes,1D-axes-multi,2D-strums,angular*/
+            //1D-axes,1D-axes-multi,2D-strums,angular
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('error ' + textStatus + " " + errorThrown);
@@ -69,7 +87,6 @@ function updatePrallelCords(){
           })
           .render()
           .createAxes().reorderable().brushMode("1D-axes");
-
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('error ' + textStatus + " " + errorThrown);
