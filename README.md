@@ -51,25 +51,39 @@ Slider for year selcet: https://refreshless.com/nouislider/
     >net start MongoDB
 
     (Reference)https://www.youtube.com/watch?v=pWbMrx5rVBE&t=1619s
-    4. Open mongodb shell:
-    >mongo
-    create a DB named gtd:
-    >use gtd
-    create a collection called events:
-    >db.createCollection('events')
-    Exit the mongo shell:
-    >ctrl+c
+4. Creating DB and tables:
 
-    5. To import the gtd records into the DB:
-        1.Convert our data into csv file. open your gtd.xls file, save as csv.
-        2.Go to mongodb bin:
-        >mongoimport --db gtd --collection events --type csv --headerline --file <path to csv>
-        E.g. mongoimport --db gtd --collection events --type csv --headerline --file "C:\Users\murlee417\Documents\GTD_0616dist\gtd.csv"
+Open mongodb shell:
+
+>mongo
+
+create a DB named gtd:
+
+>use gtd
+
+create a collection called events:
+
+>db.createCollection('events')
+
+Exit the mongo shell:
+
+>ctrl+c
+
+
+5. To import the gtd records into the DB:
+
+    1.Convert our data into csv file. open your gtd.xls file, save as csv.
+    
+    2.Go to mongodb bin:
+    
+    >mongoimport --db gtd --collection events --type csv --headerline --file < path to csv>
+    E.g. 
+    >mongoimport --db gtd --collection events --type csv --headerline --file "C:\Users\murlee417\Documents\GTD_0616dist\gtd.csv"
 
 ### Setting up the Middleware:
 1. install node js
-1.a.  install npm 
->npm install
+        1.  install npm 
+        >npm install
 2. Open command prompt. Go to <github_GTD_Project_HOME>. 
 Run the commands:
 >npm install express --save
