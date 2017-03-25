@@ -1,12 +1,25 @@
 # GTDVIZ
 CSE 578 Project 2017 Spring.
 This project is for visualization of global terrorist database
+Source of the dataset http://www.start.umd.edu/gtd/contact/.
+Goal:
+-----
+Milestone 1:
+Milestone 2:
+Milestone 3: Demo the project, Fully functioning system
 
+Milestone 4: Polished project
 Tools Used:
 -----------
-Back End   - Database - MongoDB
-Middleware - Node js, Express js
-Front End  - HTML, javascript,D3
+Back End   - MongoDB
+Middleware - Node-js, Express-js
+Front End  - D3, javascript, JQuery, HTML, CSS
+
+Exrenal Libraries Used:
+-----------------------
+Parallel Coordinates : https://syntagmatic.github.io/parallel-coordinates/
+Scrollable Tables - https://github.com/ile/d3-tablesort
+Slider for year selcet: https://refreshless.com/nouislider/
 
 Setting the DB:
 ---------------
