@@ -40,13 +40,9 @@ Slider for year selcet: https://refreshless.com/nouislider/
 3. To configure mongodb and run: 
     1. open command prompt in Admin mode
     2. Go to the bin folder of mongodb
-
-    >mongod --directoryperdb --dbpath < path to the DB> --logpath < path to log file> --rest --install
-
-    For Example, 
-
     >mongod --directoryperdb --dbpath "C:\Program Files\MongoDB\db" --logpath "C:\Program Files\MongoDB\server.log" --rest --install
-    3.Run mongodb
+    
+    3.Run mongodb as a service
 
     >net start MongoDB
 
@@ -77,7 +73,9 @@ Exit the mongo shell:
     2.Go to mongodb bin:
     
     >mongoimport --db gtd --collection events --type csv --headerline --file < path to csv>
+    
     E.g. 
+    
     >mongoimport --db gtd --collection events --type csv --headerline --file "C:\Users\murlee417\Documents\GTD_0616dist\gtd.csv"
 
 ### Setting up the Middleware:
