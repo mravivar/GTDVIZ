@@ -2,18 +2,10 @@
 var grid, dataView;
 //TODO if the user clicks on a certain row then display that full column in details
 function loadDataIntoDetailsView(data){
-  data.forEach(function(row){
-    row['id']=row.eventid;
-  });
-  console.log(data.length);
+
   if(dataView){
-    //grid.setData(data, true);
-    if(data.length==1){
-      console.log('hiii 1');
-    }
-    //grid.setData(data);
     dataView.beginUpdate();
-    dataView.setItems(data);
+    dataView.setItems(data, ['eventid']);
     dataView.endUpdate();
   } else{
     dataView = new Slick.Data.DataView();
@@ -24,6 +16,7 @@ function loadDataIntoDetailsView(data){
         column['id']=key
         column['name']=key
         column['field']=key
+        column['sortable']=true
         columns.push(column);
       }
     }
@@ -45,8 +38,9 @@ function loadDataIntoDetailsView(data){
       grid.invalidateRows(args.rows);
       grid.render();
     });
+
     dataView.beginUpdate();
-    dataView.setItems(data);
+    dataView.setItems(data, ['eventid']);
     dataView.endUpdate();
 }
 /*
