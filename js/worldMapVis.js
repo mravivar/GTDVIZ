@@ -165,7 +165,7 @@ function updateWorldMapPoints(data){
      })
      var rvalue = d3_v4.scaleLinear()
           .domain([0,maxy])
-           .range([2,20])
+           .range([1,20])
 
     //bind data
     events=chart.selectAll("circle").data(data)

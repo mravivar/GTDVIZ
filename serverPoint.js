@@ -2,7 +2,7 @@
 
 var express = require('express')
 var app = express()
-var DBHelper=require('./js/DBHelper');
+var DBHelper=require('./serverjs/DBHelper');
 var router = express.Router();
 
 //adding  static file
