@@ -13,6 +13,16 @@
   <link rel="stylesheet" type="text/css" href="./lib/parallel-coordinates-master/d3.parcoords.css"></link>
   <script src="./lib/d3-tablesort-master/d3-tablesort.js" type="application/javascript"></script>
   <script src="./lib/noUiSlider-master/distribute/nouislider.js"></script>
+    <!--slick grid-->
+  <link rel="stylesheet" href="./lib/SlickGrid-2.3.2/slick.grid.css" type="text/css"/>
+  <link rel="stylesheet" href="./lib/SlickGrid-2.3.2/css/smoothness/jquery-ui-1.11.3.custom.css" type="text/css"/>
+  <script src="./lib/SlickGrid-2.3.2/lib/jquery-1.11.2.min.js"></script>
+  <script src="./lib/SlickGrid-2.3.2/lib/jquery.event.drag-2.3.0.js"></script>
+
+  <script src="./lib/SlickGrid-2.3.2/slick.core.js"></script>
+  <script src="./lib/SlickGrid-2.3.2/slick.grid.js"></script>
+  <script src="./lib/SlickGrid-2.3.2/slick.dataview.js"></script>
+
   <!--JS files-->
   <script src="./lib/topojson.js"></script>
   <script src="./js/worldMapVis.js"></script>
@@ -37,6 +47,13 @@ p {
   stroke: #000;
   stroke-width: 2px;
   shape-rendering: crispEdges;
+}
+
+#vis {
+        background: black;
+      }
+circle {
+  fill: rgba(255, 255, 255, 0.2);
 }
 </style>
 <body onload="init()"> <!-- init() defined in coffee.js-->
@@ -66,7 +83,7 @@ p {
     Country<br/>
     <div id="country" class="parcoords" style="width:1000px;height:220px"></div>-->
     <div id="gtdParacords" class="parcoords" style="height:400px"></div>
-    <div id="detailsTable"></div>
+    <div id="detailsTable" style="width:1000px;height:220px"></div>
     <div id="themeriver" class="themeriver" style="width:1000px;height:220px">Themeriver<br/></div>
 </body>
 

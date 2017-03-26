@@ -143,7 +143,7 @@ var groupUpdates=function(){
         endyr:$('#endyr').val()
       },
       success: function(data) {
-        //loadDataIntoDetailsView(data);
+        loadDataIntoDetailsView(data);
         updateParallelCordsEvents(data);
         updateWorldMapPoints(data);
       },
@@ -163,7 +163,7 @@ function updateWorldMapPoints(data){
           maxy=d.nkill;
         }
      })
-     var rvalue = d3_v4.scaleLinear()
+     var rvalue = d3_v4.scaleSqrt()
           .domain([0,maxy])
            .range([1,20])
 
@@ -192,7 +192,9 @@ function updateWorldMapPoints(data){
         d3_v4.select(this).classed("selected", true)
         //highlight parallelCords
         gtdParacords.highlight([d]);
-
+        console.log(d.country_txt);
+        grid.scrollRowToTop(dataView.getRowById(d.eventid));
+        /*
         if(previous!=0){
           //d3.select("tr[chosen='true']").attr('chosen', false);
           d3.select("#e"+previous).attr('bgcolor', 'white');
@@ -204,7 +206,7 @@ function updateWorldMapPoints(data){
         //'.scroll-table' is the class name used inside the d3-tablesort
         //console.log($('#e'+d.eventid).position().top-$('.scroll-table').position().top);
         $('.scroll-table').scrollTop(0);
-        $('.scroll-table').scrollTop($('#e'+d.eventid).position().top-$('.scroll-table').position().top);
+        $('.scroll-table').scrollTop($('#e'+d.eventid).position().top-$('.scroll-table').position().top);*/
       })
       .on('mouseout', function(d){
         d3_v4.select(this).classed("selected", false)

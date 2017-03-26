@@ -20,6 +20,7 @@ function updateParallelCordsEvents(data){
 var brushedData;
 function processSelected(data){
   updateWorldMapPoints(data);
+  loadDataIntoDetailsView(data);
   //update the table
 }
 var orgParcoords, orgData;

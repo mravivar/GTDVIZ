@@ -1,5 +1,72 @@
 'use strict';
-async function loadDataIntoDetailsView(data){
+var grid, dataView;
+//TODO if the user clicks on a certain row then display that full column in details
+function loadDataIntoDetailsView(data){
+  data.forEach(function(row){
+    row['id']=row.eventid;
+  });
+  console.log(data.length);
+  if(dataView){
+    //grid.setData(data, true);
+    if(data.length==1){
+      console.log('hiii 1');
+    }
+    //grid.setData(data);
+    dataView.beginUpdate();
+    dataView.setItems(data);
+    dataView.endUpdate();
+  } else{
+    dataView = new Slick.Data.DataView();
+    var columns=[]
+    for (var key in data[0]){
+      if(key!='_id'){
+        var column={}
+        column['id']=key
+        column['name']=key
+        column['field']=key
+        columns.push(column);
+      }
+    }
+    var options = {
+      enableCellNavigation: true,
+      editable: true,
+      enableAddRow: true,
+      enableColumnReorder: false
+    };
+    grid = new Slick.Grid("#detailsTable", dataView, columns, options);
+
+    // Make the grid respond to DataView change events.
+    dataView.onRowCountChanged.subscribe(function (e, args) {
+      grid.updateRowCount();
+      grid.render();
+    });
+
+    dataView.onRowsChanged.subscribe(function (e, args) {
+      grid.invalidateRows(args.rows);
+      grid.render();
+    });
+    dataView.beginUpdate();
+    dataView.setItems(data);
+    dataView.endUpdate();
+}
+/*
+  $(function () {
+    var data = [];
+    for (var i = 0; i < 500; i++) {
+      data[i] = {
+        title: "Task " + i,
+        duration: "5 days",
+        percentComplete: Math.round(Math.random() * 100),
+        start: "01/01/2009",
+        finish: "01/05/2009",
+        effortDriven: (i % 5 == 0)
+      };
+    }
+
+    grid = new Slick.Grid("#detailsView", data, columns, options);
+  })
+*/
+  /*
   var table_id="#detailsView", array_of_columns, array_of_data, dimensions;
     array_of_columns=[];
     //TODO give proper table headings for the table header
@@ -26,5 +93,5 @@ async function loadDataIntoDetailsView(data){
           array_of_data,
           dimensions
           );
-
+*/
 }
