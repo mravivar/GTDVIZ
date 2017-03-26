@@ -1,7 +1,10 @@
 var gtdParacords;
+//TODO see nullValues.html
 function updateParallelCordsEvents(data){
-  //orgData=convertJsonObjectsTo2dArray(data);
-
+  //clears prevoius graph is any
+  if(gtdParacords){
+      gtdParacords.removeAxes()
+  }
   gtdParacords = d3.parcoords()("#gtdParacords")
     .data(data).detectDimensions().hideAxis(['_id', 'gname', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1'])
     .mode('queue').width($(window).width())
@@ -9,21 +12,14 @@ function updateParallelCordsEvents(data){
       //  return blue_to_brown(d.numEvents);
     //})//.alpha(0.2)//Change the opacity of the polylines, also the foreground context's globalAlpha.
     .render().createAxes().brushMode("1D-axes").on("brush",processSelected);
+  //  gtdParacords.updateAxes()
     //gtdParacords.brushReset()
     //.alphaOnBrushed(0.1).smoothness(.2);
     //1D-axes,1D-axes-multi,2D-strums,angular
 }
 var brushedData;
 function processSelected(data){
-  //TODO probably call the update function with this
-  /*
-  var ar=[]
-  data.forEach(function(d){
-      ar.push(d.gname)
-  })
-  console.log(ar.toString());*/
-  brushedData=data;
-  updateWorldMapPoints(brushedData);
+  updateWorldMapPoints(data);
   //update the table
 }
 var orgParcoords, orgData;

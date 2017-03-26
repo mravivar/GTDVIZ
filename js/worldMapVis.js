@@ -112,31 +112,8 @@ function ready(error,data) {
      .data(countries)
      .enter().append("path")
      .attr("class", "country")
-     .attr("d",path);/*
-     .on('mouseover', function(d){
-       d3_v4.select(this).classed("selected", true)
-
-     })
-     .on('mouseout', function(d){
-       d3_v4.select(this).classed("selected", false)
-     })*/
-       $.ajax({
-           url: 'getAllDatayr',
-           type:"GET",
-           dataType: "json",
-           data: {
-             startyr:$('#startyr').val(),
-             endyr:$('#endyr').val()
-           },
-           success: function(capitals) {
-               loadDataIntoDetailsView(capitals);
-               updateParallelCordsEvents(capitals);
-               updateWorldMapPoints(capitals);
-           },
-           error: function(jqXHR, textStatus, errorThrown) {
-               console.log('error ' + textStatus + " " + errorThrown);
-           }
-       });
+     .attr("d",path);
+     groupUpdates();
        function highlightParrallelCoordinate(countryName, orgName){
        for(var i=0;i<countryData.length;i++){
          if(countryData[i].country_txt==countryName){
@@ -155,7 +132,26 @@ function ready(error,data) {
      }
    }
 }
-
+//this fuction gets the events from the DB and updates world map,parallelCords and details view
+var groupUpdates=function(){
+  $.ajax({
+      url: 'getAllDatayr',
+      type:"GET",
+      dataType: "json",
+      data: {
+        startyr:$('#startyr').val(),
+        endyr:$('#endyr').val()
+      },
+      success: function(data) {
+        //loadDataIntoDetailsView(data);
+        updateParallelCordsEvents(data);
+        updateWorldMapPoints(data);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          console.log('error ' + textStatus + " " + errorThrown);
+      }
+  });
+}
 function updateWorldMapPoints(data){
     var maxy=0;
      data.forEach(function(d){
@@ -193,10 +189,10 @@ function updateWorldMapPoints(data){
         return coords[1];
      })
      .on('mouseover', function(d){
-        gtdParacords.highlight([d]);
         d3_v4.select(this).classed("selected", true)
-        //call the highlighter here
-        //console.log(d.eventid);
+        //highlight parallelCords
+        gtdParacords.highlight([d]);
+
         if(previous!=0){
           //d3.select("tr[chosen='true']").attr('chosen', false);
           d3.select("#e"+previous).attr('bgcolor', 'white');
@@ -209,10 +205,6 @@ function updateWorldMapPoints(data){
         //console.log($('#e'+d.eventid).position().top-$('.scroll-table').position().top);
         $('.scroll-table').scrollTop(0);
         $('.scroll-table').scrollTop($('#e'+d.eventid).position().top-$('.scroll-table').position().top);
-       //highlight the things in parallel-coordinates
-       //countryParcoords.clear("highlight");
-       //highlightParrallelCoordinate(d.country_txt, d.gname)
-       //parcoords.highlight([[0,-0,0,0,0,1]]);
       })
       .on('mouseout', function(d){
         d3_v4.select(this).classed("selected", false)
@@ -221,51 +213,4 @@ function updateWorldMapPoints(data){
 
      //remove elements
     events.exit().remove();
-  /*
-
-  events=chart.selectAll(".circle").data(data)
-
-  events.enter().append("circle")
-  .attr("d", path.projection(projection))
-  .attr("r",2);
-
-  //update
-  events.attr("cx",function(d){
-      var coords = projection([d.longitude, d.latitude])
-      //console.log(coords)
-      return coords[0];
-  })
-  .attr("cy",function(d){
-      var coords = projection([d.longitude, d.latitude])
-      //console.log(coords)
-      return coords[1];
-    })
-    .on('mouseover', function(d){
-       gtdParacords.highlight([d]);
-       d3_v4.select(this).classed("selected", true)
-       //call the highlighter here
-       console.log(d.eventid);
-       if(previous!=0){
-         //d3.select("tr[chosen='true']").attr('chosen', false);
-         d3.select("#e"+previous).attr('bgcolor', 'white');
-       }
-       previous=d.eventid;
-       d3.select("#e"+d.eventid).attr('bgcolor', 'yellow');
-       //d3.select("#e"+d.eventid).attr('chosen', true);
-       //lets scroll to the highlighted row
-       //'.scroll-table' is the class name used inside the d3-tablesort
-       console.log($('#e'+d.eventid).position().top-$('.scroll-table').position().top);
-       $('.scroll-table').scrollTop(0);
-       $('.scroll-table').scrollTop($('#e'+d.eventid).position().top-$('.scroll-table').position().top);
-      //highlight the things in parallel-coordinates
-      //countryParcoords.clear("highlight");
-      //highlightParrallelCoordinate(d.country_txt, d.gname)
-      //parcoords.highlight([[0,-0,0,0,0,1]]);
-     })
-     .on('mouseout', function(d){
-       d3_v4.select(this).classed("selected", false)
-       gtdParacords.unhighlight();
-     });
-    //exit
-    events.exit().remove();*/
 }
