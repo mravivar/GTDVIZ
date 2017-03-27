@@ -7,7 +7,7 @@ function updateParallelCordsEvents(data){
       gtdParacords.brushReset()
   }
   gtdParacords = d3.parcoords()("#gtdParacords")
-    .data(data).hideAxis(['gname', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1'])
+    .data(data).detectDimensions().hideAxis(['gname', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1'])
     .mode('queue').width($(window).width())
     //.color(function(d){
       //  return blue_to_brown(d.numEvents);

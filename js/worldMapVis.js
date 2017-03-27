@@ -132,7 +132,6 @@ function ready(error,data) {
      }
    }
 }
-var ready=false;
 //this fuction gets the events from the DB and updates world map,parallelCords and details view
 var groupUpdates=function(){
   $.ajax({
@@ -147,7 +146,6 @@ var groupUpdates=function(){
         loadDataIntoDetailsView(data);
         updateParallelCordsEvents(data);
         updateWorldMapPoints(data);
-        ready=true;
       },
       error: function(jqXHR, textStatus, errorThrown) {
           console.log('error ' + textStatus + " " + errorThrown);
@@ -155,16 +153,7 @@ var groupUpdates=function(){
   });
 }
 function updateWorldMapPoints(data){
-    var maxy=0;
-     data.forEach(function(d){
-      if(d.nkill=="")
-        d.nkill=+0;
-      else
-        d.nkill=+d.nkill;
-        if(maxy<d.nkill){
-          maxy=d.nkill;
-        }
-     })
+    var maxy=1500;
      var rvalue = d3_v4.scaleSqrt()
           .domain([0,maxy])
            .range([1,20])
@@ -175,19 +164,14 @@ function updateWorldMapPoints(data){
     //enter + update
     events.enter().append("svg:circle")
         .attr("r",function(d){
-           if((d.nkill==""))
-             {return rvalue(+0);}
-           else
-             {return rvalue(+d.nkill);}
+          return rvalue(d.nkill);
         })
     .attr("cx",function(d){
         var coords = projection([d.longitude, d.latitude])
-        //console.log(coords)
         return coords[0];
     })
     .attr("cy",function(d){
         var coords = projection([d.longitude, d.latitude])
-        //console.log(coords)
         return coords[1];
      })
      .on('mouseover', function(d){
@@ -196,19 +180,6 @@ function updateWorldMapPoints(data){
         gtdParacords.highlight([d]);
         grid.scrollRowToTop(dataView.getRowById(d.eventid));
         grid.flashCell(dataView.getRowById(d.eventid), grid.getColumnIndex("country_txt"));
-        /*
-        if(previous!=0){
-          //d3.select("tr[chosen='true']").attr('chosen', false);
-          d3.select("#e"+previous).attr('bgcolor', 'white');
-        }
-        previous=d.eventid;
-        d3.select("#e"+d.eventid).attr('bgcolor', 'yellow');
-        //d3.select("#e"+d.eventid).attr('chosen', true);
-        //lets scroll to the highlighted row
-        //'.scroll-table' is the class name used inside the d3-tablesort
-        //console.log($('#e'+d.eventid).position().top-$('.scroll-table').position().top);
-        $('.scroll-table').scrollTop(0);
-        $('.scroll-table').scrollTop($('#e'+d.eventid).position().top-$('.scroll-table').position().top);*/
       })
       .on('mouseout', function(d){
         d3_v4.select(this).classed("selected", false)

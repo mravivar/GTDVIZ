@@ -84,8 +84,6 @@ circle {
     <div id="gtdParacords" class="parcoords" style="height:400px"></div>
     <div id="detailsTable" style="width:1000px;height:220px"></div>
     <div id="themeriver" class="themeriver" style="width:1000px;height:220px">Themeriver<br/></div>
-</body>
-
 <script>
 //add the drop drop_down
 $('#timeinterval').html("");
@@ -109,7 +107,6 @@ $("document").ready(function(){
       success: function(data) {
         regData=convertJsonTo2dArray(data);
         themeriver(regData);
-        //console.log(regData);
       },
   });
 });
@@ -171,30 +168,7 @@ function assignmissing(dataset)
   });
     console.log("Fixed Missing data");
     return dataset.concat(newData).sort(sortByDate);
-    //return dataset.concat(newData).sort(sortByDate);
 }
-/*      if((row.key!=keys[j]))
-      {
-         newData.push( { key: keys[j],
-                         value: defaultValue,
-                         date: iyear })
-        j=j+2;
-      if(j==12){
-        j=0;
-        iyear=iyear+1;
-      }
-
-      }
-      else
-      {
-        while(row.key!=keys[j])
-        {
-          j=j+1;
-       if(j==12){
-        j=0;
-        iyear=iyear+1;
-      }
-      }
-*/
 </script>
+</body>
 </html>

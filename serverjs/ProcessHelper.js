@@ -3,8 +3,12 @@
 module.exports = {
   removeBrackets: function(data){
   data.forEach(function(row){
+     if(row.nkill=="")
+       row.nkill=+0;
+     else
+       row.nkill=+row.nkill;
+    delete row._id;
     for(var key in row){
-      delete row._id
       if(typeof row[key]=='string'){
         var start=row[key].indexOf('(');
         if(start!='-1'){
