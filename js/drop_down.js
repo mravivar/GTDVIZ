@@ -1,4 +1,9 @@
 'use strict'
+
+var sg;
+var count =1;
+ 
+  
 function addDropDownList() {
   $("#org").click(function(){
     $.ajax({
@@ -7,12 +12,7 @@ function addDropDownList() {
         dataType: "text",
         
         success: function(data) {
-          console.log('Anitha success');
-
-          var datas = data.split(',').join("\n");
-          console.log(datas);
-          $("#selectedAttribute").text(datas);
-            
+          loadscroll(data);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('error ' + textStatus + " " + errorThrown);
@@ -28,12 +28,8 @@ function addDropDownList() {
         dataType: "text",
         
         success: function(data) {
-          console.log('Anitha success: Attack');
-
-          var datas = data.split(',').join("\n");
-          console.log(datas);
-          $("#selectedAttribute").text(datas);
-        },
+         loadscroll(data);
+     },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('error ' + textStatus + " " + errorThrown);
         }
@@ -47,12 +43,8 @@ function addDropDownList() {
         dataType: "text",
         
         success: function(data) {
-          console.log('Anitha success: Weapon');
-
-          var datas = data.split(',').join("\n");
-          console.log(datas);
-          $("#selectedAttribute").text(datas);
-        },
+          loadscroll(data);
+          },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('error ' + textStatus + " " + errorThrown);
         }
@@ -68,15 +60,30 @@ function addDropDownList() {
         dataType: "text",
         
         success: function(data) {
-          console.log('Anitha success: Target');
-
-          var datas = data.split(',').join("\n");
-          console.log(datas);
-          $("#selectedAttribute").text(datas);
+          
+        loadscroll(data);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('error ' + textStatus + " " + errorThrown);
         }
     });
   });
+
+}
+
+function loadscroll(data) {
+
+var dataArray = data.split(",");
+var rowcount = dataArray.length;
+var row = $('tr');
+var table = $('table');
+$("tr").remove();
+  for (var i=0; i<dataArray.length; i++){
+        dataArray[i] = dataArray[i].replace(/[\[\]\"]+/g, '');
+        table.append('<tr> <td> </td> <td> </td> </tr');
+  }
+table.find('tr').each(function(idx, elem){
+    $(this).find('td:first').text(idx+1).end().find('td:last').text(" "+dataArray[idx]);
+});
+
 }

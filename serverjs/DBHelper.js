@@ -164,63 +164,60 @@ module.exports = {
   },
   //gives aggregated data by organisation
 //columsn given year and region, Number of Events, Number kills, Number of kills
-getUniqueOrganization: function(callback){
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Anitha entered unique org:");
-  var collection = db.collection(TABLE_NAME);
-  collection.distinct("gname")
-    .then(function(results) {
-      console.log("Anitha: " + results);
-  //console.log(collection.distinct('$gname'));
-  callback(results);
-    db.close();
-   })
- });
-},
+    getUniqueOrganization: function(callback){
+    MongoClient.connect(url, function(err, db) {
+      assert.equal(null, err);
+      console.log("Anitha entered unique org:");
+      var collection = db.collection(TABLE_NAME);
+      collection.distinct("gname")
+        .then(function(results) {
+          //console.log("ORG: " + results);
+      //console.log(collection.distinct('$gname'));
+      callback(results);
+        db.close();
+       })
+     });
+   },
 getUniqueAttack: function(callback){
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Anitha entered unique Attack:");
-  var collection = db.collection(TABLE_NAME);
-  collection.distinct("attacktype1_txt")
-    .then(function(results) {
-      console.log("Anitha: " + results);
-  //console.log(collection.distinct('$gname'));
-  callback(results);
-    db.close();
-   })
- });
-},
+    MongoClient.connect(url, function(err, db) {
+      assert.equal(null, err);
+      console.log("Anitha entered unique Attack:");
+      var collection = db.collection(TABLE_NAME);
+      collection.distinct("attacktype1_txt")
+        .then(function(results) {
+          //console.log("ATTACK: " + results);
+      //console.log(collection.distinct('$gname'));
+      callback(results);
+        db.close();
+       })
+     });
+   },
 
 getUniqueWeapon: function(callback){
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Anitha entered unique Weapon:");
-  var collection = db.collection(TABLE_NAME);
-  collection.distinct("weaptype1_txt")
-    .then(function(results) {
-      console.log("Anitha: " + results);
-  //console.log(collection.distinct('$gname'));
-  callback(results);
-    db.close();
-   })
- });
-},
+    MongoClient.connect(url, function(err, db) {
+      assert.equal(null, err);
+      var collection = db.collection(TABLE_NAME);
+      collection.distinct("weaptype1_txt")
+        .then(function(results) {
+          //console.log("WEAPON: " + results);
+      //console.log(collection.distinct('$gname'));
+      callback(results);
+        db.close();
+       })
+     });
+   },
 getUniqueTarget: function(callback){
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Anitha entered unique Target:");
-  var collection = db.collection(TABLE_NAME);
-  collection.distinct("targtype1_txt")
-    .then(function(results) {
-      console.log("Anitha: " + results);
-  //console.log(collection.distinct('$gname'));
-  callback(results);
-    db.close();
-   })
- });
-}
+    MongoClient.connect(url, function(err, db) {
+      assert.equal(null, err);
+      var collection = db.collection(TABLE_NAME);
+      collection.distinct("targtype1_txt")
+        .then(function(results) {
+          //console.log("Target: " + results);
+      callback(results);
+        db.close();
+       })
+     });
+   }
 };
 
 // Use connect method to connect to the server

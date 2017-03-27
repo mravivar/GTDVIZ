@@ -57,13 +57,23 @@ circle {
 </style>
 <body onload="init()"> <!-- init() defined in coffee.js-->
   Attribute: <select id="select-list">
-  <option id ='org'>Organization</option>
+  <option id ='org'>Organization</option> 
   <option id='attack'>Attack Type</option>
   <option id='weapon'>Weapon Type</option>
   <option id='target'>Target Type</option>
- </select>
- <br>
- <pre id='selectedAttribute'></pre>
+</select>
+<br>
+
+<div id="selectedAttribute" name="dropdown" style="height:300px;width:300px; overflow:scroll">
+<table id="tableid" class="scrollTable">
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+</div>
+
  <br>
   <div id="noUiSlider" style="width:200px;height:15px"></div>
    Start Year:
