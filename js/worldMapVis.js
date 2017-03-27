@@ -132,6 +132,7 @@ function ready(error,data) {
      }
    }
 }
+var ready=false;
 //this fuction gets the events from the DB and updates world map,parallelCords and details view
 var groupUpdates=function(){
   $.ajax({
@@ -192,7 +193,7 @@ function updateWorldMapPoints(data){
         d3_v4.select(this).classed("selected", true)
         //highlight parallelCords
         gtdParacords.highlight([d]);
-        console.log(d.country_txt);
+        grid.flashCell(dataView.getRowById(d.eventid), grid.getColumnIndex("country_txt"));
         grid.scrollRowToTop(dataView.getRowById(d.eventid));
         /*
         if(previous!=0){

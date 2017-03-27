@@ -11,14 +11,12 @@ function loadDataIntoDetailsView(data){
     dataView = new Slick.Data.DataView();
     var columns=[]
     for (var key in data[0]){
-      if(key!='_id'){
-        var column={}
-        column['id']=key
-        column['name']=key
-        column['field']=key
-        column['sortable']=true
-        columns.push(column);
-      }
+      var column={}
+      column['id']=key
+      column['name']=key
+      column['field']=key
+      column['sortable']=true
+      columns.push(column);      
     }
     var options = {
       enableCellNavigation: true,

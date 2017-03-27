@@ -4,9 +4,10 @@ function updateParallelCordsEvents(data){
   //clears prevoius graph is any
   if(gtdParacords){
       gtdParacords.removeAxes()
+      gtdParacords.brushReset()
   }
   gtdParacords = d3.parcoords()("#gtdParacords")
-    .data(data).detectDimensions().hideAxis(['_id', 'gname', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1'])
+    .data(data).hideAxis(['gname', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1'])
     .mode('queue').width($(window).width())
     //.color(function(d){
       //  return blue_to_brown(d.numEvents);

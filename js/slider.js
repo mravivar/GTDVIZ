@@ -22,7 +22,9 @@ function addSlider(){
       	} else {
           $('#startyr').val(Math.round(value));
       	}
-        groupUpdates();
+        if(ready){
+          //groupUpdates();//12
+        }
       });
 
       $('#startyr').on('input', function ( ) {

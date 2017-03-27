@@ -2,6 +2,7 @@
 //Ref: https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline/
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
+var ProcessHelper=require('./ProcessHelper');
 var TABLE_NAME='events';
 // Connection URL
 var url = 'mongodb://localhost:27017/gtd';
@@ -21,10 +22,11 @@ module.exports = {
      collection.find(
          {iyear:{ $gte: startyr, $lte: endyr }}, {iyear: 1, longitude: 1, latitude: 1, eventid: 1, country_txt: 1, weaptype1_txt: 1, gname: 1, target1: 1, targtype1_txt:1, attacktype1_txt :1,
            nkill : 1,nwound : 1,nperps : 1,nkillter : 1}
-         ).sort({eventid: 1}).toArray(function(err, docs) {
+         ).toArray(function(err, docs) {
           assert.equal(null, err);
           console.log('In the DBHelper'+docs.length);
           console.log(docs[0]);
+          ProcessHelper.removeBrackets(docs);
           callback(docs);
           db.close();
         });
