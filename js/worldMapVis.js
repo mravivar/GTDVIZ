@@ -147,6 +147,7 @@ var groupUpdates=function(){
         loadDataIntoDetailsView(data);
         updateParallelCordsEvents(data);
         updateWorldMapPoints(data);
+        ready=true;
       },
       error: function(jqXHR, textStatus, errorThrown) {
           console.log('error ' + textStatus + " " + errorThrown);
@@ -193,8 +194,8 @@ function updateWorldMapPoints(data){
         d3_v4.select(this).classed("selected", true)
         //highlight parallelCords
         gtdParacords.highlight([d]);
-        grid.flashCell(dataView.getRowById(d.eventid), grid.getColumnIndex("country_txt"));
         grid.scrollRowToTop(dataView.getRowById(d.eventid));
+        grid.flashCell(dataView.getRowById(d.eventid), grid.getColumnIndex("country_txt"));
         /*
         if(previous!=0){
           //d3.select("tr[chosen='true']").attr('chosen', false);
