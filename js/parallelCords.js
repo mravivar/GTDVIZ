@@ -7,8 +7,8 @@ function updateParallelCordsEvents(data){
       gtdParacords.brushReset()
   }
   gtdParacords = d3.parcoords()("#gtdParacords")
-    .data(data).detectDimensions().hideAxis(['gname', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1'])
-    .mode('queue').width($(window).width())
+    .data(data).detectDimensions().hideAxis(['iyear','gname', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1', 'i'])
+    .mode('queue')
     //.color(function(d){
       //  return blue_to_brown(d.numEvents);
     //})//.alpha(0.2)//Change the opacity of the polylines, also the foreground context's globalAlpha.

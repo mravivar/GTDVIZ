@@ -16,13 +16,13 @@ function loadDataIntoDetailsView(data){
       column['name']=key
       column['field']=key
       column['sortable']=true
-      columns.push(column);      
+      columns.push(column);
     }
     var options = {
       enableCellNavigation: true,
       editable: true,
       enableAddRow: true,
-      enableColumnReorder: false
+      enableColumnReorder: false,
     };
     grid = new Slick.Grid("#detailsTable", dataView, columns, options);
 

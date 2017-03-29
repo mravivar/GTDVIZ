@@ -7,6 +7,9 @@
   var d3_v4=d3;
   var store="Aravind stored";
   </script>
+  <link rel="stylesheet" href="./css/main.css" type="text/css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
   <!-- external libraries-->
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="./lib/parallel-coordinates-master/d3.parcoords.js"></script>
@@ -15,6 +18,7 @@
     <!--slick grid-->
   <link rel="stylesheet" href="./lib/SlickGrid-2.3.2/slick.grid.css" type="text/css"/>
   <link rel="stylesheet" href="./lib/SlickGrid-2.3.2/css/smoothness/jquery-ui-1.11.3.custom.css" type="text/css"/>
+
   <script src="./lib/SlickGrid-2.3.2/lib/jquery-1.11.2.min.js"></script>
   <script src="./lib/SlickGrid-2.3.2/lib/jquery.event.drag-2.3.0.js"></script>
 
@@ -31,69 +35,69 @@
   <script src="./js/drop_down.js"></script>
   <script src="./js/animate.js"></script>
 </head>
-<style type="text/css">
-  body {
-  font: 10px sans-serif;
-}
-.themeriver {
-  background: #fff;
-}
-p {
-  font: 12px helvetica;
-}
-.axis path, .axis line {
-  fill: none;
-  stroke: #000;
-  stroke-width: 2px;
-  shape-rendering: crispEdges;
-}
 
-#vis {
-        background: black;
-      }
-circle {
-  fill: rgba(255, 255, 255, 0.2);
-}
-</style>
-<body onload="init()"> <!-- init() defined in coffee.js-->
-  Attribute: <select id="select-list">
-  <option id ='org'>Organization</option> 
-  <option id='attack'>Attack Type</option>
-  <option id='weapon'>Weapon Type</option>
-  <option id='target'>Target Type</option>
-</select>
-<br>
+<body onload="init()">
+  <div class="container-fluid">
+    <div class="row">
+      <h4>Title</h4>
+    </div>
+    <div class="row">
+      <div id="leftpane" class="col-sm-3">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-6">
+              <label >Attribute:<label>
+            </div>
+            <div class="col-sm-6">
+              <select id="select-list">
+                <option id ='org'>Organization</option>
+                <option id='attack'>Attack Type</option>
+                <option id='weapon'>Weapon Type</option>
+                <option id='target'>Target Type</option>
+              </select>
+            </div>
 
-<div id="selectedAttribute" name="dropdown" style="height:300px;width:300px; overflow:scroll">
-<table id="tableid" class="scrollTable">
-    <tr>
-        <td></td>
-        <td></td>
-    </tr>
-</table>
-
-</div>
-
- <br>
-  <div id="noUiSlider" style="width:200px;height:15px"></div>
-   Start Year:
-   <!--TODO change this to label, else update the slider based on the input value-->
-   <input type="year" id="startyr" value=2015></input>
-   <br>
-   End Year:
-   <input type="year" id="endyr" value=2016></input>
-   <br><br>
-   <button id='playbut' onclick="play()">Play!</button>
-   <select id="timeinterval"></select>
-    <div id="vis"></div>
-    <pre id='res'></pre><!--
-    Organisation<br/>
-    <div id="organisation" class="parcoords" style="width:1000px;height:220px"></div>
-    Country<br/>
-    <div id="country" class="parcoords" style="width:1000px;height:220px"></div>-->
-    <div id="gtdParacords" class="parcoords" style="height:400px"></div>
-    <div id="detailsTable" style="width:1000px;height:220px"></div>
-    <div id="themeriver" class="themeriver" style="width:1000px;height:220px">Themeriver<br/></div>
+            <div id="selectedAttribute" name="dropdown" style="height:20%;overflow:scroll" class="col-sm-12">
+              <table id="tableid" class="scrollTable">
+                <tr>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </table>
+            </div>
+            <div id="noUiSlider" class="col-sm-12"></div>
+            <input type="year" id="startyr" value=2015 class="col-sm-3"></input>
+            <input type="year" id="endyr" value=2016 class="col-sm-3"></input>
+            <button id='playbut' onclick="play()" class="col-sm-3">Play!</button>
+            <select id="timeinterval" class="col-sm-3"></select>
+            <div id="detailsTable" class="col-sm-12" style="height:35%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div id="rightpan" class="col-sm-8">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-12">
+                <div id="worldMap" style="height:40%;width:180%"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="container-fluid">
+                  <div id="gtdParacords" class="parcoords" style="height:35%;width:180%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div> <!--right pan-->
+      </div>
+      <div class="row">
+        <div id="themeriver" class="themeriver" style="height:25%">Themeriver<br/></div>
+      </div>
+    </div>
+  </div>
 <script>
 //add the drop drop_down
 $('#timeinterval').html("");

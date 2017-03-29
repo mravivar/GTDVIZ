@@ -11,6 +11,13 @@ function buildQueryJson(){
 
   //get the selected the weapon type(s)
 
-  //get selected eventids from 
+  //get selected eventids from
   //TODO add anything if required
 }
+/*
+{country_txt:"India",
+startyr:1972,
+endyr:1999,
+gname:"ISIS"
+}
+*/

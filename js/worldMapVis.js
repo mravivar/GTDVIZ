@@ -7,9 +7,9 @@ var margin = {top: 20, right: 50, bottom: 30, left: 30};
 var previous=0;
 //Gets called when the page is loaded.
 function init(){
-  chart = d3_v4.select('#vis').append('svg:svg')
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
+  chart = d3_v4.select('#worldMap').append('svg:svg')
+          //.attr("width", width + margin.left + margin.right)
+          //.attr("height", height + margin.top + margin.bottom)
           .append("g")
           .attr("transform", "translate(30,30)")
           .call(d3_v4.zoom().on("zoom", function () {
@@ -58,7 +58,7 @@ var area = d3.svg.area()
     .y1(function(d) { return y(d.y0 + d.y); });
 var svg = d3.select(".themeriver").append("svg")
     .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      .attr("height", "inherit")//height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -134,6 +134,7 @@ function ready(error,data) {
 }
 //this fuction gets the events from the DB and updates world map,parallelCords and details view
 var groupUpdates=function(){
+  //buildquery here
   $.ajax({
       url: 'getAllDatayr',
       type:"GET",
