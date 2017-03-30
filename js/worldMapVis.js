@@ -19,10 +19,11 @@ function init(){
   update_worldMap();
 // themeriver("../data/data.csv");
 }
+
 var datearray = [];
 var colorrange = [];
 function themeriver(data) {
-
+//no longer used, code moved to colorHelper.js
 colorrange = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#ff7f00","#6600cc","#66ff99"];
 //["#B30000", "#78C679", "#FC8D59", "#FDBB84", "#CC4C02", "#FEF0D9","#980043", "#DD1C77", "#DF65B0", "#02F4C7","#238443","#EFFFFF"];
 var strokerange = ["FFFFFF"]
@@ -30,14 +31,13 @@ var strokecolor = strokerange[0];
 var format = d3.time.format("%m/%d/%Y");
 var margin = {top: 20, right: 40, bottom: 30, left: 30};
 var width = document.body.clientWidth - margin.left - margin.right;
-var height = 400 - margin.top - margin.bottom;
+var height = $('.themeriver').height() - margin.top - margin.bottom;
 
 var x = d3.time.scale()
     .range([0, width]);
 var y = d3.scale.linear()
     .range([height, 0]);
-var z = d3.scale.ordinal()
-    .range(colorrange);
+
 var xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom")
@@ -57,8 +57,8 @@ var area = d3.svg.area()
     .y0(function(d) { return y(d.y0); })
     .y1(function(d) { return y(d.y0 + d.y); });
 var svg = d3.select(".themeriver").append("svg")
-    .attr("width", width + margin.left + margin.right)
-      .attr("height", "inherit")//height + margin.top + margin.bottom)
+    .attr("width", width + margin.left + margin.right)//TODO make sure this width does not affect the arrangements
+      .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -83,7 +83,9 @@ var svg = d3.select(".themeriver").append("svg")
     .enter().append("path")
       .attr("class", "layer")
       .attr("d", function(d) { return area(d.values); })
-      .style("fill", function(d, i) { return z(i); });
+      .style("fill", function(d, i) {
+         return getEntityColor(d['key']);
+       });
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")

@@ -8,11 +8,14 @@ function updateParallelCordsEvents(data){
   }
   gtdParacords = d3.parcoords()("#gtdParacords")
     .data(data).detectDimensions().hideAxis(['iyear','gname', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1', 'i'])
-    .mode('queue')
+    .mode('queue').color(function(d){
+      return getEntityColor(d[selection]);
+    })
     //.color(function(d){
       //  return blue_to_brown(d.numEvents);
     //})//.alpha(0.2)//Change the opacity of the polylines, also the foreground context's globalAlpha.
-    .render().createAxes().brushMode("1D-axes").on("brush",processSelected);
+    .render().createAxes().brushMode("1D-axes").on("brush",processSelected)
+    .reorderable()
   //  gtdParacords.updateAxes()
     //gtdParacords.brushReset()
     //.alphaOnBrushed(0.1).smoothness(.2);

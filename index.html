@@ -25,15 +25,17 @@
   <script src="./lib/SlickGrid-2.3.2/slick.core.js"></script>
   <script src="./lib/SlickGrid-2.3.2/slick.grid.js"></script>
   <script src="./lib/SlickGrid-2.3.2/slick.dataview.js"></script>
+  <script src="./lib/topojson.js"></script>
+
 
   <!--JS files-->
-  <script src="./lib/topojson.js"></script>
   <script src="./js/worldMapVis.js"></script>
   <script src="./js/detailsView.js"></script>
   <script src="./js/slider.js"></script>
   <script src="./js/parallelCords.js"></script>
   <script src="./js/drop_down.js"></script>
   <script src="./js/animate.js"></script>
+  <script src="./js/colorHelper.js"></script>
 </head>
 
 <body onload="init()">
@@ -70,7 +72,7 @@
             <input type="year" id="endyr" value=2016 class="col-sm-3"></input>
             <button id='playbut' onclick="play()" class="col-sm-3">Play!</button>
             <select id="timeinterval" class="col-sm-3"></select>
-            <div id="detailsTable" class="col-sm-12" style="height:35%"></div>
+            <div id="detailsTable" class="col-sm-12" style="height:33%"></div>
           </div>
         </div>
       </div>
@@ -79,13 +81,13 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-sm-12">
-                <div id="worldMap" style="height:40%;width:180%"></div>
+                <div id="worldMap" style="height:38%;width:180%"></div>
               </div>
             </div>
             <div class="row">
               <div class="col-sm-12">
                 <div class="container-fluid">
-                  <div id="gtdParacords" class="parcoords" style="height:35%;width:180%"></div>
+                  <div id="gtdParacords" class="parcoords" style="height:33%;width:180%;padding-left:3%"></div>
                 </div>
               </div>
             </div>
@@ -94,7 +96,7 @@
         </div> <!--right pan-->
       </div>
       <div class="row">
-        <div id="themeriver" class="themeriver" style="height:25%">Themeriver<br/></div>
+        <div id="themeriver" class="themeriver" style="width:95%;height:23%">Themeriver<br/></div>
       </div>
     </div>
   </div>
@@ -108,29 +110,33 @@ addDropDownList();
 addSlider();
 //updateParallelCordsEvents();
 //updatePrallelCords();
-//aggregatedata by region
-$("document").ready(function(){
-  $.ajax({
-      url: 'getDatayr',
-      type:"GET",
-      dataType: "json",
-      data: {
-        startyr:$('#startyr').val(),
-        endyr:$('#endyr').val()
-      },
-      success: function(data) {
-        regData=convertJsonTo2dArray(data);
-        themeriver(regData);
-      },
+updateThemeRiver();
+function updateThemeRiver(){
+  $("document").ready(function(){
+    $.ajax({
+        url: 'getDatayr',
+        type:"GET",
+        dataType: "json",
+        data: {
+          startyr:$('#startyr').val(),
+          endyr:$('#endyr').val()
+        },
+        success: function(data) {
+          regData=convertJsonTo2dArray(data);
+          themeriver(regData);
+        },
+    });
   });
-});
-//end
+  //end
+}
 function convertJsonTo2dArray(data)
 {
+  var uniqueContinents={};
   for(var i=0;i<data.length;i++)
   {
     //TODO if we dont want this much data then only get only those data that is needed
     data[i]['key']=data[i]._id.continent;
+    uniqueContinents[data[i]._id.continent]=true;
     data[i]['date']=data[i]._id.year;
     delete data[i]['_id'];
     delete data[i]['nkill'];
@@ -139,6 +145,7 @@ function convertJsonTo2dArray(data)
     delete data[i]['nwound'];
     //delete data[i]['__proto__'];
   }
+  updateEntity(uniqueContinents);
  // console.log(data);
   assigneddata=assignmissing(data);
   return assigneddata;
