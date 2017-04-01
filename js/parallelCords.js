@@ -1,7 +1,7 @@
 var gtdParacords;
 // color scale for zscores
 var zcolorscale = d3.scale.linear()
-  .domain([-2,-0.5,0.5,2])
+  .domain([-2,2])
   .range(["brown", "#999", "#999", "steelblue"])
   .interpolate(d3.interpolateLab);
   //TODO assign ordinal color - for respective attribets
@@ -21,7 +21,7 @@ function updateParallelCordsEvents(data){
       //  return blue_to_brown(d.numEvents);
     //})//.alpha(0.2)//Change the opacity of the polylines, also the foreground context's globalAlpha.
     .render().createAxes().brushMode("1D-axes").on("brush",processSelected)
-    .reorderable()
+    .reorderable().interactive()  // command line mode
   //  gtdParacords.updateAxes()
     //gtdParacords.brushReset()
     //.alphaOnBrushed(0.1).smoothness(.2);
@@ -88,15 +88,17 @@ function processSelected(data){
   loadDataIntoDetailsView(data);
   //update the table
 }
+var blue_to_brown = d3.scale.linear()
+  .domain([0, 4000])
+  .range(["steelblue", "brown"])
+  .interpolate(d3.interpolateLab);
+
 var orgParcoords, orgData;
 var countryParcoords, countryData;
 function updatePrallelCords(){
   //parallel-coordinates-
   //TODO set different domain for coubtry and org
-  var blue_to_brown = d3.scale.linear()
-    .domain([0, 4000])
-    .range(["steelblue", "brown"])
-    .interpolate(d3.interpolateLab);
+
   //aggregate by organisation
   //examples/table.html highlightioing corresponding org and country with this sample
   //veterans.html, examples/setterForBrushes.html filtering through this
