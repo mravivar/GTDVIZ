@@ -49,6 +49,7 @@ var stack = d3.layout.stack()
     .values(function(d) { return d.values; })
     .x(function(d) { return d.date; })
     .y(function(d) { return d.numEvents; });
+
 //console.log(stack);
 var nest = d3.nest().key(function(d) {  return d.key; })
 var area = d3.svg.area()
@@ -94,7 +95,47 @@ var svg = d3.select(".themeriver").append("svg")
       .attr("class", "y axis")
       .attr("transform", "translate(" + width + ", 0)")
       .call(yAxis.orient("right"));
+
+
+
+svg.selectAll(".layer")
+    .attr("opacity", 1)
+    .on("mouseover", function(d, i) {
+      svg.selectAll(".layer").transition()
+      .attr("opacity", function(d, j) {
+        return j != i ? 0.1 : 1;
+    })
+//      console.log(d.values);
+       var x0 = d3.mouse(this);
+       var x1= x.invert(x0[0])
+       var xyear=x1.getFullYear();
+  //     var xdate="01/01/"+xyear;
+   //    var fmat = d3.time.format("%m/%d/%Y").parse;
+       //var newxdate=fmat(xyear);
+       var mindate=getStartyr();
+    //   console.log();
+  //     var y0=Math.round(y.invert(x0[1]))
+       //console.log(y0)
+                svg.append("text").attr({
+               id: "t-abs",  
+            })
+            .text(function() {
+              return [d.key,xyear, d.values[mindate-xyear].numEvents];  // Value of the text
+            })
+    })
+    .on("mouseout",function(d,i){
+      svg.selectAll(".layer").transition()
+
+      .attr("opacity",1);
+      d3.select("#t-abs" ).remove();
+    })
+
+
 }
+
+
+
+
 var path, projection, countries,events;
 function update_worldMap(){
 d3_v4.queue()
@@ -155,6 +196,7 @@ var groupUpdates=function(){
       }
   });
 }
+
 function updateWorldMapPoints(data){
     var maxy=1500;
      var rvalue = d3_v4.scaleSqrt()
