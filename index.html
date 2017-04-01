@@ -1,6 +1,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <!-- external libraries-->
   <script src="./lib/jquery311.js" type="application/javascript"></script>
   <script src="./lib/d3.js"></script>
   <script>
@@ -10,23 +11,24 @@
   <link rel="stylesheet" href="./css/main.css" type="text/css"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-  <!-- external libraries-->
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="./lib/parallel-coordinates-master/d3.parcoords.js"></script>
   <link rel="stylesheet" type="text/css" href="./lib/parallel-coordinates-master/d3.parcoords.css"></link>
   <script src="./lib/noUiSlider-master/distribute/nouislider.js"></script>
+  <script src="./lib/underscore.math/underscore.js"></script>
+  <script src="./lib/underscore.math/underscore.math.js"></script>
+  <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
     <!--slick grid-->
   <link rel="stylesheet" href="./lib/SlickGrid-2.3.2/slick.grid.css" type="text/css"/>
   <link rel="stylesheet" href="./lib/SlickGrid-2.3.2/css/smoothness/jquery-ui-1.11.3.custom.css" type="text/css"/>
-
   <script src="./lib/SlickGrid-2.3.2/lib/jquery-1.11.2.min.js"></script>
   <script src="./lib/SlickGrid-2.3.2/lib/jquery.event.drag-2.3.0.js"></script>
-
   <script src="./lib/SlickGrid-2.3.2/slick.core.js"></script>
   <script src="./lib/SlickGrid-2.3.2/slick.grid.js"></script>
   <script src="./lib/SlickGrid-2.3.2/slick.dataview.js"></script>
   <script src="./lib/topojson.js"></script>
-
+  <script src="https://d3js.org/d3-color.v1.min.js"></script>
+  <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
 
   <!--JS files-->
   <script src="./js/worldMapVis.js"></script>
@@ -172,22 +174,21 @@ function assignmissing(dataset)
       //console.log(row.key);
       //console.log(keys[j]);
       while(row.key!=keys[j]){
-                 newData.push( { key: keys[j],
-                         value: +defaultValue,
-                         date: iyear })
-                 j=j+1;
-       if(j==12){
+        newData.push( { key: keys[j],
+          value: +defaultValue,
+          date: iyear })
+        j=j+1;
+        if(j==12){
+          j=0;
+          iyear=iyear+1;
+        }
+      }
+      j=j+1;
+      if(j==12){
         j=0;
         iyear=iyear+1;
-   }
-
-    }
-                 j=j+1;
-       if(j==12){
-        j=0;
-        iyear=iyear+1;
-   }
-  });
+      }
+    });
     console.log("Fixed Missing data");
     return dataset.concat(newData).sort(sortByDate);
 }

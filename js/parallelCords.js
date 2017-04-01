@@ -1,4 +1,10 @@
 var gtdParacords;
+// color scale for zscores
+var zcolorscale = d3.scale.linear()
+  .domain([-2,-0.5,0.5,2])
+  .range(["brown", "#999", "#999", "steelblue"])
+  .interpolate(d3.interpolateLab);
+  //TODO assign ordinal color - for respective attribets
 //TODO see nullValues.html
 function updateParallelCordsEvents(data){
   //clears prevoius graph is any
@@ -20,7 +26,62 @@ function updateParallelCordsEvents(data){
     //gtdParacords.brushReset()
     //.alphaOnBrushed(0.1).smoothness(.2);
     //1D-axes,1D-axes-multi,2D-strums,angular
+    //adding color dynamically
+    gtdParacords.svg.selectAll(".dimension")
+    .on("click", change_color)
+    .selectAll(".label")
+    .style("font-size", "14px");
 }
+
+// update color
+function change_color(dimension) {
+  gtdParacords.svg.selectAll(".dimension")
+    .style("font-weight", "normal")
+    .filter(function(d) { return d == dimension; })
+    .style("font-weight", "bold")
+  if(dimension=='nkill' || dimension=='nwound' || dimension=='nkillter' || dimension=='nperps'){
+    gtdParacords.color(zcolor(gtdParacords.data(),dimension)).render()
+  }
+  else if(dimension==selection){
+    gtdParacords.color(function(d){
+      return getEntityColor(d[selection]);
+    }).render();
+  } else{
+    var pcolorMap={}
+    var curSelection=dimension
+    var itr=0;
+    var colorScale = d3_v4.scaleOrdinal(d3_v4.schemeCategory20)
+    gtdParacords.color(function(d){
+      if(d[curSelection] in pcolorMap){
+        //
+      } else{
+        pcolorMap[d[curSelection]]=itr;
+        itr++;
+      }
+      return colorScale(d[curSelection]);
+    }).render();
+  }
+}
+
+// return color function based on plot and dimension
+function zcolor(col, dimension) {
+  var z = zscore(_(col).pluck(dimension).map(parseFloat))
+  return function(d) {
+    return zcolorscale(z(d[dimension]))
+  }
+};
+
+// color by zscore
+function zscore(col) {
+  var n = col.length,
+      mean = _(col).mean(),
+      sigma = _(col).stdDeviation();
+  return function(d) {
+    return (d-mean)/sigma;
+  };
+};
+
+
 var brushedData;
 function processSelected(data){
   updateWorldMapPoints(data);
