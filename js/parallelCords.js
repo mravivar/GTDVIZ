@@ -33,6 +33,7 @@ function updateParallelCordsEvents(data){
     .style("font-size", "14px");
 }
 
+//Below code is borrowed from http://syntagmatic.github.io/parallel-coordinates/
 // update color
 function change_color(dimension) {
   gtdParacords.svg.selectAll(".dimension")
