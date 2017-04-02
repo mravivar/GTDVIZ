@@ -10,6 +10,10 @@ html, body {
   margin: 0;
 }
 
+.flashMe {
+      border: 1px solid black;
+      background: yellow;
+}
 
 .d3-tip {
   line-height: 1;

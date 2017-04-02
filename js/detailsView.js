@@ -23,6 +23,7 @@ function loadDataIntoDetailsView(data){
       editable: true,
       enableAddRow: true,
       enableColumnReorder: false,
+      cellFlashingCssClass: "flashMe",
     };
     grid = new Slick.Grid("#detailsTable", dataView, columns, options);
 
