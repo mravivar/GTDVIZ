@@ -123,8 +123,8 @@ function updateThemeRiver(){
         type:"GET",
         dataType: "json",
         data: {
-          startyr:$('#startyr').val(),
-          endyr:$('#endyr').val()
+          startyr:1972,
+          endyr:2016
         },
         success: function(data) {
           regData=convertJsonTo2dArray(data);
@@ -162,10 +162,10 @@ function assignmissing(dataset)
   var defaultValue=0;
   var keys = ["Australasia & Oceania","Central America & Caribbean","Central Asia","East Asia","Eastern Europe","Middle East & North Africa","North America","South America","South Asia","Southeast Asia","Sub-Saharan Africa","Western Europe"];
     var newData = [];
-    var sortByDate = function(a,b){ 
+    var sortByDate = function(a,b){
        return d3.ascending(a.date, b.date) ||d3.ascending(a.key, b.key);}
       //console.log(a); console.log(a.date);
-       //console.log(b); console.log(b.date); 
+       //console.log(b); console.log(b.date);
         //return a.date > b.date ? 1 : -1; };
     dataset.sort(sortByDate);
     //console.log(dataset);
