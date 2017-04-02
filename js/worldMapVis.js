@@ -20,6 +20,10 @@ function init(){
 // themeriver("../data/data.csv");
 }
 
+
+
+
+
 var path, projection, countries,events;
 function update_worldMap(){
 d3_v4.queue()

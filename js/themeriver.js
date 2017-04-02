@@ -85,7 +85,7 @@ svg.selectAll(".layer")
       .attr("opacity", function(d, j) {
         return j != i ? 0.1 : 1;
     })
-      console.log(d.values);
+  //    console.log(d.values);
        var x0 = d3.mouse(this);
        var x1= x.invert(x0[0])
        var xyear=x1.getFullYear();
@@ -93,14 +93,16 @@ svg.selectAll(".layer")
    //    var fmat = d3.time.format("%m/%d/%Y").parse;
        //var newxdate=fmat(xyear);
        var mindate=getStartyr();
-    //   console.log();
+//       console.log(d);
   //     var y0=Math.round(y.invert(x0[1]))
        //console.log(y0)
                 svg.append("text").attr({
                id: "t-abs",  
             })
             .text(function() {
-              return [d.key,xyear, d.values[mindate-xyear].numEvents];  // Value of the text
+              var yeartoarry=xyear-mindate;
+  //            console.log(d.values[yeartoarry].numEvents);
+              return [d.key,xyear, d.values[yeartoarry].numEvents];  // Value of the text
             })
     })
     .on("mouseout",function(d,i){

@@ -5,7 +5,7 @@ function addSlider(){
   prevStartYear=getStartyr(); prvEndYear=getEndYr();
   html5Slider = document.getElementById('noUiSlider');
   noUiSlider.create(html5Slider, {
-      	start: [ 1994, 2016 ],
+      	start: [ 2013, 2016 ],
       	connect: true,
       	range: {
       		'min': 1972,
