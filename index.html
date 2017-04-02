@@ -38,6 +38,8 @@
   <script src="./js/drop_down.js"></script>
   <script src="./js/animate.js"></script>
   <script src="./js/colorHelper.js"></script>
+  <script src="./js/themeriver.js"></script>
+
 </head>
 
 <body onload="init()">
@@ -154,19 +156,25 @@ function convertJsonTo2dArray(data)
   return assigneddata;
 }
 
+//Reference: http://stackoverflow.com/questions/14713503/how-to-handle-layers-with-missing-data-points-in-d3-layout-stack
 function assignmissing(dataset)
 {
   var defaultValue=0;
   var keys = ["Australasia & Oceania","Central America & Caribbean","Central Asia","East Asia","Eastern Europe","Middle East & North Africa","North America","South America","South Asia","Southeast Asia","Sub-Saharan Africa","Western Europe"];
     var newData = [];
-    var sortByDate = function(a,b){ return a.date > b.date ? 1 : -1; };
+    var sortByDate = function(a,b){ 
+       return d3.ascending(a.date, b.date) ||d3.ascending(a.key, b.key);}
+      //console.log(a); console.log(a.date);
+       //console.log(b); console.log(b.date); 
+        //return a.date > b.date ? 1 : -1; };
     dataset.sort(sortByDate);
-    var sortByName = function(a,b){
-      if((a.key >= b.key) && (a.date>=b.date)){ return 1; }
-      else {return -1;}
-    };
+    console.log(dataset);
+    //var sortByName = function(a,b){
+    //  if((a.key >= b.key) && (a.date>=b.date)){ return 1; }
+    //  else {return -1;}
+    //};
     var startingyear = dataset[0].date;
-    dataset.sort(sortByName);
+    //dataset.sort(sortByName);
     console.log("Fixing missing data");
     var iyear=startingyear;
     var j=0;
@@ -175,7 +183,7 @@ function assignmissing(dataset)
       //console.log(keys[j]);
       while(row.key!=keys[j]){
         newData.push( { key: keys[j],
-          value: +defaultValue,
+          numEvents: +defaultValue,
           date: iyear })
         j=j+1;
         if(j==12){
