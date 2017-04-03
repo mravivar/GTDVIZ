@@ -107,7 +107,7 @@ html>body #outer{height:auto;} //for mozilla as IE treats height as min-height a
   height:15px
 }
 #worldMap {
-  background: black;
+  background: white;
 }
 
 body {
