@@ -9,11 +9,16 @@ var zcolorscale = d3.scale.linear()
 function updateParallelCordsEvents(data){
   //clears prevoius graph is any
   if(gtdParacords){
-      gtdParacords.removeAxes()
-      gtdParacords.brushReset()
+      try{
+          gtdParacords.removeAxes();
+          gtdParacords.brushReset();
+          gtdParacords.render();
+      } catch(err){
+          console.log("Ignored:"+err);
+      }
   }
   gtdParacords = d3.parcoords()("#gtdParacords")
-    .data(data).detectDimensions().hideAxis(['iyear','gname', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1', 'i'])
+    .data(data).detectDimensions().hideAxis(['iyear','gname', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1', 'i', '_id'])
     .mode('queue').color(function(d){
       return getEntityColor(d[selection]);
     })
@@ -21,7 +26,7 @@ function updateParallelCordsEvents(data){
       //  return blue_to_brown(d.numEvents);
     //})//.alpha(0.2)//Change the opacity of the polylines, also the foreground context's globalAlpha.
     .render().createAxes().brushMode("1D-axes").on("brush",processSelected)
-    .reorderable().interactive()  // command line mode
+    .reorderable().interactive(); // command line mode
   //  gtdParacords.updateAxes()
     //gtdParacords.brushReset()
     //.alphaOnBrushed(0.1).smoothness(.2);
@@ -48,10 +53,10 @@ function change_color(dimension) {
       return getEntityColor(d[selection]);
     }).render();
   } else{
-    var pcolorMap={}
-    var curSelection=dimension
+    var pcolorMap={};
+    var curSelection=dimension;
     var itr=0;
-    var colorScale = d3_v4.scaleOrdinal(d3_v4.schemeCategory20)
+    var colorScale = d3_v4.scaleOrdinal(d3_v4.schemeCategory20);
     gtdParacords.color(function(d){
       if(d[curSelection] in pcolorMap){
         //
@@ -66,7 +71,7 @@ function change_color(dimension) {
 
 // return color function based on plot and dimension
 function zcolor(col, dimension) {
-  var z = zscore(_(col).pluck(dimension).map(parseFloat))
+  var z = zscore(_(col).pluck(dimension).map(parseFloat));
   return function(d) {
     return zcolorscale(z(d[dimension]))
   }

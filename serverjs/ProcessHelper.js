@@ -1,7 +1,7 @@
 //change the data format , so that it can be used directly in UI
 //remove the bracket
 module.exports = {
-  removeBrackets: function(data){
+    preProcessData: function(data){
   data.forEach(function(row){
     if(row.nkill=="")
        row.nkill=+0;

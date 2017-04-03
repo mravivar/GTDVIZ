@@ -8,11 +8,17 @@ function play() {
     }
     playing=true;
     $('#playbut').html('Pause');
-    setStartyr(startyr);
-    setEndyr(endyr);
+    if($('#preserveStart').is(':checked')){
+        setStartyr(startyr);
+        setEndyr(endyr);
+    }else{
+        startyr=getStartyr();
+        endyr=getEndYr();
+    }
+
     var id = setInterval(frame, Number($("#timeinterval option:selected" ).text())*1000);
     function frame() {
-        if (getEndYr()==2016 || !playing) {
+        if (getEndYr()==2015 || !playing) {
             clearInterval(id);
             $('#playbut').html('Play!');
             playing=false;

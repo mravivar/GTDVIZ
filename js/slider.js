@@ -5,11 +5,11 @@ function addSlider(){
   prevStartYear=getStartyr(); prvEndYear=getEndYr();
   html5Slider = document.getElementById('noUiSlider');
   noUiSlider.create(html5Slider, {
-      	start: [ 2013, 2016 ],
+      	start: [ 2013, 2015 ],
       	connect: true,
       	range: {
       		'min': 1972,
-      		'max': 2016
+      		'max': 2015
       	},
         step:1,
         width:100,

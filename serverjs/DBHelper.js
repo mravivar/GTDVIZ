@@ -25,8 +25,8 @@ module.exports = {
          ).toArray(function(err, docs) {
           assert.equal(null, err);
           console.log('In the DBHelper'+docs.length);
-          console.log(docs[0]);
-          ProcessHelper.removeBrackets(docs);
+          //console.log(docs[0]);
+          ProcessHelper.proPrecessData(docs);
           callback(docs);
           db.close();
         });
@@ -190,7 +190,7 @@ getplotSelectedData: function(startyr, endyr, category, jsonData, callback){
            nkill : 1,nwound : 1,nperps : 1,nkillter : 1, region_txt: 1}).toArray(function(err, docs) {
           assert.equal(null, err);
           console.log('In the DBHelper'+docs.length);
-
+          ProcessHelper.preProcessData(docs);
           callback(docs);
           db.close();
         });

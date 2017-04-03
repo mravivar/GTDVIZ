@@ -53,7 +53,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-6">
-              <label >Attribute:<label>
+              <label >Attribute:</label>
             </div>
             <div class="col-sm-6">
               <select id="attribute" name="attribute" onchange="selectChanged(this);">
@@ -79,6 +79,10 @@
             <input type="year" id="endyr" value=2016 class="col-sm-3"></input>
             <button id='playbut' onclick="play()" class="col-sm-3">Play!</button>
             <select id="timeinterval" class="col-sm-3"></select>
+
+            <div class="col-sm-9">Preserve Start Point</div>
+            <input type="checkbox" class="col-sm-3" id="preserveStart" style="height:2%"/>
+
             <div id="detailsTable" class="col-sm-12" style="height:33%"></div>
           </div>
         </div>
@@ -114,7 +118,8 @@ for(var i=1;i<=10;i++){
   $('#timeinterval').html($('#timeinterval').html()+"<option value="+i+">"+i+"</option>")
 }
 addSlider();
-
+//kick start it
+selectChanged();
 //updateParallelCordsEvents();
 //updatePrallelCords();
 themeriver();

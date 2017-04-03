@@ -75,7 +75,7 @@ app.get('/plotSelectedData', function (req, res) {
     Number(req.query.startyr) + Number(req.query.endyr)+ req.query.cat );
   DBHelper.getplotSelectedData(Number(req.query.startyr), Number(req.query.endyr), req.query.cat, req.query.attr, function(docs){
       res.send(docs)
-      console.log('response sent' + docs);
+      console.log('response sent' + docs.length);
   });
 });
 

@@ -1,4 +1,4 @@
-var groupUpdates;
+var groupUpdates, updateWorldMapPoints;
 var category = 'gname';
 var selectedAttribute = ["Unknown"];
 
@@ -276,7 +276,7 @@ d3.demo.canvas = function() {
 		  });
 		}
 
-		function updateWorldMapPoints(data){
+        updateWorldMapPoints=function(data){
 		    var maxy=1500;
 		     var rvalue = d3.scale.sqrt()
 		          .domain([0,maxy])
