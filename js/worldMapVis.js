@@ -75,6 +75,8 @@ var groupUpdates=function(){
         endyr:$('#endyr').val()
       },
       success: function(data) {
+        //clearThemeRiver();
+        //themeriver();
         loadDataIntoDetailsView(data);
         updateParallelCordsEvents(data);
         updateWorldMapPoints(data);
@@ -83,6 +85,10 @@ var groupUpdates=function(){
           console.log('error ' + textStatus + " " + errorThrown);
       }
   });
+
+
+
+  
 }
 
 function updateWorldMapPoints(data){
