@@ -164,60 +164,38 @@ module.exports = {
   },
   //gives aggregated data by organisation
 //columsn given year and region, Number of Events, Number kills, Number of kills
-    getUniqueOrganization: function(callback){
-    MongoClient.connect(url, function(err, db) {
-      assert.equal(null, err);
-      console.log("Anitha entered unique org:");
-      var collection = db.collection(TABLE_NAME);
-      collection.distinct("gname")
-        .then(function(results) {
-          //console.log("ORG: " + results);
-      //console.log(collection.distinct('$gname'));
-      callback(results);
-        db.close();
-       })
-     });
-   },
-getUniqueAttack: function(callback){
-    MongoClient.connect(url, function(err, db) {
-      assert.equal(null, err);
-      console.log("Anitha entered unique Attack:");
-      var collection = db.collection(TABLE_NAME);
-      collection.distinct("attacktype1_txt")
-        .then(function(results) {
-          //console.log("ATTACK: " + results);
-      //console.log(collection.distinct('$gname'));
-      callback(results);
-        db.close();
-       })
-     });
-   },
 
-getUniqueWeapon: function(callback){
+getUnique: function(attr, callback){
     MongoClient.connect(url, function(err, db) {
       assert.equal(null, err);
       var collection = db.collection(TABLE_NAME);
-      collection.distinct("weaptype1_txt")
-        .then(function(results) {
-          //console.log("WEAPON: " + results);
-      //console.log(collection.distinct('$gname'));
-      callback(results);
-        db.close();
-       })
-     });
-   },
-getUniqueTarget: function(callback){
-    MongoClient.connect(url, function(err, db) {
-      assert.equal(null, err);
-      var collection = db.collection(TABLE_NAME);
-      collection.distinct("targtype1_txt")
+      collection.distinct(attr)
         .then(function(results) {
           //console.log("Target: " + results);
       callback(results);
         db.close();
        })
      });
-   }
+   },
+getplotSelectedData: function(startyr, endyr, category, jsonData, callback){
+    MongoClient.connect(url, function(err, db) {
+      assert.equal(null, err);
+      var collection = db.collection(TABLE_NAME);
+        var query={};
+        query.iyear={ $gte: startyr, $lte: endyr };
+        query[category]={$in : jsonData};
+    console.log(query);
+     collection.find(query,
+         {iyear: 1, longitude: 1, latitude: 1, eventid: 1, country_txt: 1, weaptype1_txt: 1, gname: 1, target1: 1, targtype1_txt:1, attacktype1_txt :1,
+           nkill : 1,nwound : 1,nperps : 1,nkillter : 1, region_txt: 1}).toArray(function(err, docs) {
+          assert.equal(null, err);
+          console.log('In the DBHelper'+docs.length);
+
+          callback(docs);
+          db.close();
+        });
+})
+}
 };
 
 // Use connect method to connect to the server

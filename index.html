@@ -56,17 +56,19 @@
               <label >Attribute:<label>
             </div>
             <div class="col-sm-6">
-              <select id="select-list">
-                <option id ='org'>Organization</option>
-                <option id='attack'>Attack Type</option>
-                <option id='weapon'>Weapon Type</option>
-                <option id='target'>Target Type</option>
+              <select id="attribute" name="attribute" onchange="selectChanged(this);">
+                <option id ='gname'>Organization</option> 
+                <option id='attacktype1_txt'>Attack Type</option>
+                <option id='weaptype1_txt'>Weapon Type</option>
+                <option id='targtype1_txt'>Target Type</option>
+                <option id='region_txt'>Region</option>
               </select>
+              <input type="button" id="plot" value="PLOT" onclick="plot()"/>
             </div>
 
             <div id="selectedAttribute" name="dropdown" style="height:20%;overflow:scroll" class="col-sm-12">
               <table id="tableid" class="scrollTable">
-                <tr>
+                <tr onmousedown="RowClick(event, false);">
                   <td></td>
                   <td></td>
                 </tr>
@@ -111,7 +113,6 @@ $('#timeinterval').html("");
 for(var i=1;i<=10;i++){
   $('#timeinterval').html($('#timeinterval').html()+"<option value="+i+">"+i+"</option>")
 }
-addDropDownList();
 addSlider();
 
 //updateParallelCordsEvents();

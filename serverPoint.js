@@ -62,39 +62,23 @@ app.get('/getData', function (req, res) {
   });
 });
 
-
-app.get('/getOrganization', function (req, res) {
-  console.log('getOrganization() called.');
-  DBHelper.getUniqueOrganization(function(docs){
+app.get('/getUnique', function (req, res) {
+  console.log('getUnique() called.');
+  DBHelper.getUnique(req.query.attr, function(docs){
       res.send(docs)
       console.log('response sent');
   });
 });
 
-
-app.get('/getAttackType', function (req, res) {
-  console.log('getUniqueAttack() called.');
-  DBHelper.getUniqueAttack(function(docs){
+app.get('/plotSelectedData', function (req, res) {
+  console.log('plotSelectedData() called.' + req.query.attr +"  "+
+    Number(req.query.startyr) + Number(req.query.endyr)+ req.query.cat );
+  DBHelper.getplotSelectedData(Number(req.query.startyr), Number(req.query.endyr), req.query.cat, req.query.attr, function(docs){
       res.send(docs)
-      console.log('response sent');
+      console.log('response sent' + docs);
   });
 });
 
-app.get('/getWeaponType', function (req, res) {
-  console.log('getUniqueWeapon() called.');
-  DBHelper.getUniqueWeapon(function(docs){
-      res.send(docs)
-      console.log('response sent');
-  });
-});
-
-app.get('/getTargetType', function (req, res) {
-  console.log('getUniqueTarget() called.');
-  DBHelper.getUniqueTarget(function(docs){
-      res.send(docs)
-      console.log('response sent');
-  });
-});
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')

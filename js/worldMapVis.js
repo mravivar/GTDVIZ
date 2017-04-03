@@ -1,3 +1,6 @@
+var groupUpdates;
+var category = 'gname';
+var selectedAttribute = ["Unknown"];
 
 function init(){
 
@@ -246,16 +249,19 @@ d3.demo.canvas = function() {
 			}
 		}
 
+
 		//this fuction gets the events from the DB and updates world map,parallelCords and details view
-		var groupUpdates=function(){
+		groupUpdates=function(){
 		//buildquery here
 		  $.ajax({
-		      url: 'getAllDatayr',
+		      url: 'plotSelectedData',
 		      type:"GET",
 		      dataType: "json",
 		      data: {
 		        startyr:$('#startyr').val(),
-		        endyr:$('#endyr').val()
+		        endyr:$('#endyr').val(),
+                cat: category,
+                attr:selectedAttribute
 		      },
 		      success: function(data) {
 				//clearThemeRiver();
