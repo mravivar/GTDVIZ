@@ -1,5 +1,5 @@
 var playing=false;
-var startyr = 1972, endyr=startyr;
+var startyr = 1972, endyr=startyr+2;
 function play() {
     if(playing){
       playing=false;
@@ -27,6 +27,9 @@ function play() {
           endyr++;
           setStartyr(startyr);
           setEndyr(endyr);
+          clearThemeRiver()
+          //updateThemeRiver();
+
           groupUpdates();
         }
     }

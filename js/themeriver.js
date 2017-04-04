@@ -45,6 +45,16 @@ x = d3.time.scale()
 y = d3.scale.linear()
     .range([height, 0]);
 
+svg = d3.select(".themeriver").append("svg:svg")
+    .attr("width", width + margin.left + margin.right)//TODO make sure this width does not affect the arrangements
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+updateThemeRiver();
+}
+
+function themecall(data){
 xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom")
@@ -64,16 +74,7 @@ area = d3.svg.area()
     .x(function(d) { return x(d.date); })
     .y0(function(d) { return y(d.y0); })
     .y1(function(d) { return y(d.y0 + d.y); });
-svg = d3.select(".themeriver").append("svg")
-    .attr("width", width + margin.left + margin.right)//TODO make sure this width does not affect the arrangements
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-updateThemeRiver();
-}
-
-function themecall(data){
   data.forEach(function(d) {
     var mdate = "01/01/"+d.date
     d.date = format.parse(mdate);
@@ -225,5 +226,7 @@ function assignmissing(dataset)
 function clearThemeRiver()
 {
   console.log("Clearing");
-  svg.remove();
+  svg.selectAll(".layer").remove();
+  svg.selectAll("g").remove();
+  updateThemeRiver();
 }

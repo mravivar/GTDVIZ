@@ -30,6 +30,7 @@ function addSlider(){
           prevStartYear=newVal;
           html5Slider.noUiSlider.set([newVal, getEndYr()]);
           groupUpdates();
+          clearThemeRiver();
         }
       });
       $('#endyr').on('input', function ( ) {
@@ -38,6 +39,7 @@ function addSlider(){
           prevStartYear=newVal;
           html5Slider.noUiSlider.set([getStartyr(), newVal]);
           groupUpdates();
+          clearThemeRiver();
         }
       });
 }
