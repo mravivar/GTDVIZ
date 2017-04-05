@@ -70,6 +70,16 @@ app.get('/getUnique', function (req, res) {
   });
 });
 
+app.get('/SelectedDataplot', function (req, res) {
+  console.log('plotSelectedData() called.' + req.query.attr +"  "+
+    Number(req.query.startyr) + Number(req.query.endyr)+ req.query.cat );
+  DBHelper.getSelectedDataplot(Number(req.query.startyr), Number(req.query.endyr), req.query.cat, req.query.attr, function(docs){
+      res.send(docs)
+      console.log('response sent' + docs.length);
+  });
+});
+
+
 app.get('/plotSelectedData', function (req, res) {
   console.log('plotSelectedData() called.' + req.query.attr +"  "+
     Number(req.query.startyr) + Number(req.query.endyr)+ req.query.cat );

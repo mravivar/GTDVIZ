@@ -5,8 +5,30 @@
 var strokerange,format,strokecolor,margin,width,height,x,y;
 var xAxis,yAxis,stack,nest,area,svg,layers;
 
-
 function updateThemeRiver(){
+      $.ajax({
+          url: 'SelectedDataplot',
+          type:"GET",
+          dataType: "json",
+          data: {
+            startyr:$('#startyr').val(),
+            endyr:$('#endyr').val(),
+                cat: category,
+                attr:selectedAttribute
+          },
+          success: function(data) {
+            console.log(data);
+          regData=convertJsonTo2dArray(data);
+          themecall(regData);
+             //themeriver();
+        //  console.log(data);
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+              console.log('error ' + textStatus + " " + errorThrown);
+          }
+      });
+    }
+/*function updateThemeRiver(){
   $("document").ready(function(){
     $.ajax({
         url: 'getDatayr',
@@ -25,7 +47,7 @@ function updateThemeRiver(){
   });
   //end
 }
-
+*/
 
 function themeriver() {
 
@@ -149,8 +171,8 @@ function convertJsonTo2dArray(data)
   for(var i=0;i<data.length;i++)
   {
     //TODO if we dont want this much data then only get only those data that is needed
-    data[i]['key']=data[i]._id.continent;
-    uniqueContinents[data[i]._id.continent]=true;
+    data[i]['key']=data[i]._id.valname;
+    uniqueContinents[data[i]._id.valname]=true;
     data[i]['date']=data[i]._id.year;
     delete data[i]['_id'];
     delete data[i]['nkill'];

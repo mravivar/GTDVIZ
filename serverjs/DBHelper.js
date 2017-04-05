@@ -177,6 +177,40 @@ getUnique: function(attr, callback){
        })
      });
    },
+
+   getSelectedDataplot: function(startyr, endyr, category, jsonData, callback){
+    MongoClient.connect(url, function(err, db) {
+      assert.equal(null, err);
+      var collection = db.collection(TABLE_NAME);
+        var query={};
+        query.iyear={ $gte: startyr, $lte: endyr };
+        query[category]={$in : jsonData};
+        var addition={}
+        addition.year= '$iyear';
+        addition.valname= '$'+category;
+        console.log(addition.gname);
+    console.log(query);
+
+     collection.aggregate([
+              {$match: query},
+              {$group:
+                {'_id': addition,
+                numEvents : {$sum: 1},
+                nkill : {$sum: '$nkill'},
+                nwound : {$sum: '$nkill'},
+                nperps : {$sum: '$nperps'},
+                nkillter : {$sum: '$nkillter'},
+              }
+              }
+          ]).toArray(function(err, docs) {
+          assert.equal(null, err);
+          console.log('In the DBHelper'+docs.length);
+          callback(docs);
+          db.close();
+        });
+    });
+  },
+
 getplotSelectedData: function(startyr, endyr, category, jsonData, callback){
     MongoClient.connect(url, function(err, db) {
       assert.equal(null, err);

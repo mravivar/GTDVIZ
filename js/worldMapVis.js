@@ -266,6 +266,8 @@ d3.demo.canvas = function() {
 		      success: function(data) {
 				//clearThemeRiver();
 				//themeriver();
+//        console.log(data);  
+            clearThemeRiver();
 		        loadDataIntoDetailsView(data);
 		        updateParallelCordsEvents(data);
 		        updateWorldMapPoints(data);
@@ -274,6 +276,7 @@ d3.demo.canvas = function() {
 		          console.log('error ' + textStatus + " " + errorThrown);
 		      }
 		  });
+
 		}
 
         updateWorldMapPoints=function(data){
