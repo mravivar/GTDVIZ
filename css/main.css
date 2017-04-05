@@ -133,3 +133,67 @@ fill: rgba(255, 255, 255, 0.2);
 .itemselected {
     background: lightBlue;
 }
+
+/* minimap styles */
+
+.canvas .wrapper.outer > .background {
+    fill: #000000;
+}
+.canvas .wrapper.inner > .background {
+    fill: #CCCCCC;
+    cursor: move;
+}
+.canvas .background {
+    fill: #F6F6F6;
+    stroke: #333333;
+    cursor: move;
+}
+.canvas .panCanvas {
+    cursor: move;
+}
+
+.canvas .minimap .frame .background {
+    stroke: #111111;
+    stroke-width: 4px;
+    fill-opacity: 0.4;
+    fill: #000000;
+    fill: url(#minimapGradient);
+    filter: url(#minimapDropShadow);
+    cursor: move;
+}
+
+.forcecircle {
+    stroke: #111111;
+    fill: blue;
+}
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node {
+  font: 8px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+svg {
+      background: white;
+    }
+
+.country {
+      fill: grey;
+      stroke: black;
+      stroke-width: 0.3;
+}
+
+selected {
+      fill: yellow;
+      name: country;
+}

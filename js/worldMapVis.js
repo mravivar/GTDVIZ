@@ -12,7 +12,7 @@ d3.demo.canvas = function() {
     "use strict";
 
     var _width           = document.getElementById('worldMap').clientWidth,
-        _height          = document.getElementById('worldMap').clientHeight,
+        _height          = document.getElementById('worldMap').clientHeight - 35,
         zoomEnabled     = true,
         dragEnabled     = true,
         scale           = 1,
@@ -266,7 +266,7 @@ d3.demo.canvas = function() {
 		      success: function(data) {
 				//clearThemeRiver();
 				//themeriver();
-//        console.log(data);  
+//        console.log(data);
             clearThemeRiver();
 		        loadDataIntoDetailsView(data);
 		        updateParallelCordsEvents(data);
