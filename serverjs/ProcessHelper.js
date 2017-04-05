@@ -29,6 +29,10 @@ module.exports = {
         if(start!='-1'){
           row[key]=row[key].slice(0,start);
           }
+          start=row[key].indexOf('/');
+          if(start!='-1'){
+              row[key]=row[key].slice(0,start);
+          }
         }
       }
     })

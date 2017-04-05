@@ -1,6 +1,8 @@
 var playing=false;
 var startyr = 1972, endyr=startyr+2;
 function play() {
+    startyr = 1972;
+    endyr=startyr+2;
     if(playing){
       playing=false;
       $('#playbut').html('Play!');
@@ -9,11 +11,12 @@ function play() {
     playing=true;
     $('#playbut').html('Pause');
     if($('#preserveStart').is(':checked')){
-        setStartyr(startyr);
-        setEndyr(endyr);
-    }else{
         startyr=getStartyr();
         endyr=getEndYr();
+    }else{
+
+        setStartyr(startyr);
+        setEndyr(endyr);
     }
 
     var id = setInterval(frame, Number($("#timeinterval option:selected" ).text())*1000);

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var sg;
 var count =1;
@@ -12,7 +12,7 @@ function selectChanged(){
 $.ajax({
         url: 'getUnique',
         type:"GET",
-        dataType: "text",
+        dataType: "json",
          data: {
           attr: category
         },
@@ -25,20 +25,18 @@ $.ajax({
     });
 }
 
-function loadscroll(data) {
-
-var dataArray = data.split(",");
-var rowcount = dataArray.length;
-var row = $('tr');
-var table = $('table');
-$("tr").remove();
-  for (var i=0; i<dataArray.length; i++){
+function loadscroll(dataArray) {
+    var rowcount = dataArray.length;
+    var row = $('tr');
+    var table = $('table');
+    $("tr").remove();
+    for (var i=0; i<dataArray.length; i++){
         dataArray[i] = dataArray[i].replace(/[\[\]\"]+/g, '');
         table.append('<tr onmousedown="RowClick(event, false);"><td></td><td></td></tr>');
-  }
-table.find('tr').each(function(idx, elem){
-    $(this).find('td:first').text(idx+1+" ").end().find('td:last').text(dataArray[idx]);
-});
+    }
+    table.find('tr').each(function(idx, elem){
+        $(this).find('td:first').text(idx+1+" ").end().find('td:last').text(dataArray[idx]);
+    });
 
 }
 
@@ -100,11 +98,15 @@ function selectRowsBetweenIndexes(indexes) {
 
 
 function plot(){
+    selectedAttribute=[];
     for (var i =0,j=0; i < selected.length;i++,j++){
       if (selected[i].tagName=="TBODY") continue;
       selectedAttribute[i] = selected[i].cells[1].textContent;
     }
-    groupUpdates(); 
+    updateEntity(selectedAttribute);
+    if(selectedAttribute.length>0){
+        groupUpdates();
+    }
 }
 
 /*var plotData=function(){

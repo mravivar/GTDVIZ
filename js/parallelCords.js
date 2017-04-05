@@ -4,6 +4,17 @@ var zcolorscale = d3.scale.linear()
   .domain([-2,2])
   .range(["brown", "#999", "#999", "steelblue"])
   .interpolate(d3.interpolateLab);
+var dimensions={
+    "attacktype1_txt":{"title":"Attack Type","orient":"left"},
+    "nperps":{"title":"Perpetrators","orient":"left"},
+    "weaptype1_txt":{"title":"Weapon", "orient":"left"},
+    "region_txt":{"title":"Region", "orient":"left"},
+    "nkill":{"title":"Killed","orient":"left"},
+    "nwound":{"title":"Wounded", "orient":"left"},
+    "targtype1_txt":{"title":"Target","orient":"right"},
+};
+
+var hideAxes=['iyear', 'country_txt', 'eventid', 'latitude', 'longitude', 'nkillter', 'target1', 'gname'];
   //TODO assign ordinal color - for respective attribets
 //TODO see nullValues.html
 function updateParallelCordsEvents(data){
@@ -17,25 +28,41 @@ function updateParallelCordsEvents(data){
           console.log("Ignored:"+err);
       }
   }
+/*
+  if(category=='gname' || selectedAttribute==''){
+      dimensions['gname']={"title":"Organisation","orient":"left", index:0};
+      if(hideAxes.length==7){
+          hideAxes.append('gname');
+      }
+  }else{
+      delete dimensions['gname'];
+      if(hideAxes.length==8){
+          delete hideAxes[7];
+      }
+  }*/
   gtdParacords = d3.parcoords()("#gtdParacords")
-    .data(data).detectDimensions().hideAxis(['iyear','gname', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1', 'i', '_id'])
+    .data(data).detectDimensions().hideAxis(hideAxes)
     .mode('queue').color(function(d){
-      return getEntityColor(d[selection]);
+      return getEntityColor(d[category]);
+    }).dimensions(dimensions).margin({
+        top: 20,
+        left: 25,
+        right: 40,
+        bottom: 20
     })
-    //.color(function(d){
-      //  return blue_to_brown(d.numEvents);
-    //})//.alpha(0.2)//Change the opacity of the polylines, also the foreground context's globalAlpha.
-    .render().createAxes().brushMode("1D-axes").on("brush",processSelected)
+    //.alpha(0.2)//Change the opacity of the polylines, also the foreground context's globalAlpha.
+    .render().shadows().createAxes().brushMode("1D-axes").on("brush",processSelected)
     .reorderable().interactive(); // command line mode
   //  gtdParacords.updateAxes()
     //gtdParacords.brushReset()
     //.alphaOnBrushed(0.1).smoothness(.2);
     //1D-axes,1D-axes-multi,2D-strums,angular
     //adding color dynamically
+
     gtdParacords.svg.selectAll(".dimension")
-    .on("click", change_color)
-    .selectAll(".label")
-    .style("font-size", "14px");
+        .on("click", change_color)
+        .selectAll(".label")
+        .style("font-size", "14px");
 }
 
 //Below code is borrowed from http://syntagmatic.github.io/parallel-coordinates/
@@ -48,15 +75,20 @@ function change_color(dimension) {
   if(dimension=='nkill' || dimension=='nwound' || dimension=='nkillter' || dimension=='nperps'){
     gtdParacords.color(zcolor(gtdParacords.data(),dimension)).render()
   }
-  else if(dimension==selection){
+  else if(dimension==category){
     gtdParacords.color(function(d){
-      return getEntityColor(d[selection]);
+      return getEntityColor(d[category]);
     }).render();
   } else{
     var pcolorMap={};
     var curSelection=dimension;
     var itr=0;
-    var colorScale = d3_v4.scaleOrdinal(d3_v4.schemeCategory20);
+    var colorScale;
+
+    if(gtdParacords.dimensions()[dimension].ticks>10)
+        colorScale = d3_v4.scaleOrdinal(d3_v4.schemeCategory20);
+    else
+        colorScale = d3_v4.scaleOrdinal(d3_v4.schemeCategory10);
     gtdParacords.color(function(d){
       if(d[curSelection] in pcolorMap){
         //

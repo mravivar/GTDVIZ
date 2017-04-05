@@ -270,6 +270,7 @@ d3.demo.canvas = function() {
             clearThemeRiver();
 		        loadDataIntoDetailsView(data);
 		        updateParallelCordsEvents(data);
+		        updateWorldMapPoints([]);
 		        updateWorldMapPoints(data);
 		      },
 		      error: function(jqXHR, textStatus, errorThrown) {
