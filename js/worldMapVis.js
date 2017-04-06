@@ -252,6 +252,12 @@ d3.demo.canvas = function() {
 
 		//this fuction gets the events from the DB and updates world map,parallelCords and details view
 		groupUpdates=function(){
+
+          setWindowStartEndyrs($('#startyr').val(), $('#endyr').val());
+          if(startline)
+          startline.style("left",  0+ "px" );
+          if(endline)
+          endline.style("left",  0+ "px" );
 		//buildquery here
 		  $.ajax({
 		      url: 'plotSelectedData',
@@ -586,5 +592,33 @@ d3.select("#resetButtonQwpYZa").on("click", function() {
     });
 */
 canvas.loadTree();
+
+}
+
+function partialUpdate(cur_startyr, cur_endyr){
+    //buildquery here
+    $.ajax({
+        url: 'plotSelectedData',
+        type:"GET",
+        dataType: "json",
+        data: {
+            startyr:cur_startyr,
+            endyr:cur_endyr,
+            cat: category,
+            attr:selectedAttribute
+        },
+        success: function(data) {
+            //clearThemeRiver();
+            //themeriver();
+//        console.log(data);
+            loadDataIntoDetailsView(data);
+            updateParallelCordsEvents(data);
+            updateWorldMapPoints([]);
+            updateWorldMapPoints(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('error ' + textStatus + " " + errorThrown);
+        }
+    });
 
 }

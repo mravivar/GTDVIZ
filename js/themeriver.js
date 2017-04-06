@@ -161,10 +161,66 @@ svg.selectAll(".layer")
 
       .attr("opacity",1);
       d3.select("#t-abs" ).remove();
-    })
+    }).on("click", function(){
+        mousex = d3.mouse(this);
+        mousex=mousex[0]+30
+        var curyr=x.invert(mousex).getFullYear();
+
+        updatedStart=!updatedStart;
+        if(updatedStart){
+            window_endyr=curyr;
+            endline.style("left",  mousex+ "px" );
+            endline.style("top", $("#themeriver").offset().top+"px")
+        }else{
+            window_startyr=curyr;
+            startline.style("left",  mousex+ "px" );
+            startline.style("top", $("#themeriver").offset().top+"px")
+        }
+        if(window_endyr<window_startyr){
+            setWindowStartEndyrs(window_endyr, window_startyr);
+        }else{
+            setWindowStartEndyrs(window_startyr, window_endyr);
+        }
+        console.log(window_startyr+":"+window_endyr);
+        partialUpdate(window_startyr, window_endyr);
+    });
+
+    startline = d3.select(".themeriver")
+        .append("div")
+        .attr("class", "remove")
+        .style("position", "absolute")
+        .style("z-index", "19")
+        .style("width", "1px")
+        .style("height", "380px")
+
+        .style("bottom", "30px")
+        .style("left", "0px")
+        .style("background", "#fff");
+
+    endline = d3.select(".themeriver")
+        .append("div")
+        .attr("class", "remove")
+        .style("position", "absolute")
+        .style("z-index", "19")
+        .style("width", "1px")
+        .style("height", "380px")
+        .style("top", $("#themeriver").offset().top+"px")
+        .style("bottom", "30px")
+        .style("left", "0px")
+        .style("background", "#fff");
 
 }
-
+var startline, endline, window_startyr, window_endyr,updatedStart=false;
+function setWindowStartEndyrs(startyr, endyr){
+    if(startyr){
+        window_startyr=startyr
+        $('#window_startyr').val(window_startyr)
+    }
+    if(endyr){
+        window_endyr=endyr;
+        $('#window_endyr').val(window_endyr);
+    }
+}
 function convertJsonTo2dArray(data)
 {
   var uniqueContinents={};

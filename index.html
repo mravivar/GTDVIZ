@@ -1,6 +1,7 @@
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- external libraries-->
   <script src="./lib/jquery311.js" type="application/javascript"></script>
   <script src="./lib/d3.js"></script>
@@ -10,8 +11,6 @@
   </script>
   <link rel="stylesheet" href="./css/main.css" type="text/css"/>
   <script src="./lib/bootstrap/tether.min.js"></script>
-  <link rel="stylesheet" href="./lib/bootstrap/bootstrap.min.css"/>
-  <script src="./lib/bootstrap/bootstrap.min.js"></script>
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="./lib/parallel-coordinates-master/d3.parcoords.js"></script>
   <link rel="stylesheet" type="text/css" href="./lib/parallel-coordinates-master/d3.parcoords.css"></link>
@@ -30,6 +29,11 @@
   <script src="https://d3js.org/d3-color.v1.min.js"></script>
   <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
    <script src="http://d3js.org/queue.v1.min.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <!--JS files-->
   <script src="./js/worldMapVis.js"></script>
@@ -52,10 +56,7 @@
       <div id="leftpane" class="col-sm-3">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-sm-6">
-              <label >Attribute:</label>
-            </div>
-            <div class="col-sm-6">
+            <div class="col-sm-5">
               <select id="attribute" name="attribute" onchange="selectChanged(this);">
                 <option id ='gname'>Organization</option>
                 <option id='attacktype1_txt'>Attack Type</option>
@@ -63,8 +64,11 @@
                 <option id='targtype1_txt'>Target Type</option>
                 <option id='region_txt'>Region</option>
               </select>
-              <input type="button" id="plot" value="PLOT" onclick="plot()"/>
             </div>
+            <div class="col-sm-1"></div>
+              <button id="plot" onclick="plot()" class="btn btn-default btn-sm col-sm-3">
+                <span class="glyphicon glyphicon-ok"></span> Plot
+              </button>
 
             <div id="selectedAttribute" name="dropdown" style="height:20%;overflow:scroll" class="col-sm-12">
               <table id="tableid" class="scrollTable">
@@ -77,13 +81,17 @@
             <div id="noUiSlider" class="col-sm-12"></div>
             <input type="year" id="startyr" value=2015 class="col-sm-3"></input>
             <input type="year" id="endyr" value=2016 class="col-sm-3"></input>
-            <button id='playbut' onclick="play()" class="col-sm-3">Play!</button>
+            <button id='playbut' onclick="play()" class="col-sm-3 btn btn-default btn-sm">
+              <span class="glyphicon glyphicon-play-circle"></span>Play
+            </button>
             <select id="timeinterval" class="col-sm-3"></select>
 
             <div class="col-sm-9">Preserve Start Point</div>
             <input type="checkbox" class="col-sm-3" id="preserveStart" style="height:2%"/>
 
             <div id="detailsTable" class="col-sm-12" style="height:33%"></div>
+            <input type="text" id="window_startyr" class="col-sm-3" value=2015 disabled></input>
+            <input type="text" id="window_endyr" class="col-sm-3" value=2016 disabled></input>
           </div>
         </div>
       </div>
@@ -107,7 +115,7 @@
         </div> <!--right pan-->
       </div>
       <div class="row">
-        <div id="themeriver" class="themeriver" style="height:23%">Themeriver<br/></div>
+        <div id="themeriver" class="themeriver" style="height:23%"></div>
       </div>
     </div>
   </div>

@@ -5,10 +5,10 @@ var zcolorscale = d3.scale.linear()
   .range(["brown", "#999", "#999", "steelblue"])
   .interpolate(d3.interpolateLab);
 var dimensions={
+    "region_txt":{"title":"Region", "orient":"left"},
     "attacktype1_txt":{"title":"Attack Type","orient":"left"},
     "nperps":{"title":"Perpetrators","orient":"left"},
     "weaptype1_txt":{"title":"Weapon", "orient":"left"},
-    "region_txt":{"title":"Region", "orient":"left"},
     "nkill":{"title":"Killed","orient":"left"},
     "nwound":{"title":"Wounded", "orient":"left"},
     "targtype1_txt":{"title":"Target","orient":"right"},
@@ -46,8 +46,8 @@ function updateParallelCordsEvents(data){
       return getEntityColor(d[category]);
     }).dimensions(dimensions).margin({
         top: 20,
-        left: 25,
-        right: 40,
+        left: 100,
+        right: 90,
         bottom: 20
     })
     //.alpha(0.2)//Change the opacity of the polylines, also the foreground context's globalAlpha.
@@ -73,6 +73,7 @@ function change_color(dimension) {
     .filter(function(d) { return d == dimension; })
     .style("font-weight", "bold")
   if(dimension=='nkill' || dimension=='nwound' || dimension=='nkillter' || dimension=='nperps'){
+
     gtdParacords.color(zcolor(gtdParacords.data(),dimension)).render()
   }
   else if(dimension==category){
