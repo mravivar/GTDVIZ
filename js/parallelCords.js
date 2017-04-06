@@ -6,15 +6,16 @@ var zcolorscale = d3.scale.linear()
   .interpolate(d3.interpolateLab);
 var dimensions={
     "region_txt":{"title":"Region", "orient":"left"},
-    "attacktype1_txt":{"title":"Attack Type","orient":"left"},
+    //
     "nperps":{"title":"Perpetrators","orient":"left"},
-    "weaptype1_txt":{"title":"Weapon", "orient":"left"},
-    "nkill":{"title":"Killed","orient":"left"},
+    "nkillter":{"title":"Prep. Killed", "orient":"left"},
+    "nkill":{"title":"Killed","orient":"left", "yscale": "log"},
     "nwound":{"title":"Wounded", "orient":"left"},
+    "weaptype1_txt":{"title":"Weapon", "orient":"left"},
     "targtype1_txt":{"title":"Target","orient":"right"},
 };
 
-var hideAxes=['iyear', 'country_txt', 'eventid', 'latitude', 'longitude', 'nkillter', 'target1', 'gname'];
+var hideAxes=['iyear', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1', 'gname'];
   //TODO assign ordinal color - for respective attribets
 //TODO see nullValues.html
 function updateParallelCordsEvents(data){
