@@ -36,7 +36,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <!--JS files-->
-  <script src="./js/worldMapVis.js"></script>
+  <script src="./js/Constants.js"></script>
+    <script src="./js/UIAttributeSetters.js"></script>
+    <script src="./js/worldMapVis.js"></script>
   <script src="./js/detailsView.js"></script>
   <script src="./js/slider.js"></script>
   <script src="./js/parallelCords.js"></script>
@@ -44,6 +46,8 @@
   <script src="./js/animate.js"></script>
   <script src="./js/colorHelper.js"></script>
   <script src="./js/themeriver.js"></script>
+
+
 
 </head>
 
@@ -57,7 +61,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-5">
-              <select id="attribute" name="attribute" onchange="selectChanged(this);">
+              <select id="attribute" name="attribute" onchange="selectChanged()">
                 <option id ='gname'>Organization</option>
                 <option id='attacktype1_txt'>Attack Type</option>
                 <option id='weaptype1_txt'>Weapon Type</option>
@@ -81,17 +85,8 @@
             <div id="noUiSlider" class="col-sm-12"></div>
             <input type="year" id="startyr" value=2015 class="col-sm-3"></input>
             <input type="year" id="endyr" value=2016 class="col-sm-3"></input>
-            <button id='playbut' onclick="play()" class="col-sm-3 btn btn-default btn-sm">
-              <span class="glyphicon glyphicon-play-circle"></span>Play
-            </button>
-            <select id="timeinterval" class="col-sm-3"></select>
-
-            <div class="col-sm-9">Preserve Start Point</div>
-            <input type="checkbox" class="col-sm-3" id="preserveStart" style="height:2%"/>
-
             <div id="detailsTable" class="col-sm-12" style="height:33%"></div>
-            <input type="text" id="window_startyr" class="col-sm-3" value=2015 disabled></input>
-            <input type="text" id="window_endyr" class="col-sm-3" value=2016 disabled></input>
+
           </div>
         </div>
       </div>
@@ -114,17 +109,49 @@
           </div>
         </div> <!--right pan-->
       </div>
-      <div class="row">
-        <div id="themeriver" class="themeriver" style="height:23%"></div>
+    <div class="row">
+        <div class="col-sm-12">
+          <div class="container">
+            <div class="row">
+          <button type="text" id="window_startyr" class="col-sm-1" >2015</button>
+          <span id="window_arrow" class="glyphicon glyphicon-arrow-right col-sm-1"></span>
+          <button type="text" id="window_endyr" class="col-sm-1">2016</button>
+
+            <button id='playbut' onclick="play()" class="col-sm-1 btn btn-default btn-sm">
+              <span class="glyphicon glyphicon-play-circle"></span>Play
+            </button>
+            <select id="timeinterval" class="col-sm-1"></select>
+            <select id="yearterval" class="col-sm-1"></select>
+            <div class="col-sm-2">Preserve Start</div>
+            <input type="checkbox" class="col-sm-1" id="preserveStart" style="height:2%"/>
+          </div>
+          </div>
+        </div>
+        <div id="themeriver" class="themeriver col-sm-12" style="height:23%"></div>
       </div>
-    </div>
+
   </div>
 <script>
 //add the drop drop_down
 $('#timeinterval').html("");
 for(var i=1;i<=10;i++){
-  $('#timeinterval').html($('#timeinterval').html()+"<option value="+i+">"+i+"</option>")
+  $('#timeinterval').html($('#timeinterval').html()+"<option value="+i +">"+i+" sec</option>");
 }
+
+$('#yearterval').html("");
+for(var i=1;i<=10;i++){
+    $('#yearterval').html($('#yearterval').html()+"<option value="+i +">"+i+" year</option>");
+}
+
+
+$("#window_startyr").on("click", function(d){
+    updatedStart=true;
+    setWindowArrowDirection(LEFT_ARROW);
+});
+$("#window_endyr").on("click", function(d){
+    updatedStart=false;
+    setWindowArrowDirection(RIGHT_ARROW);
+});
 addSlider();
 //kick start it
 selectChanged();
@@ -132,20 +159,6 @@ selectChanged();
 //updatePrallelCords();
 themeriver();
 //themeriver(regData);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
 </body>
 </html>

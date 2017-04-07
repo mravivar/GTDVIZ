@@ -1,8 +1,8 @@
 var playing=false;
-var startyr = 1972, endyr=startyr+2;
 function play() {
-    startyr = 1972;
-    endyr=startyr+2;
+    xAxis.tickSize()
+    var startyr,
+        endyr;
     if(playing){
       playing=false;
       $('#playbut').html('Play!');
@@ -11,29 +11,28 @@ function play() {
     playing=true;
     $('#playbut').html('Pause');
     if($('#preserveStart').is(':checked')){
-        startyr=getStartyr();
-        endyr=getEndYr();
+        startyr=window_startyr;
     }else{
-
-        setStartyr(startyr);
-        setEndyr(endyr);
+        startyr=x.ticks()[0].getFullYear();
+        //setStartyr(startyr);
+        //setEndyr(endyr);
     }
-
-    var id = setInterval(frame, Number($("#timeinterval option:selected" ).text())*1000);
+    endyr=startyr+getWindowYear();
+    var id = setInterval(frame, getTimeInterval()*1000);
     function frame() {
-        if (getEndYr()==2015 || !playing) {
+        setWindowLineStye(startline, yearPosMap[startyr]);
+        setWindowLineStye(endline, yearPosMap[endyr]);
+        setWindowStartEndyrs(startyr, endyr);
+        partialUpdate(startyr, endyr);
+
+        if (endyr>=x.ticks()[x.ticks().length-1].getFullYear() || !playing) {
             clearInterval(id);
             $('#playbut').html('Play!');
             playing=false;
         } else {
-          startyr++;
-          endyr++;
-          setStartyr(startyr);
-          setEndyr(endyr);
-          clearThemeRiver()
-          //updateThemeRiver();
-
-          groupUpdates();
+            startyr++;
+            endyr++;
         }
+
     }
 }

@@ -253,7 +253,6 @@ d3.demo.canvas = function() {
 		//this fuction gets the events from the DB and updates world map,parallelCords and details view
 		groupUpdates=function(){
 
-          setWindowStartEndyrs($('#startyr').val(), $('#endyr').val());
           if(startline)
           startline.style("left",  0+ "px" );
           if(endline)
@@ -275,6 +274,7 @@ d3.demo.canvas = function() {
 //        console.log(data);
             clearThemeRiver();
 		        loadDataIntoDetailsView(data);
+		        i
 		        updateParallelCordsEvents(data);
 		        updateWorldMapPoints([]);
 		        updateWorldMapPoints(data);

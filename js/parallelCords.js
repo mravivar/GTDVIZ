@@ -5,14 +5,14 @@ var zcolorscale = d3.scale.linear()
   .range(["brown", "#999", "#999", "steelblue"])
   .interpolate(d3.interpolateLab);
 var dimensions={
-    "region_txt":{"title":"Region", "orient":"left"},
+    "region_txt":{"title":"Region", "orient":"left", "type":"string"},
     //
-    "nperps":{"title":"Perpetrators","orient":"left"},
-    "nkillter":{"title":"Prep. Killed", "orient":"left"},
-    "nkill":{"title":"Killed","orient":"left", "yscale": "log"},
-    "nwound":{"title":"Wounded", "orient":"left"},
-    "weaptype1_txt":{"title":"Weapon", "orient":"left"},
-    "targtype1_txt":{"title":"Target","orient":"right"},
+    "nperps":{"title":"Perpetrators","orient":"left","type":"number"},
+    "nkillter":{"title":"Prep. Killed", "orient":"left","type":"number"},
+    "nkill":{"title":"Killed","orient":"left","type":"number"},
+    "nwound":{"title":"Wounded", "orient":"left", "type":"number"},
+    "weaptype1_txt":{"title":"Weapon", "orient":"left", "type":"string"},
+    "targtype1_txt":{"title":"Target","orient":"right", "type":"string"},
 };
 
 var hideAxes=['iyear', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1', 'gname'];
@@ -41,9 +41,13 @@ function updateParallelCordsEvents(data){
           delete hideAxes[7];
       }
   }*/
+    var mode="queue";
+    if(playing){
+        mode="default";
+    }
   gtdParacords = d3.parcoords()("#gtdParacords")
-    .data(data).detectDimensions().hideAxis(hideAxes)
-    .mode('queue').color(function(d){
+    .data(data).hideAxis(hideAxes)
+    .mode(mode).color(function(d){
       return getEntityColor(d[category]);
     }).dimensions(dimensions).margin({
         top: 20,

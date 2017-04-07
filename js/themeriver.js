@@ -17,11 +17,12 @@ function updateThemeRiver(){
                 attr:selectedAttribute
           },
           success: function(data) {
-            console.log(data);
-          regData=convertJsonTo2dArray(data);
-          themecall(regData);
-             //themeriver();
-        //  console.log(data);
+              if(data.length>0){
+                  regData=convertJsonTo2dArray(data);
+                  themecall(regData);
+                  //themeriver();
+                  //  console.log(data);
+              }
           },
           error: function(jqXHR, textStatus, errorThrown) {
               console.log('error ' + textStatus + " " + errorThrown);
@@ -163,18 +164,18 @@ svg.selectAll(".layer")
       d3.select("#t-abs" ).remove();
     }).on("click", function(){
         mousex = d3.mouse(this);
-        mousex=mousex[0]+30
+        mousex=mousex[0];
         var curyr=x.invert(mousex).getFullYear();
 
         updatedStart=!updatedStart;
         if(updatedStart){
             window_endyr=curyr;
-            endline.style("left",  mousex+ "px" );
-            endline.style("top", $("#themeriver").offset().top+"px")
+            setWindowLineStye(endline, mousex);
+            setWindowArrowDirection(LEFT_ARROW);
         }else{
             window_startyr=curyr;
-            startline.style("left",  mousex+ "px" );
-            startline.style("top", $("#themeriver").offset().top+"px")
+            setWindowLineStye(startline, mousex);
+            setWindowArrowDirection(RIGHT_ARROW);
         }
         if(window_endyr<window_startyr){
             setWindowStartEndyrs(window_endyr, window_startyr);
@@ -190,10 +191,9 @@ svg.selectAll(".layer")
         .attr("class", "remove")
         .style("position", "absolute")
         .style("z-index", "19")
-        .style("width", "1px")
-        .style("height", "380px")
-
-        .style("bottom", "30px")
+        .style("width", "3px")
+        .style("height", height+"px")
+        .style("bottom", margin.bottom+"px")
         .style("left", "0px")
         .style("background", "#fff");
 
@@ -202,25 +202,31 @@ svg.selectAll(".layer")
         .attr("class", "remove")
         .style("position", "absolute")
         .style("z-index", "19")
-        .style("width", "1px")
-        .style("height", "380px")
-        .style("top", $("#themeriver").offset().top+"px")
-        .style("bottom", "30px")
+        .style("width", "3px")
+        .style("height", height+"px")
+        .style("bottom", margin.bottom+"px")
         .style("left", "0px")
         .style("background", "#fff");
+    recordTickPositions(x,xAxis);
+}
+var yearPosMap={};
+function recordTickPositions(x, xAxis){
+    //gives total number of ticks - x.ticks().length-1].getFullYear()-x.ticks()[0].getFullYear() +1
+    //x.ticks().length has so extra ticks
+    var tmp=xAxis.ticks(x.ticks()[x.ticks().length-1].getFullYear()-x.ticks()[0].getFullYear() +1 );
+    var itrYear=x.ticks()[0].getFullYear(), styr=itrYear, enyr=styr;
 
+    svg.call(tmp).selectAll(".tick").each(function(d){
+        var tk=d3.select(this);
+        yearPosMap[itrYear]=d3.transform(tk.attr("transform")).translate[0];
+        enyr=itrYear;
+        itrYear++;
+    });
+    setWindowStartEndyrs(styr, enyr);
 }
+
 var startline, endline, window_startyr, window_endyr,updatedStart=false;
-function setWindowStartEndyrs(startyr, endyr){
-    if(startyr){
-        window_startyr=startyr
-        $('#window_startyr').val(window_startyr)
-    }
-    if(endyr){
-        window_endyr=endyr;
-        $('#window_endyr').val(window_endyr);
-    }
-}
+
 function convertJsonTo2dArray(data)
 {
   var uniqueContinents={};
@@ -275,7 +281,7 @@ function assignmissing(dataset)
     }
     var startingyear = dataset[0].date;
     //dataset.sort(sortByName);
-    console.log("Fixing missing data");
+    //console.log("Fixing missing data");
     var iyear=startingyear;
     var j=0;
    dataset.forEach(function(row){

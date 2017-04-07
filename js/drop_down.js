@@ -40,7 +40,7 @@ function loadscroll(dataArray) {
 
 }
 
-var lastSelectedRow, table, trs, selected; 
+var lastSelectedRow, table, trs, selected=[];
 
 
 function RowClick(events, lock) {
