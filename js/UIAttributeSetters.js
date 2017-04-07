@@ -14,7 +14,7 @@ function setWindowStartEndyrs(startyr, endyr){
 
 function setWindowArrowDirection(style_direction){
     $('#window_arrow').removeClass();
-   // $('#window_arrow').addClass(style_direction)
+    $('#window_arrow').addClass(style_direction)
 }
 
 function setWindowLineStye(line, mousex) {

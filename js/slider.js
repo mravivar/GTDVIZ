@@ -18,26 +18,26 @@ function addSlider(){
       html5Slider.noUiSlider.on('update', function( values, handle ) {
       	var value = values[handle];
       	if ( handle ) {
-          $('#endyr').val(Math.round(value));
+          $('#endyr').val(Math.round(value)).trigger("input");
       	} else {
-          $('#startyr').val(Math.round(value));
+          $('#startyr').val(Math.round(value)).trigger("input");
       	}
+
       });
 
       $('#startyr').on('input', function ( ) {
         var newVal=Number(this.value);
         if(newVal>=1972 && newVal<2017){
           prevStartYear=newVal;
-          html5Slider.noUiSlider.set([newVal, getEndYr()]);
-          groupUpdates();
-          clearThemeRiver();
+            groupUpdates();
+            clearThemeRiver();
         }
       });
       $('#endyr').on('input', function ( ) {
         var newVal=Number(this.value);
         if(newVal>=1972 && newVal<2017){
           prevStartYear=newVal;
-          html5Slider.noUiSlider.set([getStartyr(), newVal]);
+          //html5Slider.noUiSlider.set([getStartyr(), newVal]);
           groupUpdates();
           clearThemeRiver();
         }
