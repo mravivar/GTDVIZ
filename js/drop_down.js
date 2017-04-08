@@ -2,8 +2,6 @@
 
 var sg;
 var count =1;
-//var category = 'gname';
-//var selectedAttribute = [""];
 
 function selectChanged(){
    var historySelectList = $('select#attribute');
@@ -108,23 +106,3 @@ function plot(){
         groupUpdates();
     }
 }
-
-/*var plotData=function(){
-  $.ajax({
-      url: 'plotSelectedData',
-      type:"GET",
-      dataType: "json",
-      data: {
-        startyr: $('#startyr').val(),
-        endyr: $('#endyr').val(),
-        cat: category,
-        attr:selectedAttribute
-      },
-      success: function(data) {
-        updateWorldMapPoints(data);
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          console.log('error ' + textStatus + " " + errorThrown);
-      }
-  });
-}*/
