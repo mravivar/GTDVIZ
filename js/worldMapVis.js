@@ -219,7 +219,7 @@ d3.demo.canvas = function() {
 				//console.log(countries)
 				projection = d3.geo.mercator()
 									.translate([width/2,height/2])
-									.scale(150)
+									.scale(95)
 
 				path = d3.geo.path()
 								.projection(projection)
