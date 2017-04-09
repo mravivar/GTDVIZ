@@ -83,13 +83,13 @@ xAxis = d3.svg.axis()
     .orient("bottom")
     .ticks(d3.time.years);
 yAxis = d3.svg.axis()
+    .orient("left")
     .scale(y);
 stack = d3.layout.stack()
     .offset("zero")
     .values(function(d) { return d.values; })
     .x(function(d) { return d.date; })
     .y(function(d) { return d.numEvents; });
-
 //console.log(stack);
 nest = d3.nest().key(function(d) {  return d.key; })
 area = d3.svg.area()
@@ -117,6 +117,7 @@ layers = stack(nest.entries(data));
   svg.selectAll(".layer")
       .data(layers)
     .enter().append("path")
+      .attr("transform", "translate(20, 0)")
       .attr("class", "layer")
       .attr("d", function(d) { return area(d.values); })
       .style("fill", function(d, i) {
@@ -124,12 +125,23 @@ layers = stack(nest.entries(data));
        });
   svg.append("g")
       .attr("class", "xaxis")
-      .attr("transform", "translate(0," + height + ")")
+      .attr("transform", "translate(20," + height + ")")
       .call(xAxis);
   svg.append("g")
       .attr("class", "yaxis")
-      .attr("transform", "translate(" + width + ", 0)")
-      .call(yAxis.orient("right"));
+      .attr("transform", "translate( 20 , 0)")
+      .call(yAxis.orient("left"));
+//Reference : http://bl.ocks.org/phoebebright/3061203
+svg.append("text")
+            .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+            .attr("transform", "translate(-30"+","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+            .text(""+d3.select("#attribute").node().value +"");
+  svg.append("text")
+            .attr("text-anchor", "middle")  
+            .attr("transform", "translate("+ ((width/2)+17.5) +","+(height+30)+")")  
+            .text("Year");
+
+
 svg.selectAll(".layer")
     .attr("opacity", 1)
     .on("mouseover", function(d, i) {
