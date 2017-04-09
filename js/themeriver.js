@@ -74,7 +74,7 @@ svg = d3.select(".themeriver").append("svg:svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-updateThemeRiver();
+//updateThemeRiver();
 }
 
 function themecall(data){
@@ -123,11 +123,11 @@ layers = stack(nest.entries(data));
          return getEntityColor(d['key']);
        });
   svg.append("g")
-      .attr("class", "x axis")
+      .attr("class", "xaxis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
   svg.append("g")
-      .attr("class", "y axis")
+      .attr("class", "yaxis")
       .attr("transform", "translate(" + width + ", 0)")
       .call(yAxis.orient("right"));
 svg.selectAll(".layer")
@@ -211,6 +211,7 @@ svg.selectAll(".layer")
 }
 var yearPosMap={};
 function recordTickPositions(x, xAxis){
+    var svg = d3.select(".xaxis");
     //gives total number of ticks - x.ticks().length-1].getFullYear()-x.ticks()[0].getFullYear() +1
     //x.ticks().length has so extra ticks
     var tmp=xAxis.ticks(x.ticks()[x.ticks().length-1].getFullYear()-x.ticks()[0].getFullYear() +1 );

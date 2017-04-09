@@ -355,3 +355,15 @@ p {
   stroke-width: 2px;
   shape-rendering: crispEdges;
 }
+.xaxis path, .xaxis line{
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
+.yaxis path, .yaxis line{
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
