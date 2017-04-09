@@ -30,7 +30,7 @@ function loadscroll(dataArray) {
     $("tr").remove();
     for (var i=0; i<dataArray.length; i++){
         dataArray[i] = dataArray[i].replace(/[\[\]\"]+/g, '');
-        table.append('<tr onmousedown="RowClick(event, false);"><td></td><td></td></tr>');
+        table.append('<tr onmousedown="RowClick(event, false);"><td></td></tr>');
     }
     table.find('tr').each(function(idx, elem){
         $(this).find('td:last').text(dataArray[idx]);
@@ -99,7 +99,16 @@ function plot(){
     selectedAttribute=[];
     for (var i =0,j=0; i < selected.length;i++,j++){
       if (selected[i].tagName=="TBODY") continue;
-      selectedAttribute[i] = selected[i].cells[1].textContent;
+      selectedAttribute[i] = selected[i].cells[0].textContent;
+    }
+
+    var length = selected.length;
+     for (var i =0; i < length;i++){
+      var table = document.getElementById("tableid")
+       var row = table.insertRow(0);
+       var cell = row.insertCell(0);
+       cell.innerHTML = selected[0].cells[0].textContent;
+       table.deleteRow(selected[0].rowIndex);
     }
 
     if(selectedAttribute.length>0){
