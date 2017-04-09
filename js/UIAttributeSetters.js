@@ -16,7 +16,14 @@ function setWindowArrowDirection(style_direction){
     $('#window_arrow').removeClass();
     $('#window_arrow').addClass(style_direction)
 }
-
+function setPlayIcon(){
+    $('#playbutIcon').removeClass();
+    $('#playbutIcon').addClass(PLAY_ICON);
+}
+function setPauseIcon(){
+    $('#playbutIcon').removeClass();
+    $('#playbutIcon').addClass(PAUSE_ICON)
+}
 function setWindowLineStye(line, mousex) {
     line.style("left",  mousex+margin.left+10 +"px" );
     //line.style("top", $("#themeriver").offset().top+"px")

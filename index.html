@@ -113,21 +113,20 @@
         </div> <!--right pan-->
       </div>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-4">
           <div class="container">
             <div class="row">
-          <button type="text" id="window_startyr" class="col-sm-1" >2015</button>
-          <span id="window_arrow" class="glyphicon glyphicon-arrow-right col-sm-1"></span>
-          <button type="text" id="window_endyr" class="col-sm-1">2016</button>
-
-            <button id='playbut' onclick="play()" class="col-sm-1 btn btn-default btn-sm">
-              <span class="glyphicon glyphicon-play-circle"></span>Play
-            </button>
-            <select id="timeinterval" class="col-sm-1"></select>
-            <select id="yearterval" class="col-sm-1"></select>
-            <div class="col-sm-2">Preserve Start</div>
-            <input type="checkbox" class="col-sm-1" id="preserveStart" style="height:2%"/>
-          </div>
+              <button type="text" id="window_startyr" class="col-sm-1" >2015</button>
+              <span id="window_arrow" class="glyphicon glyphicon-arrow-right col-sm-1" style="left:2%;"></span>
+              <button type="text" id="window_endyr" class="col-sm-1">2016</button>
+              <button id='playbut' onclick="play()" class="col-sm-1 btn btn-default btn-sm">
+                <span id='playbutIcon' class="glyphicon glyphicon-play"></span>
+              </button>
+              <select id="timeinterval" class="col-sm-1"></select>
+              <select id="yearterval" class="col-sm-1"></select>
+              <div class="col-sm-1" style="right:1%">Preserve</div>
+              <input type="checkbox" class="col-sm-1" id="preserveStart" style="height:1.5%;right:6%;"/>
+             </div>
           </div>
         </div>
         <div id="themeriver" class="themeriver col-sm-12" style="height:23%"></div>

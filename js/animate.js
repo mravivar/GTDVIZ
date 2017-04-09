@@ -1,15 +1,15 @@
 var playing=false;
 function play() {
-    xAxis.tickSize()
+
     var startyr,
         endyr;
     if(playing){
       playing=false;
-      $('#playbut').html('Play!');
+      setPlayIcon();
       return;
     }
     playing=true;
-    $('#playbut').html('Pause');
+    setPauseIcon();
     if($('#preserveStart').is(':checked')){
         startyr=window_startyr;
     }else{
@@ -27,7 +27,7 @@ function play() {
 
         if (endyr>=x.ticks()[x.ticks().length-1].getFullYear() || !playing) {
             clearInterval(id);
-            $('#playbut').html('Play!');
+            setPlayIcon();
             playing=false;
         } else {
             startyr++;
