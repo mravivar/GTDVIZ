@@ -155,9 +155,11 @@ fill: rgba(255, 0, 0, 0.2);
     fill: #000000;
     stroke: #333333;
     cursor: move;
+	cursor: default;
 }
 .canvas .panCanvas {
     cursor: move;
+	cursor: default;
 }
 
 .canvas .minimap .frame .background {
@@ -168,6 +170,7 @@ fill: rgba(255, 0, 0, 0.2);
     fill: url(#minimapGradient);
     filter: url(#minimapDropShadow);
     cursor: move;
+	cursor: default;
 }
 
 .forcecircle {
