@@ -4,14 +4,22 @@ var zcolorscale = d3.scale.linear()
   .domain([-2,2])
   .range(["brown", "#999", "#999", "steelblue"])
   .interpolate(d3.interpolateLab);
+var marigin={
+    top: 20,
+    left: 100,
+    right: 90,
+    bottom: 20
+};
+var height=$('#gtdParacords').height()-marigin.bottom-marigin.top;
+var scale=d3.scale.linear().domain([0,1500]).range([0,height]);
 var dimensions={
     "region_txt":{"title":"Region", "orient":"left", "type":"string"},
-    //
     "nperps":{"title":"Perpetrators","orient":"left","type":"number"},
+    "weaptype1_txt":{"title":"Weapon", "orient":"left", "type":"string"},
     "nkillter":{"title":"Prep. Killed", "orient":"left","type":"number"},
     "nkill":{"title":"Killed","orient":"left","type":"number"},
     "nwound":{"title":"Wounded", "orient":"left", "type":"number"},
-    "weaptype1_txt":{"title":"Weapon", "orient":"left", "type":"string"},
+    "attacktype1_txt":{"title":"Attack Type", "orient":"left", "type":"number"},
     "targtype1_txt":{"title":"Target","orient":"right", "type":"string"},
 };
 
@@ -42,19 +50,16 @@ function updateParallelCordsEvents(data){
       }
   }*/
     var mode="queue";
-    if(playing){
+    if(data.length<100){
         mode="default";
-    }
-  gtdParacords = d3.parcoords()("#gtdParacords");
-    gtdParacords.data(data).hideAxis(hideAxes).smoothness(.2).rate(100)
+    }//.dimensions(dimensions)
+    //.detectDimensions().dimensions(dimensions).hideAxis(hideAxes)
+
+  gtdParacords = d3.parcoords()("#gtdParacords").composite("darker")
+      .data(data).dimensions(dimensions)
     .mode(mode).color(function(d){
       return getEntityColor(d[category]);
-    }).dimensions(dimensions).margin({
-        top: 20,
-        left: 100,
-        right: 90,
-        bottom: 20
-    })
+    }).margin(marigin)//.smoothness(.2)
     //.alpha(0.2)//Change the opacity of the polylines, also the foreground context's globalAlpha.
     .render().shadows().createAxes().brushMode("1D-axes-multi").on("brush",processSelected)
     .reorderable().interactive(); // command line mode

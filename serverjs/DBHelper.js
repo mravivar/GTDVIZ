@@ -205,6 +205,7 @@ getUnique: function(attr, callback){
           ]).toArray(function(err, docs) {
           assert.equal(null, err);
           console.log('In the DBHelper'+docs.length);
+         docs=ProcessHelper.convertJsonTo2dArray(docs);
           callback(docs);
           db.close();
         });
@@ -218,7 +219,7 @@ getplotSelectedData: function(startyr, endyr, category, jsonData, callback){
         var query={};
         query.iyear={ $gte: startyr, $lte: endyr };
         query[category]={$in : jsonData};
-    console.log(query);
+    console.log(JSON.stringify(query));
      collection.find(query,
          {iyear: 1, longitude: 1, latitude: 1, eventid: 1, country_txt: 1, weaptype1_txt: 1, gname: 1, target1: 1, targtype1_txt:1, attacktype1_txt :1,
            nkill : 1,nwound : 1,nperps : 1,nkillter : 1, region_txt: 1}).toArray(function(err, docs) {

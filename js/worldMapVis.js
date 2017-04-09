@@ -257,6 +257,7 @@ d3.demo.canvas = function() {
           startline.style("left",  0+ "px" );
           if(endline)
           endline.style("left",  0+ "px" );
+          updateEntity(selectedAttribute);
 		//buildquery here
 		  $.ajax({
 		      url: 'plotSelectedData',

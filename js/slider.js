@@ -8,7 +8,7 @@ function addSlider(){
       	start: [ 2013, 2015 ],
       	connect: true,
       	range: {
-      		'min': 1972,
+      		'min': 1970,
       		'max': 2015
       	},
         step:1,
@@ -27,7 +27,7 @@ function addSlider(){
 
       $('#startyr').on('input', function ( ) {
         var newVal=Number(this.value);
-        if(newVal>=1972 && newVal<2017){
+        if(newVal>=1970 && newVal<2017){
           prevStartYear=newVal;
             groupUpdates();
             clearThemeRiver();
@@ -35,7 +35,7 @@ function addSlider(){
       });
       $('#endyr').on('input', function ( ) {
         var newVal=Number(this.value);
-        if(newVal>=1972 && newVal<2017){
+        if(newVal>=1970 && newVal<2017){
           prevStartYear=newVal;
           //html5Slider.noUiSlider.set([getStartyr(), newVal]);
           groupUpdates();

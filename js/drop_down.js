@@ -33,7 +33,7 @@ function loadscroll(dataArray) {
         table.append('<tr onmousedown="RowClick(event, false);"><td></td><td></td></tr>');
     }
     table.find('tr').each(function(idx, elem){
-        $(this).find('td:first').text(idx+1+" ").end().find('td:last').text(dataArray[idx]);
+        $(this).find('td:last').text(dataArray[idx]);
     });
 
 }
@@ -101,7 +101,7 @@ function plot(){
       if (selected[i].tagName=="TBODY") continue;
       selectedAttribute[i] = selected[i].cells[1].textContent;
     }
-    updateEntity(selectedAttribute);
+
     if(selectedAttribute.length>0){
         groupUpdates();
     }
