@@ -77,7 +77,7 @@
                 <span class="glyphicon glyphicon-ok"></span> Plot
               </button>
 
-            <div id="selectedAttribute" name="dropdown" style="height:20%;overflow:scroll" class="col-sm-12">
+            <div id="selectedAttribute" name="dropdown" style="height:20%;overflow:scroll" class="col-sm-12" data-toggle="tooltip" title="Attribute selection">
               <table id="tableid" class="scrollTable">
                 <tr onmousedown="RowClick(event, false);">
                   <td></td>
@@ -86,9 +86,11 @@
               </table>
             </div>
             <div id="noUiSlider" class="col-sm-12"></div>
-            <input type="year" id="startyr" value=2015 class="col-sm-3" disabled></input>
-            <input type="year" id="endyr" value=2016 class="col-sm-3" disabled></input>
-            <div id="detailsTable" class="col-sm-12" style="height:33%"></div>
+            <input type="year" id="startyr" value=2015 class="col-sm-3" data-toggle="tooltip" title="Start year" disabled></input>
+            <input type="year" id="endyr" value=2016 class="col-sm-3" data-toggle="tooltip" title="End year" disabled></input>
+            <input type="checkbox" name="checkbox" id="isQueuing" class="col-sm-3" data-toggle="tooltip" title="Enable for slower systems" checked></input>
+            <label for="isQueuing" class="col-sm-3" data-toggle="tooltip" title="Enable for slower systems">Queue</label>
+            <div id="detailsTable" class="col-sm-12" style="height:40%" data-toggle="tooltip" title="Details View"></div>
 
           </div>
         </div>
@@ -116,16 +118,16 @@
         <div class="col-sm-4">
           <div class="container">
             <div class="row">
-              <button type="text" id="window_startyr" class="col-sm-1" >2015</button>
-              <span id="window_arrow" class="glyphicon glyphicon-arrow-right col-sm-1" style="left:2%;"></span>
-              <button type="text" id="window_endyr" class="col-sm-1">2016</button>
-              <button id='playbut' onclick="play()" class="col-sm-1 btn btn-default btn-sm">
+              <button type="text" id="window_startyr" class="col-sm-1" data-toggle="tooltip" title="Start year">2015</button>
+              <span id="window_arrow" class="glyphicon glyphicon-arrow-right col-sm-1" style="left:2%;"  data-toggle="tooltip" title="Arrow denotes which window to update next"></span>
+              <button type="text" id="window_endyr" class="col-sm-1"  data-toggle="tooltip" title="End year">2016</button>
+              <button id='playbut' onclick="play()" class="col-sm-1 btn btn-default btn-sm" data-toggle="tooltip" title="Click the button to start the animation">
                 <span id='playbutIcon' class="glyphicon glyphicon-play"></span>
               </button>
-              <select id="timeinterval" class="col-sm-1"></select>
-              <select id="yearterval" class="col-sm-1"></select>
-              <div class="col-sm-1" style="right:1%">Preserve</div>
-              <input type="checkbox" class="col-sm-1" id="preserveStart" style="height:1.5%;right:6%;"/>
+              <select id="timeinterval" class="col-sm-1" data-toggle="tooltip" title="Seconds between timestep."></select>
+              <select id="yearterval" class="col-sm-1" data-toggle="tooltip" title="Year interval for Animation."></select>
+              <div class="col-sm-1" style="right:1%" data-toggle="tooltip" title="Enable to keep the start of selection in Theme river.">Preserve</div>
+              <input type="checkbox" class="col-sm-1" id="preserveStart" style="height:1.5%;right:6%;" data-toggle="tooltip" title="Enable to keep the start of selection in Theme river."/>
              </div>
           </div>
         </div>
@@ -154,6 +156,9 @@ $("#window_endyr").on("click", function(d){
     updatedStart=false;
     setWindowArrowDirection(RIGHT_ARROW);
 });
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
 addSlider();
 //kick start it
 selectChanged();
@@ -161,6 +166,7 @@ selectChanged();
 //updatePrallelCords();
 themeriver();
 //themeriver(regData);
+
 </script>
 </body>
 </html>

@@ -2,6 +2,17 @@
 //remove the bracket
 var d3=require('d3');
 module.exports = {
+    cleanString: function(str){
+        var start=str.indexOf('(');
+        if(start!='-1'){
+            str=str.slice(0,start);
+        }
+        start=str.indexOf('/');
+        if(start!='-1'){
+            str=str.slice(0,start);
+        }
+        return str;
+    },
     preProcessData: function(data){
   data.forEach(function(row){
     if(row.nkill=="")
@@ -26,19 +37,17 @@ module.exports = {
     delete row._id;
     for(var key in row){
       if(typeof row[key]=='string'){
-        var start=row[key].indexOf('(');
-        if(start!='-1'){
-          row[key]=row[key].slice(0,start);
-          }
-          start=row[key].indexOf('/');
-          if(start!='-1'){
-              row[key]=row[key].slice(0,start);
-          }
+            row[key]=module.exports.cleanString(row[key]);
         }
       }
     })
   },
-
+    preProcessArray: function(data){
+        for(var itr=0;itr<data.length;itr++){
+            data[itr]=module.exports.cleanString(data[itr]);
+        }
+        return data;
+    },
 //Reference: http://stackoverflow.com/questions/14713503/how-to-handle-layers-with-missing-data-points-in-d3-layout-stack
     convertJsonTo2dArray:function  (data){
         var uniqueContinents={};

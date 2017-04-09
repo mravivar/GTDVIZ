@@ -50,7 +50,7 @@ function updateParallelCordsEvents(data){
       }
   }*/
     var mode="queue";
-    if(data.length<100){
+    if(data.length<100 || !($('#isQueuing').is(':checked'))){
         mode="default";
     }//.dimensions(dimensions)
     //.detectDimensions().dimensions(dimensions).hideAxis(hideAxes)

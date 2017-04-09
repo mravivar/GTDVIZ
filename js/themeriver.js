@@ -59,7 +59,7 @@ function themeriver() {
 strokerange = ["FFFFFF"]
 strokecolor = strokerange[0];
 format = d3.time.format("%m/%d/%Y");
-margin = {top: 20, right: 40, bottom: 30, left: 30};
+margin = {top: 20, right: 40, bottom: 30, left: 50};
 width = document.body.clientWidth - margin.left - margin.right;
 height = $('.themeriver').height() - margin.top - margin.bottom;
 
@@ -134,8 +134,9 @@ layers = stack(nest.entries(data));
 //Reference : http://bl.ocks.org/phoebebright/3061203
 svg.append("text")
             .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-            .attr("transform", "translate(-30"+","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
-            .text(""+d3.select("#attribute").node().value +"");
+            .attr("transform", "translate(-40"+","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+    .text("# Events");
+            //.text(""+d3.select("#attribute").node().value +"");
   svg.append("text")
             .attr("text-anchor", "middle")  
             .attr("transform", "translate("+ ((width/2)+17.5) +","+(height+30)+")")  

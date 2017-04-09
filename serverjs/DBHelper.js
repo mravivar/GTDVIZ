@@ -171,10 +171,9 @@ getUnique: function(attr, callback){
       var collection = db.collection(TABLE_NAME);
       collection.distinct(attr)
         .then(function(results) {
-          //console.log("Target: " + results);
-      callback(results);
-        db.close();
-       })
+            callback(ProcessHelper.preProcessArray(results));
+            db.close();
+       });
      });
    },
 
