@@ -211,45 +211,43 @@ getUnique: function(attr, callback){
     });
   },
 
-getplotSelectedData: function(startyr, endyr, category, jsonData, callback){
-    MongoClient.connect(url, function(err, db) {
-      assert.equal(null, err);
-      var collection = db.collection(TABLE_NAME);
-        var query={};
-        query.iyear={ $gte: startyr, $lte: endyr };
-        query[category]={$in : jsonData};
-    console.log(JSON.stringify(query));
-     collection.find(query,
-         {iyear: 1, longitude: 1, latitude: 1, eventid: 1, country_txt: 1, weaptype1_txt: 1, gname: 1, target1: 1, targtype1_txt:1, attacktype1_txt :1,
-           nkill : 1,nwound : 1,nperps : 1,nkillter : 1, region_txt: 1}).toArray(function(err, docs) {
+    getplotSelectedData: function(startyr, endyr, category, jsonData, callback){
+        MongoClient.connect(url, function(err, db) {
           assert.equal(null, err);
-          console.log('In the DBHelper'+docs.length);
-          ProcessHelper.preProcessData(docs);
-          callback(docs);
-          db.close();
-        });
-})
-}
+          var collection = db.collection(TABLE_NAME);
+            var query={};
+            query.iyear={ $gte: startyr, $lte: endyr };
+            query[category]={$in : jsonData};
+        console.log(JSON.stringify(query));
+         collection.find(query,
+             {iyear: 1, longitude: 1, latitude: 1, eventid: 1, country_txt: 1, weaptype1_txt: 1, gname: 1, target1: 1, targtype1_txt:1, attacktype1_txt :1,
+               nkill : 1,nwound : 1,nperps : 1,nkillter : 1, region_txt: 1}).toArray(function(err, docs) {
+              assert.equal(null, err);
+              console.log('In the DBHelper'+docs.length);
+              ProcessHelper.preProcessData(docs);
+              callback(docs);
+              db.close();
+            });
+    })
+    },
+
+    getEventDetails: function(eventidVar, callback){
+        MongoClient.connect(url, function(err, db) {
+            assert.equal(null, err);
+            var collection = db.collection(TABLE_NAME);
+            var query={};
+            query['eventid']=+eventidVar;
+            console.log(JSON.stringify(query));
+            collection.find(query
+                ).toArray(function(err, docs) {
+                assert.equal(null, err);
+                //ProcessHelper.preProcessData(docs);
+                console.log(docs[0]);
+                callback(ProcessHelper.deleteEmptyFields(docs[0]));
+                db.close();
+            });
+        })
+    }
 };
 
-// Use connect method to connect to the server
-/*
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
-  var collection = db.collection(TABLE_NAME);
 
- collection.aggregate([
-          {$match: {}}
-        , {$group:
-            {_id: '$iyear',
-            total: {$sum: '$nkill'},
-            count : {$sum: 1}
-          }
-          }
-      ]).toArray(function(err, docs) {
-      assert.equal(null, err);
-      console.log(docs);
-      db.close();
-    });
-});*/

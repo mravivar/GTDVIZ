@@ -4,39 +4,39 @@ var d3=require('d3');
 module.exports = {
     cleanString: function(str){
         var start=str.indexOf('(');
-        if(start!='-1'){
+        if(start!=='-1'){
             str=str.slice(0,start);
         }
         start=str.indexOf('/');
-        if(start!='-1'){
+        if(start!=='-1'){
             str=str.slice(0,start);
         }
         return str;
     },
     preProcessData: function(data){
   data.forEach(function(row){
-    if(row.nkill=="")
+    if(row.nkill==="")
        row.nkill=+0;
     else
        row.nkill=+row.nkill;
-    if(row.nwound=="")
+    if(row.nwound==="")
       row.nwound=+0;
     else {
       row.nwound=+row.nwound;
     }
-    if(row.nkillter==""){
+    if(row.nkillter===""){
       row.nkillter=0;
     }else{
       row.nkillter=+row.nkillter;
     }
-    if(row.nperps==''){
+    if(row.nperps===''){
       row.nperps=0;
     }else{
       row.nperps=+row.nperps;
     }
     delete row._id;
     for(var key in row){
-      if(typeof row[key]=='string'){
+      if(typeof row[key]==='string'){
             row[key]=module.exports.cleanString(row[key]);
         }
       }
@@ -68,7 +68,7 @@ module.exports = {
         // console.log(data);
     function assignmissing (dataset)
     {
-        if(dataset.length==0){
+        if(dataset.length===0){
             return [];
         }
         var defaultValue=0;
@@ -106,18 +106,18 @@ module.exports = {
         dataset.forEach(function(row){
             //console.log(row.key);
             //console.log(keys[j]);
-            while(row.key!=keys[j]){
+            while(row.key!==keys[j]){
                 newData.push( { key: keys[j],
                     numEvents: +defaultValue,
                     date: iyear })
                 j=j+1;
-                if(j==uniquekis.length){
+                if(j===uniquekis.length){
                     j=0;
                     iyear=iyear+1;
                 }
             }
             j=j+1;
-            if(j==uniquekis.length){
+            if(j===uniquekis.length){
                 j=0;
                 iyear=iyear+1;
             }
@@ -127,6 +127,17 @@ module.exports = {
     }
         assigneddata=assignmissing(data);
         return assigneddata;
-    }
+    },
 
-}
+    deleteEmptyFields:function (event) {
+        for(key in event){
+            if((typeof event[key])==='string'){
+                if(event[key].length==0){
+                    delete event[key];
+                }
+            }
+        }
+        return event;
+    },
+
+};

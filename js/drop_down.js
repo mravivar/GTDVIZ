@@ -7,20 +7,20 @@ function selectChanged(){
    var historySelectList = $('select#attribute');
     var selectedValue = $('option:selected', historySelectList).val();
     category = $('option:selected', historySelectList)[0].id;
-$.ajax({
-        url: 'getUnique',
-        type:"GET",
-        dataType: "json",
-         data: {
-          attr: category
-        },
-        success: function(data) {
-          loadscroll(data);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert('error ' + textStatus + " " + errorThrown);
-        }
-    });
+    $.ajax({
+            url: 'getUnique',
+            type:"GET",
+            dataType: "json",
+             data: {
+              attr: category
+            },
+            success: function(data) {
+              loadscroll(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('error ' + textStatus + " " + errorThrown);
+            }
+        });
 }
 
 function loadscroll(dataArray) {

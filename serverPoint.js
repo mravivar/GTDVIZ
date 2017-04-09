@@ -88,7 +88,13 @@ app.get('/plotSelectedData', function (req, res) {
       console.log('response sent' + docs.length);
   });
 });
-
+app.get('/getEventDetails', function (req, res) {
+    console.log('getEventDetails() called.' + req.query.eventid);
+    DBHelper.getEventDetails(req.query.eventid, function(docs){
+        res.send(docs);
+        console.log('response sent' + docs);
+    });
+});
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')

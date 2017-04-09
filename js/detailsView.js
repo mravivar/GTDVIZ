@@ -41,50 +41,24 @@ function loadDataIntoDetailsView(data){
     dataView.beginUpdate();
     dataView.setItems(data, ['eventid']);
     dataView.endUpdate();
-}
-/*
-  $(function () {
-    var data = [];
-    for (var i = 0; i < 500; i++) {
-      data[i] = {
-        title: "Task " + i,
-        duration: "5 days",
-        percentComplete: Math.round(Math.random() * 100),
-        start: "01/01/2009",
-        finish: "01/05/2009",
-        effortDriven: (i % 5 == 0)
-      };
-    }
-
-    grid = new Slick.Grid("#detailsView", data, columns, options);
-  })
-*/
-  /*
-  var table_id="#detailsView", array_of_columns, array_of_data, dimensions;
-    array_of_columns=[];
-    //TODO give proper table headings for the table header
-    //TODO table header and data are not alligning properly
-  for(var key in data[0]){
-    if(key!='_id'){
-      array_of_columns.push({"text":key, "sort_column":false});
-    }
+      grid.onClick.subscribe(function(e, args) {
+          var rowIndex = args.row;
+          var eventID=dataView.getItemByIdx(rowIndex).eventid;
+          $.ajax({
+              url: 'getEventDetails',
+              type:"GET",
+              dataType: "json",
+              data: {
+                  eventid:eventID
+              },
+              success: function(data) {
+                  alert(JSON.stringify(data, null, 2));
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                  alert('error ' + textStatus + " " + errorThrown);
+              }
+          });
+          // or dataView.getItem(args.row);
+      });
   }
-  array_of_data=[]
-  for(var event in data){
-    var row=[]
-    for(var key in data[event]){
-      if(key!='_id'){
-        row.push(data[event][key])
-      }
-    }
-    array_of_data.push({"id":'e'+data[event].eventid, "data":row});
-  }
-  dimensions={ width: $( window ).width()-30, height: '700px' }
-  TableSort(
-          table_id,
-          array_of_columns,
-          array_of_data,
-          dimensions
-          );
-*/
 }
