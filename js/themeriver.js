@@ -78,6 +78,7 @@ svg = d3.select(".themeriver").append("svg:svg")
 }
 
 function themecall(data){
+  console.log(data);
 xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom")
@@ -133,8 +134,8 @@ layers = stack(nest.entries(data));
       .call(yAxis.orient("left"));
 //Reference : http://bl.ocks.org/phoebebright/3061203
 svg.append("text")
-            .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-            .attr("transform", "translate(-40"+","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+            .attr("text-anchor", "middle")  
+            .attr("transform", "translate(-40"+","+(height/2)+")rotate(-90)") 
     .text("# Events");
             //.text(""+d3.select("#attribute").node().value +"");
   svg.append("text")

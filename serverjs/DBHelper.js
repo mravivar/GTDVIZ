@@ -182,14 +182,24 @@ getUnique: function(attr, callback){
     MongoClient.connect(url, function(err, db) {
       assert.equal(null, err);
       var collection = db.collection(TABLE_NAME);
+      console.log(typeof(jsonData));
+        jsonData=jsonData.sort();
+      var sendingdata =[];
+      for(var variable in jsonData)
+        {
+//          console.log(variable);
+          sendingdata.push(jsonData[variable]);
+        }
+
         var query={};
         query.iyear={ $gte: startyr, $lte: endyr };
         query[category]={$in : jsonData};
         var addition={}
         addition.year= '$iyear';
         addition.valname= '$'+category;
-        console.log(addition.gname);
-    console.log(query);
+//        console.log(addition.gname);
+//        console.log(query);
+//        console.log("a");
 
      collection.aggregate([
               {$match: query},
@@ -205,7 +215,8 @@ getUnique: function(attr, callback){
           ]).toArray(function(err, docs) {
           assert.equal(null, err);
           console.log('In the DBHelper'+docs.length);
-         docs=ProcessHelper.convertJsonTo2dArray(docs);
+         docs=ProcessHelper.convertJsonTo2dArray(docs,sendingdata,startyr,endyr);
+
           callback(docs);
           db.close();
         });

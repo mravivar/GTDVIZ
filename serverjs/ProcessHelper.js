@@ -2,17 +2,6 @@
 //remove the bracket
 var d3=require('d3');
 module.exports = {
-    cleanString: function(str){
-        var start=str.indexOf('(');
-        if(start!='-1'){
-            str=str.slice(0,start);
-        }
-        start=str.indexOf('/');
-        if(start!='-1'){
-            str=str.slice(0,start);
-        }
-        return str;
-    },
     preProcessData: function(data){
   data.forEach(function(row){
     if(row.nkill=="")
@@ -37,20 +26,25 @@ module.exports = {
     delete row._id;
     for(var key in row){
       if(typeof row[key]=='string'){
-            row[key]=module.exports.cleanString(row[key]);
+        var start=row[key].indexOf('(');
+        if(start!='-1'){
+          row[key]=row[key].slice(0,start);
+          }
+          start=row[key].indexOf('/');
+          if(start!='-1'){
+              row[key]=row[key].slice(0,start);
+          }
         }
       }
     })
   },
-    preProcessArray: function(data){
-        for(var itr=0;itr<data.length;itr++){
-            data[itr]=module.exports.cleanString(data[itr]);
-        }
-        return data;
-    },
+
 //Reference: http://stackoverflow.com/questions/14713503/how-to-handle-layers-with-missing-data-points-in-d3-layout-stack
-    convertJsonTo2dArray:function  (data){
+    convertJsonTo2dArray:function  (data,category,start,end){
         var uniqueContinents={};
+        console.log(category);
+//        console.log("a");
+//        console.log(Array.isArray(category));
         for(var i=0;i<data.length;i++)
         {
             //TODO if we dont want this much data then only get only those data that is needed
@@ -67,19 +61,21 @@ module.exports = {
         //updateEntity(uniqueContinents);
         // console.log(data);
     function assignmissing (dataset)
-    {
+    {   
         if(dataset.length==0){
             return [];
         }
         var defaultValue=0;
-        var uniquekeys =  d3.nest()
+/*        var uniquekeys =  d3.nest()
             .key(function(d) { return d.key; })
             .entries(dataset);
-        var uniquekis=[]
-        uniquekeys.forEach(function(row){
+*/ 
+       var uniquekis=category
+/*        uniquekeys.forEach(function(row){
             uniquekis.push(row.key)
         });
-        //  console.log(uniquekeys);
+*/ 
+       //  console.log(uniquekeys);
         //  console.log(uniquekis.length);
         var keys = uniquekis.sort(sortByNames);
         //  console.log(keys);
@@ -102,6 +98,7 @@ module.exports = {
         //dataset.sort(sortByName);
         //console.log("Fixing missing data");
         var iyear=startingyear;
+        
         var j=0;
         dataset.forEach(function(row){
             //console.log(row.key);
@@ -125,19 +122,36 @@ module.exports = {
         console.log("Fixed Missing data");
         return dataset.concat(newData).sort(sortByDate);
     }
-        assigneddata=assignmissing(data);
-        return assigneddata;
-    },
 
-    deleteEmptyFields:function (event) {
-        for(key in event){
-            if((typeof event[key])=='string'){
-                if(event[key].length==0){
-                    delete event[key];
-                }
+    /*
+
+    ASSIGNING MISSING DATA -- VERY HEAVY 
+    
+for(var i=start;i<=end;i=i+1)
+        {
+            for(var ji=0;ji<keys.length;ji=ji+1)
+            {
+                newData.push( { key: keys[ji],
+                    numEvents: +defaultValue,
+                    date: i })
             }
         }
-        return event;
-    },
+    newData.sort(sortByDate);
+    //console.log(dataset[0].date-start);
+    //console.log(newData[0].numEvents);
+   dataset.forEach(function(row){
+            var idx=keys.indexOf(row.key);
+            var offset=idx+(row.date-start);
+            //console.log(offset);
+            //console.log(row.numEvents);
+            //console.log(newData.length);
+            newData[offset].numEvents;
+            newData[offset].numEvents=row.numEvents;
+        });
+      console.log("Fixed Missing data");
+    */
+        assigneddata=assignmissing(data);
+        return assigneddata;
+    }
 
-};
+}
