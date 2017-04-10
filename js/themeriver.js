@@ -244,6 +244,8 @@ var startline, endline, window_startyr, window_endyr,updatedStart=false;
 
 function clearThemeRiver()
 {
+    if(selectedAttribute.length==0)
+        return;
   console.log("Clearing");
   svg.selectAll(".layer").remove();
   svg.selectAll("g").remove();

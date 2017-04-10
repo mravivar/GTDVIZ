@@ -18,9 +18,10 @@ var dimensions={
     "weaptype1_txt":{"title":"Weapon", "orient":"left", "type":"string"},
     "nkillter":{"title":"Prep. Killed", "orient":"left","type":"number"},
     "nkill":{"title":"Killed","orient":"left","type":"number"},
+    //"nkill":undefined,
     "nwound":{"title":"Wounded", "orient":"left", "type":"number"},
-    "attacktype1_txt":{"title":"Attack Type", "orient":"left", "type":"number"},
-    "targtype1_txt":{"title":"Target","orient":"right", "type":"string"},
+    "attacktype1_txt":{"title":"Attack Type", "orient":"left", "type":"string"},
+    "targtype1_txt":{"title":"Target","orient":"right", "type":"string", "index":"20"},
 };
 
 var hideAxes=['iyear', 'country_txt', 'eventid', 'latitude', 'longitude', 'target1', 'gname'];
@@ -36,27 +37,17 @@ function updateParallelCordsEvents(data){
       } catch(err){
           console.log("Ignored:"+err);
       }
-  }
-/*
-  if(category=='gname' || selectedAttribute==''){
-      dimensions['gname']={"title":"Organisation","orient":"left", index:0};
-      if(hideAxes.length==7){
-          hideAxes.append('gname');
-      }
   }else{
-      delete dimensions['gname'];
-      if(hideAxes.length==8){
-          delete hideAxes[7];
-      }
-  }*/
+      gtdParacords = d3.parcoords()("#gtdParacords").composite("darker")
+  }
     var mode="queue";
     if(data.length<100 || !($('#isQueuing').is(':checked'))){
         mode="default";
     }//.dimensions(dimensions)
     //.detectDimensions().dimensions(dimensions).hideAxis(hideAxes)
 
-  gtdParacords = d3.parcoords()("#gtdParacords").composite("darker")
-      .data(data).dimensions(dimensions)
+    //gtdParacords.rate=100;
+    gtdParacords.data(data).dimensions(dimensions).hideAxis(hideAxes)
     .mode(mode).color(function(d){
       return getEntityColor(d[category]);
     }).margin(marigin)//.smoothness(.2)

@@ -257,6 +257,8 @@ d3.demo.canvas = function() {
           startline.style("left",  0+ "px" );
           if(endline)
           endline.style("left",  0+ "px" );
+          if(selectedAttribute.length==0)
+              return;
           updateEntity(selectedAttribute);
 		//buildquery here
 		  $.ajax({
