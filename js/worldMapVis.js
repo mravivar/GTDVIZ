@@ -68,7 +68,7 @@ d3.demo.canvas = function() {
         var zoom = d3.behavior.zoom()
             .x(xScale)
             .y(yScale)
-            .scaleExtent([0.5, 3])
+            .scaleExtent([0.5, 50])
             .on("zoom.canvas", zoomHandler);
 
         var svg = selection.append("svg")
