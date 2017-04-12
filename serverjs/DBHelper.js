@@ -182,7 +182,7 @@ getUnique: function(attr, callback){
     MongoClient.connect(url, function(err, db) {
       assert.equal(null, err);
       var collection = db.collection(TABLE_NAME);
-      console.log(typeof(jsonData));
+      //console.log(typeof(jsonData));
         jsonData=jsonData.sort();
       var sendingdata =[];
       for(var variable in jsonData)

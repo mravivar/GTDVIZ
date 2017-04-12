@@ -78,7 +78,7 @@ svg = d3.select(".themeriver").append("svg:svg")
 }
 
 function themecall(data){
-  console.log(data);
+  //console.log(data);
 xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom")

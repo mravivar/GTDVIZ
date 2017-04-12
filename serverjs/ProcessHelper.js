@@ -42,7 +42,7 @@ module.exports = {
 //Reference: http://stackoverflow.com/questions/14713503/how-to-handle-layers-with-missing-data-points-in-d3-layout-stack
     convertJsonTo2dArray:function  (data,category,start,end){
         var uniqueContinents={};
-        console.log(category);
+        //console.log(category);
 //        console.log("a");
 //        console.log(Array.isArray(category));
         for(var i=0;i<data.length;i++)
