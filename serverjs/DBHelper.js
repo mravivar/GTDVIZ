@@ -255,7 +255,7 @@ getUnique: function(attr, callback){
                 assert.equal(null, err);
                 //ProcessHelper.preProcessData(docs);
                 console.log(docs[0]);
-                callback(ProcessHelper.deleteEmptyFields(docs[0]));
+                callback(docs[0]);//ProcessHelper.deleteEmptyFields(docs[0]));
                 db.close();
             });
         })

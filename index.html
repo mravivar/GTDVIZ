@@ -16,6 +16,7 @@
   <script src="./lib/parallel-coordinates-master/examples/lib/d3.svg.multibrush.js"></script>
   <link rel="stylesheet" type="text/css" href="./lib/parallel-coordinates-master/d3.parcoords.css"></link>
   <script src="./lib/noUiSlider-master/distribute/nouislider.js"></script>
+  <!--<link href="./lib/noUiSlider-master/distribute/nouislider.min.css" rel="stylesheet">-->
   <script src="./lib/underscore.math/underscore.js"></script>
   <script src="./lib/underscore.math/underscore.math.js"></script>
     <!--slick grid https://github.com/6pac/SlickGrid/releases -->
@@ -85,7 +86,7 @@
                 </tr>
               </table>
             </div>
-            <div id="noUiSlider" class="col-sm-12"></div>
+            <div id="noUiSlider" class="col-sm-12" data-toggle="tooltip" title="Click to Move"></div>
             <input type="year" id="startyr" value=2015 class="col-sm-3" data-toggle="tooltip" title="Start year" disabled></input>
             <input type="year" id="endyr" value=2016 class="col-sm-3" data-toggle="tooltip" title="End year" disabled></input>
             <input type="checkbox" name="checkbox" id="isQueuing" class="col-sm-3" data-toggle="tooltip" title="Enable for slower systems" checked></input>

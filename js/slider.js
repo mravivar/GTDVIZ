@@ -5,17 +5,22 @@ function addSlider(){
   prevStartYear=getStartyr(); prvEndYear=getEndYr();
   html5Slider = document.getElementById('noUiSlider');
   noUiSlider.create(html5Slider, {
-      	start: [ 2013, 2015 ],
-      	connect: true,
-      behaviour: "snap",
-      	range: {
-      		'min': 1970,
-      		'max': 2015
-      	},
+        start: [ 2013, 2015 ],
+        connect: true,
+        behaviour: "hover-snap",
+      orientation: 'horizontal',
+        range: {
+            'min': 1970,
+            'max': 2015
+        },
         step:1,
         width:100,
         tooltips: true,
       });
+  var i=1;
+    html5Slider.noUiSlider.on('hover', function( value ){
+        html5Slider.setAttribute('title',value);
+    });
       html5Slider.noUiSlider.on('update', function( values, handle ) {
       	var value = values[handle];
       	if ( handle ) {
