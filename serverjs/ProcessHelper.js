@@ -150,7 +150,7 @@ for(var i=start;i<=end;i=i+1)
         });
       console.log("Fixed Missing data");
     */
-        //data=assignmissing(data);
+        data=assignmissing(data);
         return data;
     }
 
