@@ -277,7 +277,6 @@ d3.demo.canvas = function() {
 //        console.log(data);
             clearThemeRiver();
 		        loadDataIntoDetailsView(data);
-		        i
 		        updateParallelCordsEvents(data);
 		        updateWorldMapPoints([]);
 		        updateWorldMapPoints(data);

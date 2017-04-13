@@ -7,6 +7,7 @@ function addSlider(){
   noUiSlider.create(html5Slider, {
       	start: [ 2013, 2015 ],
       	connect: true,
+      behaviour: "snap",
       	range: {
       		'min': 1970,
       		'max': 2015

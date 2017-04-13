@@ -79,6 +79,7 @@ function clearAll() {
     for (var i = 0; i < trs.length; i++) {
         trs[i].parentNode.className = '';
         trs[i].className = '';
+        trs[i].style="";
     }
 }
 
@@ -97,21 +98,54 @@ function selectRowsBetweenIndexes(indexes) {
 
 function plot(){
     selectedAttribute=[];
+    var selectedAttibutesLen=0;
     for (var i =0,j=0; i < selected.length;i++,j++){
-      if (selected[i].tagName=="TBODY") continue;
+      if (selected[i].tagName=="TBODY")
+          continue;
       selectedAttribute[i] = selected[i].cells[0].textContent;
-    }
-
-    var length = selected.length;
-     for (var i =0; i < length;i++){
-      var table = document.getElementById("tableid")
-       var row = table.insertRow(0);
-       var cell = row.insertCell(0);
-       cell.innerHTML = selected[0].cells[0].textContent;
-       table.deleteRow(selected[0].rowIndex);
+      selectedAttibutesLen++;
     }
 
     if(selectedAttribute.length>0){
+        clearAll();
+        var table=document.getElementById("tableid");
+        swapSelectedAttributes(table, selectedAttibutesLen);
+        updateEntity(selectedAttribute);
+        //lets color the update
+        colorMyAttributes(table);
+        //scroll to first row - to make the selection visible
+        var rowpos = $('#tableid tr:first').position()
+        $('#selectedAttribute').scrollTop(rowpos.top)
         groupUpdates();
     }
+}
+//color sync between themeriver and parallel coordinate
+function colorMyAttributes(table){
+    for (var i = 0, row; row = table.rows[i]; i++) {
+        //if (selected[i].tagName=="TBODY") continue;
+        var index=$.inArray(table.rows[i].cells[0].textContent, selectedAttribute);
+        if(index !== -1) {
+            row.style = "background:" + getEntityColor(table.rows[i].cells[0].textContent);
+        }
+    }
+}
+
+function swapSelectedAttributes(table, selectedAttibutesLen){
+    //TODO:make scroll table to scroll to top
+    var selectedArrayIndex=[];
+    for (var i = 0, row; row = table.rows[i]; i++) {
+        var index=$.inArray(row.cells[0].textContent, selectedAttribute);
+        if(index!==-1){
+            selectedArrayIndex[selectedArrayIndex.length]=(i);
+        }
+    }
+    for(var i=0;i<selectedAttibutesLen;i++){
+        swapText(table, selectedArrayIndex[i], i);
+    }
+}
+function swapText(table, x, y){
+
+    var tmp=table.rows[x].cells[0].textContent;
+    table.rows[x].cells[0].textContent=table.rows[y].cells[0].textContent;
+    table.rows[y].cells[0].textContent=tmp;
 }
