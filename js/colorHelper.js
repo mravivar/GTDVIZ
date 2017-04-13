@@ -34,11 +34,25 @@ function updateEntity(entities){
     alert("Coloring will be disabled! Please filter the selection.");
     colorScale='black';
   }
+  //console.error(JSON.stringify(entityMap));
 }
-
+var separator = /\s|\//;
 function getEntityColor(entity){
+  //console.log(entity);
   if(typeof colorScale=='string'){
     return colorScale;//only one color
   }
-  return colorScale(entityMap[entity]);
+  if(entity in entityMap){
+    return colorScale(entityMap[entity])
+  }else{
+      var searchEntity=entity.trim();
+    for(var k in entityMap){
+      var v=entityMap[k];
+      if(k.split(separator)[0]===searchEntity.split(separator)[0]){//hack for parallel coordinate coloring issue
+        //entityMap[entity]=v;//duplicate it
+        return colorScale(v);
+      }
+    }
+    return colorScale(0);
+  }
 }

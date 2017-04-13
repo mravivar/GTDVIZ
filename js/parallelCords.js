@@ -31,14 +31,14 @@ function updateParallelCordsEvents(data){
   //clears prevoius graph is any
   if(gtdParacords){
       try{
-          gtdParacords.removeAxes();
-          gtdParacords.brushReset();
-          gtdParacords.render();
+          //gtdParacords.removeAxes();
+          //gtdParacords.brushReset();
+          //gtdParacords.render();
       } catch(err){
           console.log("Ignored:"+err);
       }
   }else{
-      gtdParacords = d3.parcoords()("#gtdParacords").composite("darker")
+      gtdParacords = d3.parcoords()("#gtdParacords").composite("darker");
   }
     var mode="queue";
     if(data.length<100 || !($('#isQueuing').is(':checked'))){
@@ -50,20 +50,22 @@ function updateParallelCordsEvents(data){
     gtdParacords.data(data).dimensions(dimensions).hideAxis(hideAxes)
     .mode(mode).color(function(d){
       return getEntityColor(d[category]);
-    }).margin(marigin)//.smoothness(.2)
-    //.alpha(0.2)//Change the opacity of the polylines, also the foreground context's globalAlpha.
-    .render().shadows().createAxes().brushMode("1D-axes-multi").on("brush",processSelected)
-    .reorderable().interactive(); // command line mode
+    }).margin(marigin).smoothness(.2)
+    .alpha(0.4).alphaOnBrushed(1)//Change the opacity of the polylines, also the foreground context's globalAlpha.
+    .render().shadows().createAxes()
+    .reorderable()//.interactive() // command line mode
   //  gtdParacords.updateAxes()
     //gtdParacords.brushReset()
     //.alphaOnBrushed(0.1).smoothness(.2);
     //1D-axes,1D-axes-multi,2D-strums,angular
     //adding color dynamically
+        .brushMode("1D-axes").on("brush",processSelected)
+    .svg.selectAll(".dimension")
+    .on("click", change_color)
+    .selectAll(".label")
+    .style("font-size", "14px")
+    ;
 
-    gtdParacords.svg.selectAll(".dimension")
-        .on("click", change_color)
-        .selectAll(".label")
-        .style("font-size", "14px");
 }
 
 //Below code is borrowed from http://syntagmatic.github.io/parallel-coordinates/
