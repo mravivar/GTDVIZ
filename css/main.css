@@ -134,6 +134,7 @@ p {
 
 circle {
 fill: rgba(255, 0, 0, 0.2);
+    opacity: 0.3;
 }
 
 .itemselected {
@@ -152,7 +153,7 @@ fill: rgba(255, 0, 0, 0.2);
 }
 .canvas .background {
     /* fill: #F6F6F6; */
-    fill: #000000;
+    fill: grey;
     stroke: #333333;
     cursor: move;
 	cursor: default;
@@ -199,7 +200,7 @@ svg_old {
     }
 
 .country {
-      fill: grey;
+      fill: white;
       stroke: black;
       stroke-width: 0.3;
 }

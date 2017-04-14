@@ -1,7 +1,9 @@
 var groupUpdates, updateWorldMapPoints;
 var category = 'gname';
 var selectedAttribute = ["Unknown"];
-
+var path, projection, countries, events, circlesSVG, backup_data, panCanvas;
+//hoover variables
+var oldCircle,oldColor;
 function init(){
 
 	d3.demo = {};
@@ -167,7 +169,7 @@ d3.demo.canvas = function() {
             .attr("width", _width)
             .attr("height", _height);
 
-        var panCanvas = innerWrapper.append("g")
+        panCanvas = innerWrapper.append("g")
             .attr("class", "panCanvas")
             .attr("width", _width)
             .attr("height", _height)
@@ -177,9 +179,6 @@ d3.demo.canvas = function() {
             .attr("class", "background")
             .attr("width", _width)
             .attr("height", _height);
-
-		var path, projection, countries, events;
-
 
         minimap = d3.demo.minimap()
             .zoom(zoom)
@@ -219,7 +218,7 @@ d3.demo.canvas = function() {
 				//console.log(countries)
 				projection = d3.geo.mercator()
 									.translate([width/2,height/2])
-									.scale(95)
+									.scale(60)
 
 				path = d3.geo.path()
 								.projection(projection)
@@ -274,6 +273,7 @@ d3.demo.canvas = function() {
 		      success: function(data) {
 				//clearThemeRiver();
 				//themeriver();
+                  backup_data=data;
                 clearThemeRiver();
 		        loadDataIntoDetailsView(data);
 		        updateParallelCordsEvents(data);
@@ -284,48 +284,65 @@ d3.demo.canvas = function() {
 		          console.log('error ' + textStatus + " " + errorThrown);
 		      }
 		  });
-
-		}
+		};
 
         updateWorldMapPoints=function(data){
 		    var maxy=1500;
 		     var rvalue = d3.scale.sqrt()
 		          .domain([0,maxy])
-		           .range([1,20])
-
+		           .range([1,20]);
 		    //bind data
-		    events=panCanvas.selectAll("circle").data(data)
-
+		    events=panCanvas.selectAll("circle").data(data);
 		    //enter + update
-		    events.enter().append("svg:circle")
+		    circlesSVG=events.enter().append("svg:circle")
 		        .attr("r",function(d){
 		          return rvalue(d.nkill);
 		        })
 		    .attr("cx",function(d){
-		        var coords = projection([d.longitude, d.latitude])
+		        var coords = projection([d.longitude, d.latitude]);
 		        return coords[0];
 		    })
 		    .attr("cy",function(d){
-		        var coords = projection([d.longitude, d.latitude])
+		        var coords = projection([d.longitude, d.latitude]);
 		        return coords[1];
 		     })
 		     .on('mouseover', function(d){
-		        d3.select(this).classed("selected", true)
+		        //d3.select(this).classed("selected", true);
+		        if(oldColor){
+                    oldCircle.style('fill', oldColor);
+                    oldColor.style('opacity', 0.3);
+                    oldColor=null;
+                }
+		        var newCircle=d3.select(this);
+		        //copy its properties
+                oldCircle=newCircle;
+                oldColor=oldCircle.style('fill');
+                newCircle.style('fill','black');
+                newCircle.style('opacity',1);
+
 		        //highlight parallelCords
 		        gtdParacords.highlight([d]);
 		        grid.scrollRowToTop(dataView.getRowById(d.eventid));
 		        grid.flashCell(dataView.getRowById(d.eventid), grid.getColumnIndex("country_txt"));
 		      })
 		      .on('mouseout', function(d){
-		        d3.select(this).classed("selected", false)
+                  if(oldColor){
+                      oldCircle.style('fill', oldColor);
+                      oldCircle.style('opacity', 0.3);
+                      oldColor=null;
+                  }
+		        //d3.select(this).classed("selected", false);
 		        gtdParacords.unhighlight();
-		      });
-
+		      }).style("fill", function(d, i) {
+		          if(pcSelectedAttribute){
+                      getSyncedColor(d);
+                  }
+                return getEntityColor(d[category]);
+            });
 		     //remove elements
 		    events.exit().remove();
-		}
-
-
+            oldColor=null;
+		};
 
         /** RENDER **/
         canvas.render = function() {

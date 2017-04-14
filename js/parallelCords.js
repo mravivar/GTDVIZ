@@ -59,24 +59,29 @@ function updateParallelCordsEvents(data){
     //.alphaOnBrushed(0.1).smoothness(.2);
     //1D-axes,1D-axes-multi,2D-strums,angular
     //adding color dynamically
-        .brushMode("1D-axes").on("brush",processSelected)
+        .brushMode("1D-axes-multi").on("brush",processSelected)
     .svg.selectAll(".dimension")
     .on("click", change_color)
     .selectAll(".label")
     .style("font-size", "14px")
     ;
+    pcSelectedAttribute=null;
 
 }
-
-//Below code is borrowed from http://syntagmatic.github.io/parallel-coordinates/
+var pcSelectedAttribute;
+var pcolorMap={};
+var curSelection;
+var itr=0;
+var colorScale;
+//Below code till the end of the file is borrowed from http://syntagmatic.github.io/parallel-coordinates/
 // update color
 function change_color(dimension) {
+  pcSelectedAttribute=dimension;
   gtdParacords.svg.selectAll(".dimension")
     .style("font-weight", "normal")
     .filter(function(d) { return d == dimension; })
     .style("font-weight", "bold")
   if(dimension=='nkill' || dimension=='nwound' || dimension=='nkillter' || dimension=='nperps'){
-
     gtdParacords.color(zcolor(gtdParacords.data(),dimension)).render()
   }
   else if(dimension==category){
@@ -84,11 +89,9 @@ function change_color(dimension) {
       return getEntityColor(d[category]);
     }).render();
   } else{
-    var pcolorMap={};
-    var curSelection=dimension;
-    var itr=0;
-    var colorScale;
-
+    pcolorMap={};
+    curSelection=dimension;
+    itr=0;
     if(gtdParacords.dimensions()[dimension].ticks>10)
         colorScale = d3_v4.scaleOrdinal(d3_v4.schemeCategory20);
     else
@@ -103,14 +106,36 @@ function change_color(dimension) {
       return colorScale(d[curSelection]);
     }).render();
   }
+    //sync the world map colors
+    panCanvas.selectAll("circle")
+        .style("fill", function(d, i) {
+            if(pcSelectedAttribute){
+                return getSyncedColor(d);
+            }
+            return getEntityColor(d[category]);
+        });
 }
 
+function getSyncedColor(event){
+
+    if(pcSelectedAttribute=='nkill' || pcSelectedAttribute=='nwound' || pcSelectedAttribute=='nkillter' || pcSelectedAttribute=='nperps'){
+        //return zcolor(gtdParacords.data(),dimension)
+        //return nothing so default color will be used - which is red
+        return zMagicFunction(event);
+    }
+    else if(pcSelectedAttribute==category){
+        return getEntityColor(d[category]);
+    } else {
+        return colorScale(event[pcSelectedAttribute]);
+    }
+}
+var z,zMagicFunction;
 // return color function based on plot and dimension
 function zcolor(col, dimension) {
-  var z = zscore(_(col).pluck(dimension).map(parseFloat));
-  return function(d) {
+  z = zscore(_(col).pluck(dimension).map(parseFloat));
+  return (zMagicFunction=function(d) {
     return zcolorscale(z(d[dimension]))
-  }
+  })
 }
 
 // color by zscore
@@ -125,6 +150,7 @@ function zscore(col) {
 
 var brushedData;
 function processSelected(data){
+    updateWorldMapPoints([]);
   updateWorldMapPoints(data);
   loadDataIntoDetailsView(data);
   //update the table

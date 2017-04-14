@@ -31,12 +31,6 @@
   background-color: white;
 }
 
-
-.country {
-  fill: grey;
-  stroke: black;
-  stroke-width: 0.3;
-}
 .selected {
   fill: yellow;
   name: country;
