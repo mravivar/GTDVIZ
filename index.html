@@ -2,6 +2,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GTD Visualisation</title>
   <!-- external libraries-->
   <script src="./lib/jquery311.js" type="application/javascript"></script>
   <script src="./lib/d3.js"></script>
@@ -49,8 +50,6 @@
   <script src="./js/animate.js"></script>
   <script src="./js/colorHelper.js"></script>
   <script src="./js/themeriver.js"></script>
-
-
 
 </head>
 
@@ -138,36 +137,46 @@
 
   </div>
 <script>
-//add the drop drop_down
-$('#timeinterval').html("");
-for(var i=1;i<=10;i++){
-  $('#timeinterval').html($('#timeinterval').html()+"<option value="+i +">"+i+" sec</option>");
-}
 
-$('#yearterval').html("");
-for(var i=1;i<=10;i++){
-    $('#yearterval').html($('#yearterval').html()+"<option value="+i +">"+i+" year</option>");
-}
+    //add the drop drop_down
+    $('#timeinterval').html("");
+    for(var i=1;i<=10;i++){
+      $('#timeinterval').html($('#timeinterval').html()+"<option value="+i +">"+i+" sec</option>");
+    }
+
+    $('#yearterval').html("");
+    for(var i=1;i<=10;i++){
+        $('#yearterval').html($('#yearterval').html()+"<option value="+i +">"+i+" year</option>");
+    }
 
 
-$("#window_startyr").on("click", function(d){
-    updatedStart=true;
-    setWindowArrowDirection(LEFT_ARROW);
-});
-$("#window_endyr").on("click", function(d){
-    updatedStart=false;
-    setWindowArrowDirection(RIGHT_ARROW);
-});
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-});
-addSlider();
-//kick start it
-selectChanged();
-//updateParallelCordsEvents();
-//updatePrallelCords();
-themeriver();
-//themeriver(regData);
+    $("#window_startyr").on("click", function(d){
+        updatedStart=true;
+        setWindowArrowDirection(LEFT_ARROW);
+    });
+    $("#window_endyr").on("click", function(d){
+        updatedStart=false;
+        setWindowArrowDirection(RIGHT_ARROW);
+    });
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    totalWidth = document.body.clientWidth / 100;
+    totalHeight = document.body.clientHeight / 100;
+    pcMarigin = {
+        top: 20,
+        left: totalWidth * 9,
+        right: totalWidth * 8,
+        bottom: 20
+    };
+
+    addSlider();
+    //kick start it
+    selectChanged();
+    //updateParallelCordsEvents();
+    //updatePrallelCords();
+    themeriver();
+    //themeriver(regData);
 
 </script>
 </body>

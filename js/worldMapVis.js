@@ -4,8 +4,11 @@ var selectedAttribute = ["Unknown"];
 var path, projection, countries, events, circlesSVG, backup_data, panCanvas;
 //hoover variables
 var oldCircle,oldColor;
-function init(){
+var totalWidth;
+var totalHeight;
+var hoveredEventid;
 
+function init(){
 	d3.demo = {};
 
 d3.demo = {};
@@ -322,8 +325,14 @@ d3.demo.canvas = function() {
 
 		        //highlight parallelCords
 		        gtdParacords.highlight([d]);
-		        grid.scrollRowToTop(dataView.getRowById(d.eventid));
-		        grid.flashCell(dataView.getRowById(d.eventid), grid.getColumnIndex("country_txt"));
+		        var rowId=dataView.getRowById(d.eventid);
+                 hoveredEventid=d.eventid;
+                 grid.scrollRowToTop(rowId);
+                 grid.getColumns().forEach(function(col){
+                     grid.flashCell(rowId, grid.getColumnIndex(col.id));
+                 })
+
+                //dataView.updateItem(d.eventid, dataView.getItem(rowId));
 		      })
 		      .on('mouseout', function(d){
                   if(oldColor){
@@ -331,6 +340,7 @@ d3.demo.canvas = function() {
                       oldCircle.style('opacity', 0.3);
                       oldColor=null;
                   }
+                  hoveredEventid=null;
 		        //d3.select(this).classed("selected", false);
 		        gtdParacords.unhighlight();
 		      }).style("fill", function(d, i) {

@@ -2,7 +2,7 @@
 //var datearray = [];
 //var colorrange = [];
 
-var strokerange,format,strokecolor,margin,width,height,x,y;
+var strokerange,format,strokecolor,margin,widthTM,heightTM,xTM,yTM;
 var xAxis,yAxis,stack,nest,area,svg,layers;
 
 function updateThemeRiver(){
@@ -59,18 +59,18 @@ function themeriver() {
 strokerange = ["FFFFFF"]
 strokecolor = strokerange[0];
 format = d3.time.format("%m/%d/%Y");
-margin = {top: 20, right: 40, bottom: 30, left: 50};
-width = document.body.clientWidth - margin.left - margin.right;
-height = $('.themeriver').height() - margin.top - margin.bottom;
+margin = {top: 20, right: totalWidth*3, bottom: 30, left: totalWidth*3};
+widthTM = totalWidth*99 - margin.left - margin.right;
+heightTM = $('.themeriver').height() - margin.top - margin.bottom;
 
-x = d3.time.scale()
-    .range([0, width]);
-y = d3.scale.linear()
-    .range([height, 0]);
+xTM = d3.time.scale()
+    .range([0, widthTM]);
+yTM = d3.scale.linear()
+    .range([heightTM, 0]);
 
 svg = d3.select(".themeriver").append("svg:svg")
-    .attr("width", width + margin.left + margin.right)//TODO make sure this width does not affect the arrangements
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("width", widthTM + margin.left + margin.right)//TODO make sure this width does not affect the arrangements
+    .attr("height", heightTM + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -80,12 +80,12 @@ svg = d3.select(".themeriver").append("svg:svg")
 function themecall(data){
   //console.log(data);
 xAxis = d3.svg.axis()
-    .scale(x)
+    .scale(xTM)
     .orient("bottom")
     .ticks(d3.time.years);
 yAxis = d3.svg.axis()
     .orient("left")
-    .scale(y);
+    .scale(yTM);
 stack = d3.layout.stack()
     .offset("zero")
     .values(function(d) { return d.values; })
@@ -95,9 +95,9 @@ stack = d3.layout.stack()
 nest = d3.nest().key(function(d) {  return d.key; })
 area = d3.svg.area()
     .interpolate("basis")
-    .x(function(d) { return x(d.date); })
-    .y0(function(d) { return y(d.y0); })
-    .y1(function(d) { return y(d.y0 + d.y); });
+    .x(function(d) { return xTM(d.date); })
+    .y0(function(d) { return yTM(d.y0); })
+    .y1(function(d) { return yTM(d.y0 + d.y); });
 
   data.forEach(function(d) {
     var mdate = "01/01/"+d.date
@@ -112,8 +112,8 @@ area = d3.svg.area()
   //console.log(data);
 layers = stack(nest.entries(data));
   //console.log(layers);
-  x.domain(d3.extent(data, function(d) { return d.date; }));
-  y.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
+  xTM.domain(d3.extent(data, function(d) { return d.date; }));
+  yTM.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
 
   svg.selectAll(".layer")
       .data(layers)
@@ -126,7 +126,7 @@ layers = stack(nest.entries(data));
        });
   svg.append("g")
       .attr("class", "xaxis")
-      .attr("transform", "translate(20," + height + ")")
+      .attr("transform", "translate(20," + heightTM + ")")
       .call(xAxis);
   svg.append("g")
       .attr("class", "yaxis")
@@ -135,12 +135,12 @@ layers = stack(nest.entries(data));
 //Reference : http://bl.ocks.org/phoebebright/3061203
 svg.append("text")
             .attr("text-anchor", "middle")  
-            .attr("transform", "translate(-40"+","+(height/2)+")rotate(-90)") 
+            .attr("transform", "translate(-35"+","+(heightTM/2)+")rotate(-90)")
     .text("# Events");
             //.text(""+d3.select("#attribute").node().value +"");
   svg.append("text")
             .attr("text-anchor", "middle")  
-            .attr("transform", "translate("+ ((width/2)+17.5) +","+(height+30)+")")  
+            .attr("transform", "translate("+ ((widthTM/2)+17.5) +","+(heightTM+30)+")")
             .text("Year");
 
 
@@ -153,7 +153,7 @@ svg.selectAll(".layer")
     })
   //    console.log(d.values);
        var x0 = d3.mouse(this);
-       var x1= x.invert(x0[0])
+       var x1= xTM.invert(x0[0])
        var xyear=x1.getFullYear();
   //     var xdate="01/01/"+xyear;
    //    var fmat = d3.time.format("%m/%d/%Y").parse;
@@ -179,7 +179,7 @@ svg.selectAll(".layer")
     }).on("click", function(){
         mousex = d3.mouse(this);
         mousex=mousex[0];
-        var curyr=x.invert(mousex).getFullYear();
+        var curyr=xTM.invert(mousex).getFullYear();
 
         updatedStart=!updatedStart;
         if(updatedStart){
@@ -206,7 +206,7 @@ svg.selectAll(".layer")
         .style("position", "absolute")
         .style("z-index", "19")
         .style("width", "3px")
-        .style("height", height+"px")
+        .style("height", heightTM+"px")
         .style("bottom", margin.bottom+"px")
         .style("left", "0px")
         .style("background", "#fff");
@@ -217,11 +217,11 @@ svg.selectAll(".layer")
         .style("position", "absolute")
         .style("z-index", "19")
         .style("width", "3px")
-        .style("height", height+"px")
+        .style("height", heightTM+"px")
         .style("bottom", margin.bottom+"px")
         .style("left", "0px")
         .style("background", "#fff");
-    recordTickPositions(x,xAxis);
+    recordTickPositions(xTM,xAxis);
 }
 var yearPosMap={};
 function recordTickPositions(x, xAxis){

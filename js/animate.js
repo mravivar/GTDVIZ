@@ -13,7 +13,7 @@ function play() {
     if($('#preserveStart').is(':checked')){
         startyr=window_startyr;
     }else{
-        startyr=x.ticks()[0].getFullYear();
+        startyr=xTM.ticks()[0].getFullYear();
         //setStartyr(startyr);
         //setEndyr(endyr);
     }
@@ -25,7 +25,7 @@ function play() {
         setWindowStartEndyrs(startyr, endyr);
         partialUpdate(startyr, endyr);
 
-        if (endyr>=x.ticks()[x.ticks().length-1].getFullYear() || !playing) {
+        if (endyr>=xTM.ticks()[xTM.ticks().length-1].getFullYear() || !playing) {
             clearInterval(id);
             setPlayIcon();
             playing=false;

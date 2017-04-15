@@ -4,14 +4,9 @@ var zcolorscale = d3.scale.linear()
   .domain([-2,2])
   .range(["brown", "#999", "#999", "steelblue"])
   .interpolate(d3.interpolateLab);
-var marigin={
-    top: 20,
-    left: 100,
-    right: 90,
-    bottom: 20
-};
-var height=$('#gtdParacords').height()-marigin.bottom-marigin.top;
-var scale=d3.scale.linear().domain([0,1500]).range([0,height]);
+var pcMarigin;
+var height;
+var scale;
 var dimensions={
     "region_txt":{"title":"Region", "orient":"left", "type":"string"},
     "nperps":{"title":"Perpetrators","orient":"left","type":"number"},
@@ -38,6 +33,8 @@ function updateParallelCordsEvents(data){
           console.log("Ignored:"+err);
       }
   }else{
+      height = $('#gtdParacords').height() - pcMarigin.bottom - pcMarigin.top;
+      scale = d3.scale.linear().domain([0, 1500]).range([0, height]);
       gtdParacords = d3.parcoords()("#gtdParacords").composite("darker");
   }
     var mode="queue";
@@ -50,7 +47,7 @@ function updateParallelCordsEvents(data){
     gtdParacords.data(data).dimensions(dimensions).hideAxis(hideAxes)
     .mode(mode).color(function(d){
       return getEntityColor(d[category]);
-    }).margin(marigin).smoothness(.2)
+    }).margin(pcMarigin).smoothness(.2)
     .alpha(0.4).alphaOnBrushed(1)//Change the opacity of the polylines, also the foreground context's globalAlpha.
     .render().shadows().createAxes()
     .reorderable()//.interactive() // command line mode
