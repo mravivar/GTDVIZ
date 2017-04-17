@@ -4,6 +4,7 @@ var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 var ProcessHelper=require('./ProcessHelper');
 var TABLE_NAME='events';
+var TABLE_NAME2='agg_events';
 // Connection URL
 var url = 'mongodb://localhost:27017/gtd';
 
@@ -178,10 +179,51 @@ getUnique: function(attr, callback){
      });
    },
 
-   getSelectedDataplot: function(startyr, endyr, category, jsonData, callback){
+
+getSelectedDataplot: function(startyr, endyr, category, jsonData, callback){
     MongoClient.connect(url, function(err, db) {
       assert.equal(null, err);
-      var collection = db.collection(TABLE_NAME);
+      console.log("Connected successfully to server"+startyr+":"+ typeof endyr);
+      console.log("Supermannnnnnnnnnnnnnnnn!")
+      var collection = db.collection(TABLE_NAME2);
+      var query={};
+      var aiyear=category+'_iyear';
+      var anumEvents=category+'_numEvents';
+      query[aiyear]={ $gte: startyr, $lte: endyr };
+        query[category]={$in : jsonData}
+      console.log(query);
+      var additions={};
+      additions[aiyear]=1;
+      additions[anumEvents]=1;
+      additions[category]=1;
+      console.log(additions);
+     collection.find(
+         query/*gname_iyear:{ $gte: startyr, $lte: endyr },gname:{$in: ['Unknown']}*/, additions /*{gname_iyear: 1,gname: 1,gname_numEvents: 1}*/
+         ).toArray(function(err, docs) {
+          assert.equal(null, err);
+          console.log('In the DBHelper'+docs.length);
+          //console.log(docs[0]);
+      var sendingdata =[];
+      for(var variable in jsonData)
+        {
+//          console.log(variable);
+          sendingdata.push(jsonData[variable]);
+        }
+
+
+         docs=ProcessHelper.convertJsonTo2dArray(docs,category,sendingdata,startyr,endyr);
+          callback(docs);
+          db.close();
+        });
+    });
+  },
+
+
+
+/*   getSelectedDataplot: function(startyr, endyr, category, jsonData, callback){
+    MongoClient.connect(url, function(err, db) {
+      assert.equal(null, err);
+      var collection = db.collection(TABLE_NAME2);
       //console.log(typeof(jsonData));
         jsonData=jsonData.sort();
       var sendingdata =[];
@@ -192,13 +234,13 @@ getUnique: function(attr, callback){
         }
 
         var query={};
-        query.iyear={ $gte: startyr, $lte: endyr };
+        query.gname_iyear={ $gte: startyr, $lte: endyr };
         query[category]={$in : jsonData};
         var addition={}
-        addition.year= '$iyear';
+        addition.year= '$'+category+'_iyear';
         addition.valname= '$'+category;
-//        console.log(addition.gname);
-//        console.log(query);
+        console.log(addition);
+        console.log(query);
 //        console.log("a");
 
      collection.aggregate([
@@ -221,7 +263,7 @@ getUnique: function(attr, callback){
           db.close();
         });
     });
-  },
+  },*/
 
     getplotSelectedData: function(startyr, endyr, category, jsonData, callback){
         MongoClient.connect(url, function(err, db) {

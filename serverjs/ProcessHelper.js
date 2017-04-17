@@ -40,44 +40,60 @@ module.exports = {
   },
 
 //Reference: http://stackoverflow.com/questions/14713503/how-to-handle-layers-with-missing-data-points-in-d3-layout-stack
-    convertJsonTo2dArray:function  (data,category,start,end){
+    convertJsonTo2dArray:function  (data,category,sendingdata,start,end){
         var uniqueContinents={};
-        //console.log(category);
+        var catyear=category+'_iyear';
+        var catevents=category+'_numEvents';
+        var catname=category;
+/*        console.log(catyear);
+        console.log(catevents);
+        console.log(catname);
+*/        //console.log(category);
 //        console.log("a");
 //        console.log(Array.isArray(category));
         for(var i=0;i<data.length;i++)
         {
             //TODO if we dont want this much data then only get only those data that is needed
-            data[i]['key']=data[i]._id.valname;
+            data[i]['key']=data[i][catname];
             uniqueContinents[data[i]._id.valname]=true;
-            data[i]['date']=data[i]._id.year;
-            delete data[i]['_id'];
+            data[i]['date']=data[i][catyear];
+            data[i]['numEvents']=data[i][catevents];
+            delete data[i][catname];
+            delete data[i][catyear];
+            delete data[i][catevents];
+/*            delete data[i]['_id'];
             delete data[i]['nkill'];
             delete data[i]['nperps'];
             delete data[i]['nkillter'];
             delete data[i]['nwound'];
-            //delete data[i]['__proto__'];
+*/            //delete data[i]['__proto__'];
         }
+        return data;
+    }
+
+}
+
         //updateEntity(uniqueContinents);
         // console.log(data);
-    function assignmissing (dataset)
+/*    function assignmissing (dataset)
     {   
+        console.log(dataset);
         if(dataset.length==0){
             return [];
         }
         var defaultValue=0;
-/*        var uniquekeys =  d3.nest()
+*//*        var uniquekeys =  d3.nest()
             .key(function(d) { return d.key; })
             .entries(dataset);
 */ 
-       var uniquekis=category
-/*        uniquekeys.forEach(function(row){
+/*       var uniquekis=sendingdata
+*//*        uniquekeys.forEach(function(row){
             uniquekis.push(row.key)
         });
 */ 
        //  console.log(uniquekeys);
         //  console.log(uniquekis.length);
-        var keys = uniquekis.sort(sortByNames);
+/*        var keys = uniquekis.sort(sortByNames);
         //  console.log(keys);
         var newData = [];
         var sortByDate = function(a,b){
@@ -121,7 +137,7 @@ module.exports = {
         });
         console.log("Fixed Missing data");
         return dataset.concat(newData).sort(sortByDate);
-    }
+    }*/
 
     /*
 
@@ -150,8 +166,4 @@ for(var i=start;i<=end;i=i+1)
         });
       console.log("Fixed Missing data");
     */
-        data=assignmissing(data);
-        return data;
-    }
-
-}
+   //     data=assignmissing(data);
