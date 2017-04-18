@@ -66,7 +66,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-5">
-              <select id="attribute" name="attribute" onchange="selectChanged()">
+              <select id="attribute" name="attribute" onchange="selectChanged()" style="height:3%">
                 <option id ='gname'>Organization</option>
                 <option id='attacktype1_txt'>Attack Type</option>
                 <option id='weaptype1_txt'>Weapon Type</option>
@@ -76,8 +76,8 @@
               </select>
             </div>
             <div class="col-sm-1"></div>
-              <button id="plot" onclick="plot()" class="btn btn-default btn-sm col-sm-3">
-                <span class="glyphicon glyphicon-ok"></span> Plot
+              <button id="plot" onclick="plot()" style="height:3%" class="btn btn-default btn-sm col-sm-3">
+                <span class="glyphicon glyphicon-ok"></span>
               </button>
 
             <div id="selectedAttribute" name="dropdown" style="height:20%;overflow:scroll" class="col-sm-12" data-toggle="tooltip" title="Attribute selection">
@@ -130,16 +130,16 @@
               <button type="text" id="window_startyr" class="col-sm-1" data-toggle="tooltip" style="height:3%" title="Start year">2015</button>
               <span id="window_arrow" class="glyphicon glyphicon-arrow-right col-sm-1" style="left:2%;"  data-toggle="tooltip" title="Arrow denotes which window to update next"></span>
               <button type="text" id="window_endyr" class="col-sm-1"  data-toggle="tooltip" title="End year" style="height:3%">2016</button>
-              <button id='playbut' onclick="play()" class="col-sm-1 btn btn-default btn-sm" data-toggle="tooltip" style="height:3%" title="Click the button to start the animation">
+              <button id='playbut' onclick="play()" class="col-sm-1 btn btn-default btn-sm" data-toggle="tooltip" style="height:3%" title="Click the button to start the time-step animation">
                 <span id='playbutIcon' class="glyphicon glyphicon-play" ></span>
               </button>
               <select id="timeinterval" class="col-sm-1" data-toggle="tooltip" title="Seconds between timestep." style="height:3%"></select>
               <select id="yearterval" class="col-sm-1" data-toggle="tooltip" title="Year interval for Animation." style="height:3%"></select>
                 <div class="col-sm-1" style="right:0%" data-toggle="tooltip" title="Enable to keep the start of selection in Theme river."><label for='preserveStart'>Preserve</label></div>
               <input type="checkbox" class="col-sm-1" id="preserveStart" style="height:2%;right:7%;" data-toggle="tooltip" title="Enable to keep the start of selection in Theme river."/>
-              <input class="col-sm-1 pull-right" name="numberofDocsWorld" type="button" id="numberofDocsWorld" value=0 data-toggle="tooltip" title="World Map/Details view: Number of events fetched" style="height:3%"/>
-              <input class="col-sm-1 pull-right" name="numberofDocsPC" type="button" id="numberofDocsPC" value=0 data-toggle="tooltip" title="Parallel coordinate : Number of events fetched" style="height:3%"/>
-              <input class="col-sm-1 pull-right" name="numberofDocsTheme" type="button" id="numberofDocsTheme" value=0 data-toggle="tooltip" title="Themeriver : Number of events" style="height:3%"/>
+              <input class="col-sm-1 pull-right" name="numberofDocsWorld" type="button" id="numberofDocsWorld" value=0 data-toggle="tooltip" title="World Map/Details view: Number of events" style="height:3%"/>
+              <input class="col-sm-1 pull-right" name="numberofDocsPC" type="button" id="numberofDocsPC" value=0 data-toggle="tooltip" title="Parallel coordinate : Number of events" style="height:3%"/>
+              <input class="col-sm-1 pull-right" name="numberofDocsTheme" type="button" id="numberofDocsTheme" value=0 data-toggle="tooltip" title="Themeriver: Number of events" style="height:3%"/>
               <div class="col-sm-1 pull-right" style=""><b># Events:</b></div>
 
              </div>
