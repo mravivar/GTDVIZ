@@ -53,7 +53,9 @@ function loadDataIntoDetailsView(data){
               eventid:eventID
           },
           success: function(data) {
-              alert(JSON.stringify(data, null, 2));
+              //alert(JSON.stringify(data, null, 2));
+              loadTheEventIntoThedialog(data)
+              $( "#individualDetailsDiv" ).dialog( "open" );
           },
           error: function(jqXHR, textStatus, errorThrown) {
               alert('error ' + textStatus + " " + errorThrown);

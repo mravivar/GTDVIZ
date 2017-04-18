@@ -34,10 +34,13 @@
    <script src="http://d3js.org/queue.v1.min.js"></script>
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="lib/sylvester/sylvester.js"></script>
+  <!-- for dialog-->
+  <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
   <!--JS files-->
   <script src="./js/Constants.js"></script>
@@ -86,11 +89,16 @@
               </table>
             </div>
             <div id="noUiSlider" class="col-sm-12" data-toggle="tooltip" title="Click to Move"></div>
-            <input type="year" id="startyr" value=2015 class="col-sm-3" data-toggle="tooltip" title="Start year" disabled></input>
-            <input type="year" id="endyr" value=2016 class="col-sm-3" data-toggle="tooltip" title="End year" disabled></input>
-            <input type="checkbox" name="checkbox" id="isQueuing" class="col-sm-3" data-toggle="tooltip" title="Enable for slower systems" checked></input>
-            <label for="isQueuing" class="col-sm-3" data-toggle="tooltip" title="Enable for slower systems">Queue</label>
-            <div id="detailsTable" class="col-sm-12" style="height:40%" data-toggle="tooltip" title="Details View"></div>
+            <div data-toggle="tooltip" title="Start year">
+              <input type="year" id="startyr" value=2015 class="col-sm-3" disabled></input>
+            </div>
+            <div data-toggle="tooltip" title="End year">
+              <input type="year" id="endyr" value=2016 class="col-sm-3" disabled></input>
+            </div>
+              <label for="isQueuing" class="col-sm-3" data-toggle="tooltip" title="Enable for slower systems">Queue</label>
+              <input type="checkbox" name="checkbox" id="isQueuing" class="col-sm-3" style="right:15%" data-toggle="tooltip" title="Enable for slower systems" checked/>
+
+            <div id="detailsTable" class="col-sm-12" style="height:42%" data-toggle="tooltip" title="Details View"></div>
 
           </div>
         </div>
@@ -116,25 +124,32 @@
         </div> <!--right pan-->
       </div>
     <div class="row">
-        <div class="col-sm-4">
-          <div class="container">
+        <div class="col-sm-12">
+          <div class="container-fluid">
             <div class="row">
-              <button type="text" id="window_startyr" class="col-sm-1" data-toggle="tooltip" title="Start year">2015</button>
+              <button type="text" id="window_startyr" class="col-sm-1" data-toggle="tooltip" style="height:3%" title="Start year">2015</button>
               <span id="window_arrow" class="glyphicon glyphicon-arrow-right col-sm-1" style="left:2%;"  data-toggle="tooltip" title="Arrow denotes which window to update next"></span>
-              <button type="text" id="window_endyr" class="col-sm-1"  data-toggle="tooltip" title="End year">2016</button>
-              <button id='playbut' onclick="play()" class="col-sm-1 btn btn-default btn-sm" data-toggle="tooltip" title="Click the button to start the animation">
-                <span id='playbutIcon' class="glyphicon glyphicon-play"></span>
+              <button type="text" id="window_endyr" class="col-sm-1"  data-toggle="tooltip" title="End year" style="height:3%">2016</button>
+              <button id='playbut' onclick="play()" class="col-sm-1 btn btn-default btn-sm" data-toggle="tooltip" style="height:3%" title="Click the button to start the animation">
+                <span id='playbutIcon' class="glyphicon glyphicon-play" ></span>
               </button>
-              <select id="timeinterval" class="col-sm-1" data-toggle="tooltip" title="Seconds between timestep."></select>
-              <select id="yearterval" class="col-sm-1" data-toggle="tooltip" title="Year interval for Animation."></select>
-              <div class="col-sm-1" style="right:1%" data-toggle="tooltip" title="Enable to keep the start of selection in Theme river.">Preserve</div>
-              <input type="checkbox" class="col-sm-1" id="preserveStart" style="height:1.5%;right:6%;" data-toggle="tooltip" title="Enable to keep the start of selection in Theme river."/>
+              <select id="timeinterval" class="col-sm-1" data-toggle="tooltip" title="Seconds between timestep." style="height:3%"></select>
+              <select id="yearterval" class="col-sm-1" data-toggle="tooltip" title="Year interval for Animation." style="height:3%"></select>
+                <div class="col-sm-1" style="right:0%" data-toggle="tooltip" title="Enable to keep the start of selection in Theme river."><label for='preserveStart'>Preserve</label></div>
+              <input type="checkbox" class="col-sm-1" id="preserveStart" style="height:2%;right:7%;" data-toggle="tooltip" title="Enable to keep the start of selection in Theme river."/>
+              <input class="col-sm-1 pull-right" name="numberofDocsWorld" type="button" id="numberofDocsWorld" value=0 data-toggle="tooltip" title="World Map/Details view: Number of events fetched" style="height:3%"/>
+              <input class="col-sm-1 pull-right" name="numberofDocsPC" type="button" id="numberofDocsPC" value=0 data-toggle="tooltip" title="Parallel coordinate : Number of events fetched" style="height:3%"/>
+              <input class="col-sm-1 pull-right" name="numberofDocsTheme" type="button" id="numberofDocsTheme" value=0 data-toggle="tooltip" title="Themeriver : Number of events" style="height:3%"/>
+              <div class="col-sm-1 pull-right" style=""><b># Events:</b></div>
+
              </div>
           </div>
         </div>
         <div id="themeriver" class="themeriver col-sm-12" style="height:23%"></div>
       </div>
+    <div id="individualDetailsDiv" style="height:10%;overflow:scroll;" >
 
+    </div>
   </div>
 <script>
 
@@ -163,6 +178,14 @@
     });
     totalWidth = document.body.clientWidth / 100;
     totalHeight = document.body.clientHeight / 100;
+
+    $( "#individualDetailsDiv" ).dialog({
+        autoOpen: false,
+        title: "Event Detail View",
+        height: totalHeight*50,
+        width: totalWidth*60,
+    });
+
     pcMarigin = {
         top: 20,
         left: totalWidth * 6.5,

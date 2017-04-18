@@ -277,6 +277,7 @@ d3.demo.canvas = function() {
 				//clearThemeRiver();
 				//themeriver();
                   backup_data=data;
+                  setNumberOfDocuments(data.length);
                 clearThemeRiver();
 		        loadDataIntoDetailsView(data);
 		        updateParallelCordsEvents(data);
@@ -290,6 +291,7 @@ d3.demo.canvas = function() {
 		};
 
         updateWorldMapPoints=function(data){
+            setNumDocsWorld(data.length);
 		    var maxy=1500;
 		     var rvalue = d3.scale.sqrt()
 		          .domain([0,maxy])

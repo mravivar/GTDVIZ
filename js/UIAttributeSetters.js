@@ -36,3 +36,30 @@ function getTimeInterval(){
 function getWindowYear(){
     return Number($("#yearterval option:selected").text().split(' ')[0])
 }
+
+function setNumberOfDocuments(numEvents){
+    setValue('numberofDocsTheme', numEvents)
+}
+
+function setNumDocsPC(numEvents){
+    setValue('numberofDocsPC', numEvents)
+}
+
+function setNumDocsWorld(numEvents){
+    setValue('numberofDocsWorld', numEvents)
+}
+
+function setValue(id, value){
+    $(('#'+id)).val(value);
+}
+
+function loadTheEventIntoThedialog(event){
+    $('#individualDetailsDiv').html()
+    delete event['_id']
+    for(key in event){
+        if((event[key]+'').length>0 && event[key]!='.'){
+            var str='<b>'+key+'</b>:'+event[key]+"<br\>";
+            $('#individualDetailsDiv').html($('#individualDetailsDiv').html()+str);
+        }
+    }
+}

@@ -23,6 +23,7 @@ var hideAxes=['iyear', 'country_txt', 'eventid', 'latitude', 'longitude', 'targe
   //TODO assign ordinal color - for respective attribets
 //TODO see nullValues.html
 function updateParallelCordsEvents(data){
+    setNumDocsPC(data.length);
   //clears prevoius graph is any
   if(gtdParacords){
       try{
