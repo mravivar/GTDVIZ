@@ -23,6 +23,7 @@ function play() {
         setWindowLineStye(startline, yearPosMap[startyr]);
         setWindowLineStye(endline, yearPosMap[endyr]);
         setWindowStartEndyrs(startyr, endyr);
+        progressBar.set(.10);
         partialUpdate(startyr, endyr);
 
         if (endyr>=xTM.ticks()[xTM.ticks().length-1].getFullYear() || !playing) {

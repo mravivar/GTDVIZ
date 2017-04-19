@@ -148,8 +148,11 @@ function zscore(col) {
 
 var brushedData;
 function processSelected(data){
+    progressBar.set(.3);
     updateWorldMapPoints([]);
-  updateWorldMapPoints(data);
-  loadDataIntoDetailsView(data);
-  //update the table
+    updateWorldMapPoints(data);
+    progressBar.animate(.6);
+    //update the table
+    loadDataIntoDetailsView(data);
+    progressBar.animate(1);
 }

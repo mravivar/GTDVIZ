@@ -177,6 +177,7 @@ svg.selectAll(".layer")
       .attr("opacity",1);
       d3.select("#t-abs" ).remove();
     }).on("click", function(){
+        progressBar.set(0);
         mousex = d3.mouse(this);
         mousex=mousex[0];
         var curyr=xTM.invert(mousex).getFullYear();

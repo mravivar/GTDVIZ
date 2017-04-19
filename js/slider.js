@@ -35,15 +35,16 @@ function addSlider(){
         var newVal=Number(this.value);
         if(newVal>=1970 && newVal<2017){
           prevStartYear=newVal;
-            groupUpdates();
-            clearThemeRiver();
+          progressBar.set(0);
+          groupUpdates();
+          clearThemeRiver();
         }
       });
       $('#endyr').on('input', function ( ) {
         var newVal=Number(this.value);
         if(newVal>=1970 && newVal<2017){
           prevStartYear=newVal;
-          //html5Slider.noUiSlider.set([getStartyr(), newVal]);
+          progressBar.set(0);
           groupUpdates();
           clearThemeRiver();
         }

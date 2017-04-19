@@ -97,6 +97,7 @@ function selectRowsBetweenIndexes(indexes) {
 
 
 function plot(){
+    progressBar.set(0);
     selectedAttribute=[];
     var selectedAttibutesLen=0;
     for (var i =0,j=0; i < selected.length;i++,j++){

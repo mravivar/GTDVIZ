@@ -278,11 +278,16 @@ d3.demo.canvas = function() {
 				//themeriver();
                   backup_data=data;
                   setNumberOfDocuments(data.length);
+                  progressBar.animate(.25)
                 clearThemeRiver();
+                  progressBar.animate(.50);
 		        loadDataIntoDetailsView(data);
+                  progressBar.animate(.65);
 		        updateParallelCordsEvents(data);
+                  progressBar.animate(.85);
 		        updateWorldMapPoints([]);
 		        updateWorldMapPoints(data);
+		        progressBar.animate(1)
 		      },
 		      error: function(jqXHR, textStatus, errorThrown) {
 		          console.log('error ' + textStatus + " " + errorThrown);
@@ -640,11 +645,14 @@ function partialUpdate(cur_startyr, cur_endyr){
         success: function(data) {
             //clearThemeRiver();
             //themeriver();
-//        console.log(data);
+            progressBar.animate(.3);
             loadDataIntoDetailsView(data);
+            progressBar.animate(.6);
             updateParallelCordsEvents(data);
+            progressBar.animate(.8);
             updateWorldMapPoints([]);
             updateWorldMapPoints(data);
+            progressBar.animate(1);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('error ' + textStatus + " " + errorThrown);
