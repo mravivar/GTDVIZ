@@ -8,6 +8,7 @@ var router = express.Router();
 //adding  static file
 console.log(__dirname);
 app.use('/lib', express.static(__dirname + '/lib'));
+app.use('/node_modules', express.static(__dirname + '/node_modules'));
 app.use('/data', express.static(__dirname + '/data'));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/js', express.static(__dirname + '/js'));

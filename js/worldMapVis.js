@@ -81,6 +81,56 @@ d3.demo.canvas = function() {
             .attr("width",  _width  + (wrapperBorder*2) + minimapPadding*2 + (_width*minimapScale))
             .attr("height", _height + (wrapperBorder*2) + minimapPadding*2)
             .attr("shape-rendering", "auto");
+        svg.append("text").attr({
+            x: totalWidth*57,
+            y:totalHeight*15,
+        }).attr("font-weight", 'bold')
+            .attr({
+                'data-toggle':"tooltip",
+                'title':"Legend for world map",
+            })
+        .text(function () {
+            return "# killings: 1.19 people per pixel";
+        })
+
+        svg.append("svg")
+            .attr({
+                x: totalWidth*57,
+                y:totalHeight*17,
+            }).attr("id", "progressBar1")
+            .attr("height", totalHeight*2)
+
+        progressBar = new ProgressBar.Line('#progressBar1', {
+                strokeWidth: 6,
+                easing: 'bounce',
+                duration: 700,
+                trailColor: '#eee',
+                trailWidth: 1,
+                svgStyle: {width: '%100'},
+                color: 'black',
+                from: {color: '#bdc9e1', a:0},
+                to: {color: '#045a8d', a:1},
+                step: (state, bar) => {
+                bar.path.setAttribute('stroke', state.color);
+            }
+        });/*
+        progressBar = new ProgressBar.Circle('#progressBar1', {
+            color: '#FFEA82',
+            trailColor: '#eee',
+            trailWidth: 6,
+            duration: 1400,
+            easing: 'bounce',
+            strokeWidth: 6,
+            from: {color: '#FFEA82', a:0},
+            to: {color: '#ED6A5A', a:1},
+            // Set default step function for all animate calls
+            step: function(state, circle) {
+                circle.path.setAttribute('stroke', state.color);
+            }
+        });*/
+
+        //progressBar.animate(1.0);
+
 
         var svgDefs = svg.append("defs");
 

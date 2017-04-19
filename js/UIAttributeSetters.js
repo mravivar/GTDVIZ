@@ -54,7 +54,7 @@ function setValue(id, value){
 }
 
 function loadTheEventIntoThedialog(event){
-    $('#individualDetailsDiv').html()
+    $('#individualDetailsDiv').html("");
     delete event['_id']
     for(key in event){
         if((event[key]+'').length>0 && event[key]!='.'){

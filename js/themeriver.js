@@ -163,12 +163,12 @@ svg.selectAll(".layer")
   //     var y0=Math.round(y.invert(x0[1]))
        //console.log(y0)
                 svg.append("text").attr({
-               id: "t-abs",  
-            })
+               id: "t-abs",
+            }).attr("font-weight", 'bold')
             .text(function() {
               var yeartoarry=xyear-mindate;
   //            console.log(d.values[yeartoarry].numEvents);
-              return [d.key,xyear, d.values[yeartoarry].numEvents];  // Value of the text
+              return [d.key,xyear +' -> '+ d.values[yeartoarry].numEvents + ' Events'] ;  // Value of the text
             })
     })
     .on("mouseout",function(d,i){
