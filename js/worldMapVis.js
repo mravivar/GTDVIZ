@@ -82,7 +82,7 @@ d3.demo.canvas = function() {
             .attr("height", _height + (wrapperBorder*2) + minimapPadding*2)
             .attr("shape-rendering", "auto");
         svg.append("text").attr({
-            x: totalWidth*57,
+            x: totalWidth*58,
             y:totalHeight*15,
         }).attr("font-weight", 'bold')
             .attr({
@@ -95,14 +95,15 @@ d3.demo.canvas = function() {
 
         svg.append("svg")
             .attr({
-                x: totalWidth*57,
+                x: totalWidth*58,
                 y:totalHeight*17,
             }).attr("id", "progressBar1")
             .attr("height", totalHeight*2)
+            .attr("width", totalWidth*15)
 
         progressBar = new ProgressBar.Line('#progressBar1', {
                 strokeWidth: 6,
-                easing: 'bounce',
+                easing: 'easeInOut',
                 duration: 700,
                 trailColor: '#eee',
                 trailWidth: 1,
@@ -113,24 +114,7 @@ d3.demo.canvas = function() {
                 step: (state, bar) => {
                 bar.path.setAttribute('stroke', state.color);
             }
-        });/*
-        progressBar = new ProgressBar.Circle('#progressBar1', {
-            color: '#FFEA82',
-            trailColor: '#eee',
-            trailWidth: 6,
-            duration: 1400,
-            easing: 'bounce',
-            strokeWidth: 6,
-            from: {color: '#FFEA82', a:0},
-            to: {color: '#ED6A5A', a:1},
-            // Set default step function for all animate calls
-            step: function(state, circle) {
-                circle.path.setAttribute('stroke', state.color);
-            }
-        });*/
-
-        //progressBar.animate(1.0);
-
+        });
 
         var svgDefs = svg.append("defs");
 

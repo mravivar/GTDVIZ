@@ -61,28 +61,27 @@
 
 <body onload="init()">
   <div class="container-fluid">
-    <!--<div class="row">
-      <h4>Title</h4>
-    </div>-->
-    <div class="row">
-      <div id="leftpane" class="col-sm-3">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-sm-5">
-              <select id="attribute" name="attribute" onchange="selectChanged()" style="height:3%">
+    <div class="row" >
+        <div class="col-sm-1">
+            <select id="attribute" name="attribute" onchange="selectChanged()" style="height:3%">
                 <option id ='gname'>Organization</option>
                 <option id='attacktype1_txt'>Attack Type</option>
                 <option id='weaptype1_txt'>Weapon Type</option>
                 <option id='targtype1_txt'>Target Type</option>
                 <option id='region_txt'>Region</option>
                 <option id='country_txt'>Country</option>
-              </select>
-            </div>
-            <div class="col-sm-1"></div>
-              <button id="plot" onclick="plot()" style="height:3%" class="btn btn-default btn-sm col-sm-3" data-toggle="tooltip" title="Plot">
-                <span class="glyphicon glyphicon-ok"></span>
-              </button>
-
+            </select>
+        </div>
+        <button id="plot" onclick="plot()" style="height:3%" class="btn btn-default btn-sm col-sm-1" data-toggle="tooltip" title="Plot">
+            <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <label class="col-sm-5" style='text-align:right;font-size:16px;'>GTD Visualisation</label>
+        <a class="col-sm-5" href="README.md" style='text-align:right;font-size:14px;'>(help?)</a>
+    </div>
+    <div class="row">
+      <div id="leftpane" class="col-sm-3">
+        <div class="container-fluid">
+          <div class="row">
             <div id="selectedAttribute" name="dropdown" style="height:20%;overflow:scroll" class="col-sm-12" data-toggle="tooltip" title="Attribute selection">
               <table id="tableid" class="scrollTable">
                 <tr onmousedown="RowClick(event, false);">
@@ -91,19 +90,15 @@
                 </tr>
               </table>
             </div>
-            <div id="noUiSlider" class="col-sm-12" data-toggle="tooltip" title="Click to Move"></div>
-            <div data-toggle="tooltip" title="Start year">
-              <input type="year" id="startyr" value=2015 class="col-sm-3" disabled></input>
-            </div>
-            <div data-toggle="tooltip" title="End year">
-              <input type="year" id="endyr" value=2016 class="col-sm-3" disabled></input>
-            </div>
+              <div class="col-sm-12" style="height:2%;"></div><!--gap-->
+              <div id="noUiSlider" class="col-sm-12"></div>
+              <div class="col-sm-12" style="height:1%;"></div><!--gap-->
+              <input type="button" id="startyr" value=2015 class="col-sm-3" data-toggle="tooltip" title="Start year"></input>
+              <input type="button" id="endyr" value=2016 class="col-sm-3" data-toggle="tooltip" title="End year"></input>
               <label for="isQueuing" class="col-sm-3" data-toggle="tooltip" title="Enable for slower systems">Queue</label>
               <input type="checkbox" name="checkbox" id="isQueuing" class="col-sm-3" style="right:15%" data-toggle="tooltip" title="Enable for slower systems" checked/>
-
+              <div class="col-sm-12" style="height:1%;"></div><!--gap-->
             <div id="detailsTable" class="col-sm-12" style="height:40%" data-toggle="tooltip" title="Details View"></div>
-            <div id="progressBar" class="col-sm-12" style="position: relative;" data-toggle="tooltip" title="Progress Bar!"></div>
-
           </div>
         </div>
       </div>
@@ -112,7 +107,7 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-sm-12">
-                <div id="worldMap" style="height:38%;width:140%"></div>
+                <div id="worldMap" style="height:36%;width:140%"></div>
               </div>
               <!--<label class="col-sm-12" data-toggle="tooltip" title="Legend for world map" style="text-align:right;font-size:12px">Number of killings : 1.19 people per pixel</label>-->
             </div>

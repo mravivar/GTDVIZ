@@ -12,6 +12,8 @@ app.use('/node_modules', express.static(__dirname + '/node_modules'));
 app.use('/data', express.static(__dirname + '/data'));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/js', express.static(__dirname + '/js'));
+app.use('/README.md', express.static(__dirname + '/README.md'));
+
 //supplying the starting page
 app.get('/', function(req, res){
   console.log('Supplying the index file');
