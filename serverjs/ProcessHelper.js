@@ -68,7 +68,9 @@ module.exports = {
             delete data[i]['nwound'];
 */            //delete data[i]['__proto__'];
         }
-        return data;
+        var sortByDate = function(a,b){
+            return d3.ascending(a.date, b.date) ||d3.ascending(a.key, b.key);}
+        return data.sort(sortByDate);
     }
 
 }
