@@ -16,7 +16,7 @@ d3.demo.canvas = function() {
 
     "use strict";
 
-    var _width           = document.getElementById('worldMap').clientWidth,
+    var _width           = document.getElementById('worldMap').clientWidth*0.98,
         _height          = document.getElementById('worldMap').clientHeight - 35,
         zoomEnabled     = true,
         dragEnabled     = true,

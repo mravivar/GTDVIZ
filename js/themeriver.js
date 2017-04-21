@@ -164,7 +164,10 @@ svg.selectAll(".layer")
        //console.log(y0)
                 svg.append("text").attr({
                id: "t-abs",
-            }).attr("font-weight", 'bold')
+            }).attr({
+                    x: totalWidth*40,
+                })
+                    .attr("font-weight", 'bold')
             .text(function() {
               var yeartoarry=xyear-mindate;
   //            console.log(d.values[yeartoarry].numEvents);
