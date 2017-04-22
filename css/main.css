@@ -154,7 +154,7 @@ fill: rgba(255, 0, 0, 0.2);
 }
 .canvas .wrapper.inner > .background {
     /*fill: #CCCCCC;*/
-    fill: #000000;
+    /*fill: #000000;*/
     cursor: move;
 }
 .canvas .background {
