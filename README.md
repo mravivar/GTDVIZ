@@ -60,7 +60,7 @@ create a DB named gtd:
 create a collection called events:
 
 >db.createCollection('events')
-
+>db.createCollection('agg_events')
 Exit the mongo shell:
 
 >ctrl+c
@@ -72,11 +72,13 @@ Exit the mongo shell:
     
     2.Go to mongodb bin:
     
-    >mongoimport --db gtd --collection events --type csv --headerline --file < path to csv>
+    >mongoimport --db gtd --collection events --type csv --headerline --file < path to data/gtd.csv>
+    >mongoimport --db gtd --collection agg_events --type csv --headerline --file < path to data/countries.csv>
     
     E.g. 
     
     >mongoimport --db gtd --collection events --type csv --headerline --file "C:\Users\murlee417\Documents\GTD_0616dist\gtd.csv"
+    >mongoimport --db gtd --collection agg_events --type csv --headerline --file "C:\Users\Aravind\Documents\GitHub\dvBasic\data\countries.csv"
 
 ### Setting up the Middleware:
 1. install node js
