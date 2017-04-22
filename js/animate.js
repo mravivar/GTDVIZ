@@ -18,6 +18,7 @@ function play() {
         //setEndyr(endyr);
     }
     endyr=startyr+getWindowYear();
+    var maxYear=getThemeRiverEndyr();
     var id = setInterval(frame, getTimeInterval()*1000);
     function frame() {
         setWindowLineStye(startline, yearPosMap[startyr]);
@@ -26,7 +27,7 @@ function play() {
         progressBar.set(.10);
         partialUpdate(startyr, endyr);
 
-        if (endyr>=xTM.ticks()[xTM.ticks().length-1].getFullYear() || !playing) {
+        if (endyr>=maxYear || !playing) {
             clearInterval(id);
             setPlayIcon();
             playing=false;

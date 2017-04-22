@@ -655,11 +655,11 @@ var circleCount = 0;
 var canvas = d3.demo.canvas();
 d3.select("#worldMap").call(canvas);
 
-/*
-d3.select("#resetButtonQwpYZa").on("click", function() {
+
+d3.select("#resetButton").on("click", function() {
         canvas.reset1();
     });
-*/
+
 canvas.loadTree();
 
 }

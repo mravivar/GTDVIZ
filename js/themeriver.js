@@ -213,7 +213,7 @@ svg.selectAll(".layer")
         .style("height", heightTM+"px")
         .style("bottom", margin.bottom+"px")
         .style("left", "0px")
-        .style("background", "#fff");
+        .style("background", "red");
 
     endline = d3.select(".themeriver")
         .append("div")
@@ -224,7 +224,7 @@ svg.selectAll(".layer")
         .style("height", heightTM+"px")
         .style("bottom", margin.bottom+"px")
         .style("left", "0px")
-        .style("background", "#fff");
+        .style("background", "red");
     recordTickPositions(xTM,xAxis);
 }
 var yearPosMap={};

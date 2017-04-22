@@ -11,7 +11,9 @@ function setWindowStartEndyrs(startyr, endyr){
         $('#window_endyr').html(window_endyr);
     }
 }
-
+function getThemeRiverEndyr(){
+    return +$('#window_endyr').html();
+}
 function setWindowArrowDirection(style_direction){
     $('#window_arrow').removeClass();
     $('#window_arrow').addClass(style_direction)
@@ -25,7 +27,7 @@ function setPauseIcon(){
     $('#playbutIcon').addClass(PAUSE_ICON)
 }
 function setWindowLineStye(line, mousex) {
-    line.style("left",  mousex+margin.left+10 +"px" );
+    line.style("left",  mousex+margin.left+totalWidth*3 +"px" );
     //line.style("top", $("#themeriver").offset().top+"px")
 }
 
