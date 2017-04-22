@@ -104,6 +104,10 @@ function change_color(dimension) {
       return colorScale(d[curSelection]);
     }).render();
   }
+    syncTheColorPC_world_map();
+}
+
+function syncTheColorPC_world_map(){
     //sync the world map colors
     panCanvas.selectAll("circle")
         .style("fill", function(d, i) {
@@ -113,7 +117,6 @@ function change_color(dimension) {
             return getEntityColor(d[category]);
         });
 }
-
 function getSyncedColor(event){
 
     if(pcSelectedAttribute=='nkill' || pcSelectedAttribute=='nwound' || pcSelectedAttribute=='nkillter' || pcSelectedAttribute=='nperps'){
@@ -151,6 +154,7 @@ function processSelected(data){
     progressBar.set(.3);
     updateWorldMapPoints([]);
     updateWorldMapPoints(data);
+    syncTheColorPC_world_map();
     progressBar.animate(.6);
     //update the table
     loadDataIntoDetailsView(data);

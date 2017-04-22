@@ -184,15 +184,15 @@ svg.selectAll(".layer")
         mousex = d3.mouse(this);
         mousex=mousex[0];
         var curyr=xTM.invert(mousex).getFullYear();
-
+        var newMouseX=yearPosMap[curyr];
         updatedStart=!updatedStart;
         if(updatedStart){
             window_endyr=curyr;
-            setWindowLineStye(endline, mousex);
+            setWindowLineStye(endline, newMouseX);
             setWindowArrowDirection(LEFT_ARROW);
         }else{
             window_startyr=curyr;
-            setWindowLineStye(startline, mousex);
+            setWindowLineStye(startline, newMouseX);
             setWindowArrowDirection(RIGHT_ARROW);
         }
         if(window_endyr<window_startyr){
@@ -213,7 +213,7 @@ svg.selectAll(".layer")
         .style("height", heightTM+"px")
         .style("bottom", margin.bottom+"px")
         .style("left", "0px")
-        .style("background", "red");
+        .style("background", "#955551");
 
     endline = d3.select(".themeriver")
         .append("div")
@@ -224,27 +224,36 @@ svg.selectAll(".layer")
         .style("height", heightTM+"px")
         .style("bottom", margin.bottom+"px")
         .style("left", "0px")
-        .style("background", "red");
+        .style("background", "#955551");
     recordTickPositions(xTM,xAxis);
 }
 var yearPosMap={};
 function recordTickPositions(x, xAxis){
+    maxYear=1969;
     var svg = d3.select(".xaxis");
     //gives total number of ticks - x.ticks().length-1].getFullYear()-x.ticks()[0].getFullYear() +1
     //x.ticks().length has so extra ticks
     var tmp=xAxis.ticks(x.ticks()[x.ticks().length-1].getFullYear()-x.ticks()[0].getFullYear() +1 );
-    var itrYear=x.ticks()[0].getFullYear(), styr=itrYear, enyr=styr;
-
+    var itrYear, styr=null, enyr;
+    var prv=0;
     svg.call(tmp).selectAll(".tick").each(function(d){
         var tk=d3.select(this);
+        itrYear=+tk.select('text').html();
+        if(!styr){
+            styr=itrYear;
+        }
         yearPosMap[itrYear]=d3.transform(tk.attr("transform")).translate[0];
+        console.log(maxYear);
         enyr=itrYear;
+        diffPosXaxis=yearPosMap[itrYear]-prv;
+        prv=yearPosMap[itrYear]
         itrYear++;
     });
-    setWindowStartEndyrs(styr, enyr);
+    maxYear=enyr;
+    setWindowStartEndyrs(styr, maxYear);
 }
 
-var startline, endline, window_startyr, window_endyr,updatedStart=false;
+var startline, endline, window_startyr, window_endyr,updatedStart=false, maxYear=1969, diffPosXaxis=0;
 
 
 function clearThemeRiver()

@@ -18,7 +18,6 @@ function play() {
         //setEndyr(endyr);
     }
     endyr=startyr+getWindowYear();
-    var maxYear=getThemeRiverEndyr();
     var id = setInterval(frame, getTimeInterval()*1000);
     function frame() {
         setWindowLineStye(startline, yearPosMap[startyr]);
