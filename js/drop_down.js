@@ -1,7 +1,7 @@
 'use strict';
 
 var sg;
-var count =1;
+var count =1, checkedIndex=[], checkedAttributes=[];
 
 function selectChanged(){
    var historySelectList = $('select#attribute');
@@ -30,123 +30,100 @@ function loadscroll(dataArray) {
     $("tr").remove();
     for (var i=0; i<dataArray.length; i++){
         dataArray[i] = dataArray[i].replace(/[\[\]\"]+/g, '');
-        table.append('<tr onmousedown="RowClick(event, false);"><td></td></tr>');
+        var checkbox = document.createElement('input');
+        checkbox.type ="checkbox";
+        checkbox.name = dataArray[i];
+        checkbox.value = dataArray[i];
+        checkbox.id = "id"+ i;
+        table.append('<tr> <td> <input type="checkbox" id="'+i+'"'+'value="'+checkbox.value+'"></td><td>'+checkbox.value+'</td></tr>');
     }
-    table.find('tr').each(function(idx, elem){
-        $(this).find('td:last').text(dataArray[idx]);
-    });
-
+    checkedAttributes=[];
+    checkedIndex=[];
+    checkboxHandlers();
 }
+
+
+function checkboxHandlers() {
+var e1 = document.getElementById('selectedAttribute');
+var tops = e1.getElementsByTagName('input');
+for (var i=0, len=tops.length; i<len; i++){
+  if(tops[i].type == 'checkbox'){
+    tops[i].onclick = updatecheckEntry;
+  }
+}
+}
+
+
+function updatecheckEntry(e) {
+  
+  var i = checkedAttributes.length;
+  var form = this.form;
+  if (this.checked){
+    checkedAttributes[i] = this.value;
+    checkedIndex[i] = e.currentTarget.id;
+  } else {
+    var found = checkedAttributes.indexOf(this.value);
+    if (found != -1){
+      checkedAttributes.splice(found,1);
+      checkedIndex.splice(found,1);
+    }
+  }
+}
+
 
 var lastSelectedRow, table, trs, selected=[];
 
 
-function RowClick(events, lock) {
-  if (count ==1) {
-  table = document.getElementById('tableid');
-  trs = table.tBodies[0].getElementsByTagName('tr');
-  selected = table.getElementsByClassName('itemselected');
-  document.onselectstart = function() {
-    return false;
-  }
-  count =2;
-  }
-      if (events.ctrlKey) {
-        toggleRow(events);
-    }
-    
-    if (events.button == 0) {
-        if (!events.ctrlKey && !events.shiftKey) {
-            clearAll();
-            toggleRow(events);
-        }
-    
-        if (events.shiftKey) {
-            selectRowsBetweenIndexes([lastSelectedRow.target.parentNode.rowIndex, events.target.parentNode.rowIndex])
-        }
-    }
-}
-
-
-function toggleRow(row) {
-    row.target.parentNode.className = row.target.parentNode.className == 'itemselected' ? '' : 'itemselected';
-    row.className = row.className == 'itemselected' ? '' : 'itemselected';
-    lastSelectedRow = row;
-}
-
-function clearAll() {
-
-    for (var i = 0; i < trs.length; i++) {
-        trs[i].parentNode.className = '';
-        trs[i].className = '';
-        trs[i].style="";
-    }
-}
-
-
-function selectRowsBetweenIndexes(indexes) {
-    indexes.sort(function(a, b) {
-        return a - b;
-    });
-
-    for (var i = indexes[0]; i <= indexes[1]; i++) {
-        trs[i-1].parentNode.className = 'itemselected';
-        trs[i-1].className = 'itemselected';
-    }
-}
-
-
 function plot(){
     progressBar.set(0);
-    selectedAttribute=[];
-    var selectedAttibutesLen=0;
-    for (var i =0,j=0; i < selected.length;i++,j++){
-      if (selected[i].tagName=="TBODY")
-          continue;
-      selectedAttribute[i] = selected[i].cells[0].textContent;
-      selectedAttibutesLen++;
+    var length = selectedAttribute.length;
+    var table=document.getElementById("tableid");
+    for (var i=0; i<length; i++){
+      table.rows[i].removeAttribute("style");
     }
+    selectedAttribute = checkedAttributes.slice(0);
 
-    if(selectedAttribute.length>0){
-        clearAll();
-        var table=document.getElementById("tableid");
-        swapSelectedAttributes(table, selectedAttibutesLen);
+    if(checkedAttributes.length>0){
+        var len = checkedAttributes.length;
+        
+        for (var i =0; i< len; i++){
+             swapText(table, checkedIndex[i],i);
+        }
+        checkboxHandlers();
         updateEntity(selectedAttribute);
+    
         //lets color the update
         colorMyAttributes(table);
+    
         //scroll to first row - to make the selection visible
         var rowpos = $('#tableid tr:first').position()
         $('#selectedAttribute').scrollTop(rowpos.top)
-        groupUpdates();
+        groupUpdates();        
+        checkedAttributes = [];
+        checkedIndex =[];
     }
 }
-//color sync between themeriver and parallel coordinate
+function swapText(table,y,x){
+  var text = table.rows[x].cells[1].textContent;
+  var selectedtext = table.rows[y].cells[1].textContent;
+
+   table.rows[x].cells[1].textContent=selectedtext;
+   table.rows[x].cells[1].textContent=selectedtext;
+   document.getElementById(x).value=selectedtext;
+
+   table.rows[y].cells[1].textContent=text;
+   table.rows[y].cells[1].textContent=text;
+   document.getElementById(y).value=text;
+   document.getElementById(y).checked = false;
+
+}
+
 function colorMyAttributes(table){
-    for (var i = 0, row; row = table.rows[i]; i++) {
-        //if (selected[i].tagName=="TBODY") continue;
-        var index=$.inArray(table.rows[i].cells[0].textContent, selectedAttribute);
+    var length = selectedAttribute.length;
+    for (var i = 0; i<length ; i++) {
+        var index=$.inArray(table.rows[i].cells[1].textContent, selectedAttribute);
         if(index !== -1) {
-            row.style = "background:" + getEntityColor(table.rows[i].cells[0].textContent);
+          table.rows[i].style = "background:" + getEntityColor(table.rows[i].cells[1].textContent);
         }
     }
-}
-
-function swapSelectedAttributes(table, selectedAttibutesLen){
-    //TODO:make scroll table to scroll to top
-    var selectedArrayIndex=[];
-    for (var i = 0, row; row = table.rows[i]; i++) {
-        var index=$.inArray(row.cells[0].textContent, selectedAttribute);
-        if(index!==-1){
-            selectedArrayIndex[selectedArrayIndex.length]=(i);
-        }
-    }
-    for(var i=0;i<selectedAttibutesLen;i++){
-        swapText(table, selectedArrayIndex[i], i);
-    }
-}
-function swapText(table, x, y){
-
-    var tmp=table.rows[x].cells[0].textContent;
-    table.rows[x].cells[0].textContent=table.rows[y].cells[0].textContent;
-    table.rows[y].cells[0].textContent=tmp;
 }
