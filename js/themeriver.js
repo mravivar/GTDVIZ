@@ -74,6 +74,26 @@ svg = d3.select(".themeriver").append("svg:svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    startline = d3.select(".themeriver")
+        .append("div")
+        .attr("class", "remove")
+        .style("position", "absolute")
+        .style("z-index", "19")
+        .style("width", "3px")
+        .style("height", heightTM+"px")
+        .style("bottom", margin.bottom+"px")
+        .style("left", "0px")
+        .style("background", "white");
+
+    endline = d3.select(".themeriver")
+        .append("div")
+        .attr("class", "remove")
+        .style("position", "absolute")
+        .style("z-index", "19")
+        .style("width", "3px")
+        .style("height", heightTM+"px")
+        .style("bottom", margin.bottom+"px")
+        .style("left", "0px")
 //updateThemeRiver();
 }
 
@@ -136,13 +156,18 @@ layers = stack(nest.entries(data));
 svg.append("text")
             .attr("text-anchor", "middle")  
             .attr("transform", "translate(-35"+","+(heightTM/2)+")rotate(-90)")
-    .text("# Events");
+            .attr("font-weight", 'bold')
+            .text("# Events");
             //.text(""+d3.select("#attribute").node().value +"");
   svg.append("text")
             .attr("text-anchor", "middle")  
             .attr("transform", "translate("+ ((widthTM/2)+17.5) +","+(heightTM+30)+")")
+            .attr("font-weight", 'bold')
             .text("Year");
-
+startline.style("left", "0px")
+        .style("background", "white");
+    endline.style("left", "0px")
+        .style("background", "white");
 
 svg.selectAll(".layer")
     .attr("opacity", 1)
@@ -168,6 +193,7 @@ svg.selectAll(".layer")
                     x: totalWidth*40,
                 })
                     .attr("font-weight", 'bold')
+                    .attr("font-style", 'italic')
             .text(function() {
               var yeartoarry=xyear-mindate;
   //            console.log(d.values[yeartoarry].numEvents);
@@ -204,29 +230,10 @@ svg.selectAll(".layer")
         partialUpdate(window_startyr, window_endyr);
     });
 
-    startline = d3.select(".themeriver")
-        .append("div")
-        .attr("class", "remove")
-        .style("position", "absolute")
-        .style("z-index", "19")
-        .style("width", "3px")
-        .style("height", heightTM+"px")
-        .style("bottom", margin.bottom+"px")
-        .style("left", "0px")
-        .style("background", "#955551");
 
-    endline = d3.select(".themeriver")
-        .append("div")
-        .attr("class", "remove")
-        .style("position", "absolute")
-        .style("z-index", "19")
-        .style("width", "3px")
-        .style("height", heightTM+"px")
-        .style("bottom", margin.bottom+"px")
-        .style("left", "0px")
-        .style("background", "#955551");
     recordTickPositions(xTM,xAxis);
 }
+var xTickPosTransform=0;
 var yearPosMap={};
 function recordTickPositions(x, xAxis){
     maxYear=1969;
@@ -240,6 +247,8 @@ function recordTickPositions(x, xAxis){
         var tk=d3.select(this);
         itrYear=+tk.select('text').html();
         if(!styr){
+            xTickPosTransform=d3.transform(d3.select(this.parentNode.parentNode).attr("transform")).translate[0]
+            +d3.transform(d3.select(this.parentNode).attr("transform")).translate[0]+15;//d3 padding
             styr=itrYear;
         }
         yearPosMap[itrYear]=d3.transform(tk.attr("transform")).translate[0];

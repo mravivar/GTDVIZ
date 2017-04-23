@@ -16,9 +16,10 @@ function loadDataIntoDetailsView(data){
     for (var key in data[0]){
       var column={};
       column['id']=key;
-      column['name']=key;
+      column['name']=key.toUpperCase();
       column['field']=key;
       column['sortable']=true;
+      column['cssClass']="mousePointer";
       columns.push(column);
     }
     var options = {

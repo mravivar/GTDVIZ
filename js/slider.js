@@ -9,13 +9,16 @@ function addSlider(){
         connect: true,
         behaviour: "hover-snap",
       orientation: 'horizontal',
+      format: wNumb({
+          decimals: 0
+      }),
         range: {
             'min': 1970,
             'max': 2015
         },
         step:1,
         width:100,
-        tooltips: true,
+        tooltips: [ wNumb({ decimals: 0 }), true ],
       });
   var i=1;
     html5Slider.noUiSlider.on('hover', function( value ){

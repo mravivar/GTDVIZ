@@ -42,7 +42,7 @@
   <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="./lib/progressbar.js/dist/progressbar.js"></script>
-
+<script src="./lib/noUiSlider-master/documentation/assets/wNumb.js"></script>
   <!--<script src="https://cdn.rawgit.com/kimmobrunfeldt/progressbar.js/0.5.6/dist/progressbar.js"></script>-->
 
   <!--JS files-->
@@ -61,9 +61,9 @@
 
 <body onload="init()">
   <div class="container-fluid">
-    <div class="row" >
+    <div class="row" style=" padding-bottom:5px">
         <div class="col-sm-1">
-            <select id="attribute" name="attribute" onchange="selectChanged()" style="height:3%">
+            <select id="attribute" name="attribute" onchange="selectChanged()" style="height:3%" data-toggle="tooltip" title="Select Attribute">
                 <option id ='gname'>Organization</option>
                 <option id='attacktype1_txt'>Attack Type</option>
                 <option id='weaptype1_txt'>Weapon Type</option>
@@ -76,23 +76,25 @@
             <span class="glyphicon glyphicon-ok"></span>
         </button>
         <label class="col-sm-5" style='text-align:right;font-size:16px;'>GTD Visualisation</label>
-        <a class="col-sm-5" href="README.md" style='text-align:right;font-size:14px;'>(help?)</a>
+      <div class="col-sm-1"> </div>
+      <div class="col-sm-3" id="progressBar1" data-toggle="tooltip" title="Progress Bar"> </div>
+        <a class="col-sm-1" href="README.md" style='text-align:right;font-size:14px;'>(Help?)</a>
     </div>
     <div class="row">
       <div id="leftpane" class="col-sm-3">
         <div class="container-fluid">
           <div class="row">
             <div id="selectedAttribute" name="dropdown" style="height:20%;overflow:scroll" class="col-sm-12" data-toggle="tooltip" title="Attribute selection">
-                  <table id="tableid">
-                    </table>
+              <table id="tableid" style="border-collapse: collapse;width:inherit;">
+              </table>
             </div>
               <div class="col-sm-12" style="height:2%;"></div><!--gap-->
               <div id="noUiSlider" class="col-sm-12"></div>
               <div class="col-sm-12" style="height:1%;"></div><!--gap-->
               <input type="button" id="startyr" value=2015 class="col-sm-3" data-toggle="tooltip" title="Start year"></input>
               <input type="button" id="endyr" value=2016 class="col-sm-3" data-toggle="tooltip" title="End year"></input>
-              <label for="isQueuing" class="col-sm-3" data-toggle="tooltip" title="Enable for slower systems">Queue</label>
-              <input type="checkbox" name="checkbox" id="isQueuing" class="col-sm-3" style="right:15%" data-toggle="tooltip" title="Enable for slower systems" checked/>
+              <label for="isQueuing" style="cursor: pointer;  text-align:right" class="col-sm-3" data-toggle="tooltip" title="Enable for slower systems">Queue</label>
+              <input type="checkbox" style="cursor: pointer" name="checkbox" id="isQueuing" class="col-sm-3" style="right:15%" data-toggle="tooltip" title="Enable for slower systems" checked/>
               <div class="col-sm-12" style="height:1%;"></div><!--gap-->
             <div id="detailsTable" class="col-sm-12" style="height:40%" data-toggle="tooltip" title="Details View"></div>
           </div>
@@ -104,7 +106,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div id="worldMap" style="height:36%;width:140%">
-                  <button id="resetButton" style="x:20%;y:20%">Reset</button>
+                  <button id="resetButton" style="width:20%;'font-weight'='bold'">Zoom Reset</button>
                 </div>
 
               </div>
@@ -133,12 +135,12 @@
               </button>
               <select id="timeinterval" class="col-sm-1" data-toggle="tooltip" title="Seconds between timestep." style="height:3%"></select>
               <select id="yearterval" class="col-sm-1" data-toggle="tooltip" title="Year interval for Animation." style="height:3%"></select>
-                <div class="col-sm-1" style="right:0%" data-toggle="tooltip" title="Enable to keep the start of selection in Theme river."><label for='preserveStart'>Preserve</label></div>
-              <input type="checkbox" class="col-sm-1" id="preserveStart" style="height:2%;right:7%;" data-toggle="tooltip" title="Enable to keep the start of selection in Theme river."/>
+                <div class="col-sm-1" style="cursor: pointer;  text-align:left; padding-top:0.15%" data-toggle="tooltip" title="Enable to keep the start of selection in Theme river."><label style="cursor: pointer;" for='preserveStart'>Preserve</label></div>
+              <input type="checkbox" class="col-sm-1" id="preserveStart" style="height:2%; right:7%;cursor: pointer;" data-toggle="tooltip" title="Enable to keep the start of selection in Theme river."/>
               <input class="col-sm-1 pull-right" name="numberofDocsWorld" type="button" id="numberofDocsWorld" value=0 data-toggle="tooltip" title="World Map/Details view: Number of events" style="height:3%"/>
               <input class="col-sm-1 pull-right" name="numberofDocsPC" type="button" id="numberofDocsPC" value=0 data-toggle="tooltip" title="Parallel coordinate : Number of events" style="height:3%"/>
               <input class="col-sm-1 pull-right" name="numberofDocsTheme" type="button" id="numberofDocsTheme" value=0 data-toggle="tooltip" title="Themeriver: Number of events" style="height:3%"/>
-              <div class="col-sm-1 pull-right" style=""><b># Events:</b></div>
+              <div class="col-sm-1 pull-right" style=" text-align:right"><b># Events:</b></div>
 
              </div>
           </div>
@@ -160,7 +162,7 @@
     for(var i=1;i<=10;i++){
         $('#yearterval').html($('#yearterval').html()+"<option value="+i +">"+i+" year</option>");
     }
-
+    $('#yearterval').html($('#yearterval').html()+"<option value=0>"+0+" year</option>");
 
     $("#window_startyr").on("click", function(d){
         updatedStart=true;

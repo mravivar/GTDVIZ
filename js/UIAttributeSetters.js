@@ -27,7 +27,8 @@ function setPauseIcon(){
     $('#playbutIcon').addClass(PAUSE_ICON)
 }
 function setWindowLineStye(line, mousex) {
-    line.style("left",  mousex+margin.left+totalWidth*3 +"px" );
+    line.style("left",  mousex+xTickPosTransform +"px" );
+    line.style("background", "#955551");
     //line.style("top", $("#themeriver").offset().top+"px")
 }
 
@@ -53,6 +54,7 @@ function setNumDocsWorld(numEvents){
 
 function setValue(id, value){
     $(('#'+id)).val(value);
+    blinking($(('#'+id)));
 }
 
 function loadTheEventIntoThedialog(event){
@@ -60,8 +62,26 @@ function loadTheEventIntoThedialog(event){
     delete event['_id']
     for(key in event){
         if((event[key]+'').length>0 && event[key]!='.'){
-            var str='<b>'+key+'</b>:'+event[key]+"<br\>";
+            var str='<b>'+key.toUpperCase()+'</b>:'+event[key]+"<br\>";
             $('#individualDetailsDiv').html($('#individualDetailsDiv').html()+str);
+        }
+    }
+}
+
+function blinking(elm) {
+    var itr=0;
+    var timer = setInterval(blink, 300);
+    elm.css('background-color', 'yellow');
+    function blink() {
+        if(itr>5){
+            clearInterval(timer);
+            elm.css('background-color', 'white');
+        }else{
+            elm.css('background-color', 'yellow');
+            itr++;
+            elm.fadeOut(400, function() {
+                elm.fadeIn(400);
+            });
         }
     }
 }

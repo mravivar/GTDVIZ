@@ -35,7 +35,9 @@ function loadscroll(dataArray) {
         checkbox.name = dataArray[i];
         checkbox.value = dataArray[i];
         checkbox.id = "id"+ i;
-        table.append('<tr> <td> <input type="checkbox" id="'+i+'"'+'value="'+checkbox.value+'"></td><td>'+checkbox.value+'</td></tr>');
+        table.append('<tr style="border-bottom: thin solid;  border-color: #cebcbc"> ' +
+            '<td style="padding-left: 10px;padding-top:.1em; padding-bottom: .1em"> <input type="checkbox" id="'+i+'"'+'value="'+checkbox.value+'"></td>' +
+            '<td><label style="padding-left: 10px; padding-bottom: .1em;padding-top:.1em;" for="'+i+'">'+checkbox.value+'</label></td></tr>');
     }
     checkedAttributes=[];
     checkedIndex=[];

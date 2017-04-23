@@ -23,7 +23,7 @@ d3.demo.canvas = function() {
         scale           = 1,
         translation     = [0,0],
         base            = null,
-        wrapperBorder   = 2,
+        wrapperBorder   = 1,
         minimap         = null,
         minimapPadding  = 20,
         minimapScale    = 0.25,
@@ -92,7 +92,7 @@ d3.demo.canvas = function() {
         .text(function () {
             return "# killings: 1.19 people per pixel";
         })
-
+        /*
         svg.append("svg")
             .attr({
                 x: totalWidth*58,
@@ -100,19 +100,36 @@ d3.demo.canvas = function() {
             }).attr("id", "progressBar1")
             .attr("height", totalHeight*2)
             .attr("width", totalWidth*15)
-
+*/
+        //below code is from http://progressbarjs.readthedocs.io/en/latest/#full-examples
         progressBar = new ProgressBar.Line('#progressBar1', {
-                strokeWidth: 6,
+                strokeWidth: 5,
                 easing: 'easeInOut',
                 duration: 700,
                 trailColor: '#eee',
                 trailWidth: 1,
-                svgStyle: {width: '%100'},
+                svgStyle: {width: totalWidth*22, height:'2%', 'padding-left': totalWidth*8},
+                text: {
+                    style: {
+                        // Text color.
+                        // Default: same as stroke color (options.color)
+                        color: 'black',
+                        position: 'absolute',
+                        right: '0',
+                        top: '0',
+                        padding: 0,
+                        margin: 0,
+                        transform: null,
+                        'font-weight':'bold',
+                    },
+                    autoStyleContainer: false
+                },
                 color: 'black',
                 from: {color: '#bdc9e1', a:0},
                 to: {color: '#045a8d', a:1},
                 step: (state, bar) => {
                 bar.path.setAttribute('stroke', state.color);
+                bar.setText(Math.round(bar.value() * 100) + ' %');
             }
         });
 

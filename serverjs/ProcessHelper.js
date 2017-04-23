@@ -23,6 +23,7 @@ module.exports = {
     }else{
       row.nperps=+row.nperps;
     }
+
     delete row._id;
     for(var key in row){
       if(typeof row[key]=='string'){

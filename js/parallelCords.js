@@ -64,6 +64,8 @@ function updateParallelCordsEvents(data){
     .style("font-size", "14px")
     ;
     pcSelectedAttribute=null;
+    //moving all the label up a bit
+    d3.select('#gtdParacords').selectAll(".label").attr("dy", -5);
 
 }
 var pcSelectedAttribute;

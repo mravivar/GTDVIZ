@@ -7,22 +7,54 @@
 footer{
     position:static;
 }
+.tick{
+    font-size:13px;
+}
+
+#startyr, #endyr{
+    cursor: default;
+}
+#numberofDocsWorld, #numberofDocsPC, #numberofDocsTheme{
+    background-color: white;
+    cursor: default !important;
+
+}/*
+#numberofDocsWorld:hover, #numberofDocsPC:hover, #numberofDocsTheme:hover {
+    cursor: default !important;
+}*/
 #resetButton{
     top: 89%;
-    left: 150%;
+    left: 135%;
     position:absolute;
+    font-weight: bold;
 }
 #selectedAttribute, #detailsTable{
-    border: 2px solid rgba(0, 0, 0, 0.7);
+    border: 1px solid #cebcbc;
     padding-right:0px;
     padding-left:0px;
 }
+#attribute{
+    font-weight: bold;
+}
+#tableid label, #tableid input{
+    font-weight: normal !important;
+    cursor: pointer;
+}
+#detailsTable, .mousePointer{
+    cursor:pointer !important;
+}
+
+.cell-title {
+    font-weight: bold;
+}
 
 html, body {
+    padding-top:5px;
     max-width:100%;
   max-height:100%;
     height:100%;
-  margin: 0;/*
+  margin: 0;
+    font:Arial !important;/*
     overflow-y: hidden;
     overflow-x: hidden;*/
 }
@@ -121,7 +153,8 @@ html>body #outer{height:auto;} //for mozilla as IE treats height as min-height a
 
 */
 #noUiSlider{
-  height:15px
+  height:15px;
+    cursor: pointer;
 }
 #worldMap {
   background: white;
@@ -165,7 +198,7 @@ fill: rgba(255, 0, 0, 0.2);
 .canvas .background {
     /* fill: #F6F6F6; */
     fill: grey;
-    stroke: #333333;
+    stroke: grey;
     cursor: move;
 	cursor: default;
 }
