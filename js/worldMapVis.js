@@ -7,7 +7,7 @@ var oldCircle,oldColor;
 var totalWidth;
 var totalHeight;
 var hoveredEventid;
-
+var first;
 function init(){
 	d3.demo = {};
 
@@ -312,7 +312,10 @@ d3.demo.canvas = function() {
           endline.style("left",  0+ "px" );
           if(selectedAttribute.length==0)
               return;
+          if(!first){
           updateEntity(selectedAttribute);
+          first='done';
+          }
 		//buildquery here
 		  $.ajax({
 		      url: 'plotSelectedData',

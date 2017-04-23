@@ -28,7 +28,7 @@ function updateParallelCordsEvents(data){
   if(gtdParacords){
       try{
           //gtdParacords.removeAxes();
-          //gtdParacords.brushReset();
+          gtdParacords.brushReset();
           //gtdParacords.render();
       } catch(err){
           console.log("Ignored:"+err);
@@ -48,7 +48,7 @@ function updateParallelCordsEvents(data){
     gtdParacords.data(data).dimensions(dimensions).hideAxis(hideAxes)
     .mode(mode).color(function(d){
       return getEntityColor(d[category]);
-    }).margin(pcMarigin).smoothness(.2)
+    }).margin(pcMarigin).smoothness(.2).bundlingStrength(.9)
     .alpha(0.4).alphaOnBrushed(1)//Change the opacity of the polylines, also the foreground context's globalAlpha.
     .render().shadows().createAxes()
     .reorderable()//.interactive() // command line mode

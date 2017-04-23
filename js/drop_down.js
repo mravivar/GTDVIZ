@@ -81,7 +81,7 @@ function plot(){
     var length = selectedAttribute.length;
     var table=document.getElementById("tableid");
     for (var i=0; i<length; i++){
-      table.rows[i].removeAttribute("style");
+      table.rows[i].style.background="white";
     }
     selectedAttribute = checkedAttributes.slice(0);
 
@@ -98,8 +98,8 @@ function plot(){
         colorMyAttributes(table);
     
         //scroll to first row - to make the selection visible
-        var rowpos = $('#tableid tr:first').position()
-        $('#selectedAttribute').scrollTop(rowpos.top)
+        var rowpos = $('#tableid tr:first').position();
+        $('#selectedAttribute').scrollTop(rowpos.top);
         groupUpdates();        
         checkedAttributes = [];
         checkedIndex =[];
@@ -109,12 +109,12 @@ function swapText(table,y,x){
   var text = table.rows[x].cells[1].textContent;
   var selectedtext = table.rows[y].cells[1].textContent;
 
-   table.rows[x].cells[1].textContent=selectedtext;
-   table.rows[x].cells[1].textContent=selectedtext;
+   table.rows[x].cells[1].children[0].textContent=selectedtext;
+   //table.rows[x].cells[1].children[0].textContent=selectedtext;
    document.getElementById(x).value=selectedtext;
 
-   table.rows[y].cells[1].textContent=text;
-   table.rows[y].cells[1].textContent=text;
+   table.rows[y].cells[1].children[0].textContent=text;
+   //table.rows[y].cells[1].children[0].textContent=text;
    document.getElementById(y).value=text;
    document.getElementById(y).checked = false;
 
@@ -125,7 +125,7 @@ function colorMyAttributes(table){
     for (var i = 0; i<length ; i++) {
         var index=$.inArray(table.rows[i].cells[1].textContent, selectedAttribute);
         if(index !== -1) {
-          table.rows[i].style = "background:" + getEntityColor(table.rows[i].cells[1].textContent);
+          table.rows[i].style.background = getEntityColor(table.rows[i].cells[1].textContent);
         }
     }
 }
