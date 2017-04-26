@@ -10,7 +10,9 @@ footer{
 .tick{
     font-size:13px;
 }
-
+#themeriver{
+ cursor: pointer; 
+}
 #startyr, #endyr{
     cursor: default;
 }

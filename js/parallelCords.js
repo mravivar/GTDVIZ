@@ -62,6 +62,7 @@ function updateParallelCordsEvents(data){
     .on("click", change_color)
     .selectAll(".label")
     .style("font-size", "14px")
+    .style("cursor", "pointer")
     ;
     pcSelectedAttribute=null;
     //moving all the label up a bit
