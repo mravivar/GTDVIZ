@@ -67,7 +67,7 @@ function loadTheEventIntoThedialog(event){
         }
     }
 }
-
+//below function is referenced from http://stackoverflow.com/questions/8485278/how-to-make-button-blinking-infinite-but-with-possibility-to-stop-at-anytime
 function blinking(elm) {
     var itr=0;
     var timer = setInterval(blink, 300);

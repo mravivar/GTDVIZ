@@ -1,3 +1,7 @@
+//some part of this file is got from
+//http://syntagmatic.github.io/parallel-coordinates/
+//and are referenceed within the code
+
 var gtdParacords;
 // color scale for zscores
 var zcolorscale = d3.scale.linear()
@@ -134,6 +138,7 @@ function getSyncedColor(event){
     }
 }
 var z,zMagicFunction;
+//below function is got from http://syntagmatic.github.io/parallel-coordinates/
 // return color function based on plot and dimension
 function zcolor(col, dimension) {
   z = zscore(_(col).pluck(dimension).map(parseFloat));
@@ -141,7 +146,7 @@ function zcolor(col, dimension) {
     return zcolorscale(z(d[dimension]))
   })
 }
-
+//below function is got from http://syntagmatic.github.io/parallel-coordinates/
 // color by zscore
 function zscore(col) {
   var n = col.length,
