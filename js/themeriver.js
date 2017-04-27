@@ -1,6 +1,4 @@
 //Reference: http://bl.ocks.org/WillTurman/4631136
-//var datearray = [];
-//var colorrange = [];
 
 var strokerange,format,strokecolor,margin,widthTM,heightTM,xTM,yTM;
 var xAxis,yAxis,stack,nest,area,svg,layers;
@@ -49,12 +47,9 @@ function updateThemeRiver(){
   //end
 }
 */
-
+// Part of the code in this function is used from http://bl.ocks.org/WillTurman/4631136
 function themeriver() {
 
-//no longer used, code moved to colorHelper.js
-//colorrange = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#ff7f00","#6600cc","#66ff99"];
-//["#B30000", "#78C679", "#FC8D59", "#FDBB84", "#CC4C02", "#FEF0D9","#980043", "#DD1C77", "#DF65B0", "#02F4C7","#238443","#EFFFFF"];
 
 strokerange = ["FFFFFF"]
 strokecolor = strokerange[0];
@@ -97,6 +92,7 @@ svg = d3.select(".themeriver").append("svg:svg")
 //updateThemeRiver();
 }
 
+// Part of the code in this function is used from http://bl.ocks.org/WillTurman/4631136
 function themecall(data){
 //console.log(data);
 xAxis = d3.svg.axis()
@@ -152,6 +148,7 @@ layers = stack(nest.entries(data));
       .attr("class", "yaxis")
       .attr("transform", "translate( 20 , 0)")
       .call(yAxis.orient("left"));
+      
 //Reference : http://bl.ocks.org/phoebebright/3061203
 svg.append("text")
             .attr("text-anchor", "middle")  
