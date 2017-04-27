@@ -187,7 +187,7 @@ fill: rgba(255, 0, 0, 0.2);
     background: lightBlue;
 }
 
-/* minimap styles */
+/* thumbnailmap styles */
 
 .canvas .wrapper.outer > .background {
     fill: #000000;
@@ -209,13 +209,13 @@ fill: rgba(255, 0, 0, 0.2);
 	cursor: default;
 }
 
-.canvas .minimap .frame .background {
+.canvas .thumbnailmap .frame .background {
     stroke: #111111;
     stroke-width: 4px;
     fill-opacity: 0.4;
     fill: #000000;
-    fill: url(#minimapGradient);
-    filter: url(#minimapDropShadow);
+    fill: url(#thumbnailmapGradient);
+    filter: url(#thumbnailmapDropShadow);
     cursor: move;
 	cursor: default;
 }/*

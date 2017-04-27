@@ -1,8 +1,17 @@
+/*
+This file renders worldmap and Minimap.
+
+
+Reference:
+http://www.billdwhite.com/wordpress/2014/02/03/d3-pan-and-zoom-reuse-demo/
+http://codepen.io/billdwhite/pen/yyedWq
+*/
+
 var groupUpdates, updateWorldMapPoints;
 var category = 'gname';
 var selectedAttribute = ["Unknown"];
 var path, projection, countries, events, circlesSVG, backup_data, panCanvas;
-//hoover variables
+//hover variables
 var oldCircle,oldColor;
 var totalWidth;
 var totalHeight;
@@ -18,40 +27,40 @@ d3.demo.canvas = function() {
 
     var _width           = document.getElementById('worldMap').clientWidth*0.98,
         _height          = document.getElementById('worldMap').clientHeight - 35,
-        zoomEnabled     = true,
-        dragEnabled     = true,
-        scale           = 1,
+        enableZoom     = true,
+		scale           = 1,
+        enableDrag     = true,
         translation     = [0,0],
-        base            = null,
-        wrapperBorder   = 1,
-        minimap         = null,
-        minimapPadding  = 20,
-        minimapScale    = 0.25,
+        borderWrapper   = 1,
+		base            = null,
+        thumbnailmap         = null,
+        thumbnailmapScale    = 0.25,
+		thumbnailmapPadding  = 20,
         nodes           = [],
-        circles         = [],
         rectW           = 50,
+		circles         = [],
         rectH           = 20;
 
     function canvas(selection) {
 
         base = selection;
 
-        var xScale = d3.scale.linear()
-            .domain([-_width / 2, _width / 2])
-            .range([0, _width]);
-
         var yScale = d3.scale.linear()
             .domain([-_height / 2, _height / 2])
             .range([_height, 0]);
+		
+		var xScale = d3.scale.linear()
+            .domain([-_width / 2, _width / 2])
+            .range([0, _width]);
 
         var zoomHandler = function(newScale) {
-            if (!zoomEnabled) { return; }
+            if (!enableZoom) { return; }
             if (d3.event) {
                 scale = d3.event.scale;
             } else {
                 scale = newScale;
             }
-            if (dragEnabled) {
+            if (enableDrag) {
                 var tbound = -_height * scale,
                     bbound = _height  * scale,
                     lbound = -_width  * scale,
@@ -67,7 +76,7 @@ d3.demo.canvas = function() {
             d3.select(".panCanvas, .panCanvas .bg")
                 .attr("transform", "translate(" + translation + ")" + " scale(" + scale + ")");
 
-            minimap.scale(scale).render();
+            thumbnailmap.scale(scale).render();
         }; // startoff zoomed in a bit to show pan/zoom rectangle
 
         var zoom = d3.behavior.zoom()
@@ -78,8 +87,8 @@ d3.demo.canvas = function() {
 
         var svg = selection.append("svg")
             .attr("class", "svg canvas")
-            .attr("width",  _width  + (wrapperBorder*2) + minimapPadding*2 + (_width*minimapScale))
-            .attr("height", _height + (wrapperBorder*2) + minimapPadding*2)
+            .attr("width",  _width  + (borderWrapper*2) + thumbnailmapPadding*2 + (_width*thumbnailmapScale))
+            .attr("height", _height + (borderWrapper*2) + thumbnailmapPadding*2)
             .attr("shape-rendering", "auto");
         svg.append("text").attr({
             x: totalWidth*58,
@@ -144,18 +153,18 @@ d3.demo.canvas = function() {
             .attr("height", _height);
 
         svgDefs.append("clipPath")
-            .attr("id", "minimapClipPath")
-            //.attr("class", "minimap clipPath")
+            .attr("id", "thumbnailmapClipPath")
+            //.attr("class", "thumbnailmap clipPath")
             .attr("width", _width)
             .attr("height", _height)
-            .attr("transform", "translate(" + (_width + minimapPadding) + "," + (minimapPadding/2) + ")")
+            .attr("transform", "translate(" + (_width + thumbnailmapPadding) + "," + (thumbnailmapPadding/2) + ")")
             .append("rect")
             .attr("class", "background")
             .attr("width", _width)
             .attr("height", _height);
 
         var filter = svgDefs.append("svg:filter")
-            .attr("id", "minimapDropShadow")
+            .attr("id", "thumbnailmapDropShadow")
             .attr("x", "-20%")
             .attr("y", "-20%")
             .attr("width", "150%")
@@ -183,9 +192,9 @@ d3.demo.canvas = function() {
             .attr("in2", "blurOut")
             .attr("mode", "normal");
 
-        var minimapRadialFill = svgDefs.append("radialGradient")
+        var thumbnailmapRadialFill = svgDefs.append("radialGradient")
             .attr({
-                id:"minimapGradient",
+                id:"thumbnailmapGradient",
                 gradientUnits:"userSpaceOnUse",
                 cx:"500",
                 cy:"500",
@@ -193,29 +202,29 @@ d3.demo.canvas = function() {
                 fx:"500",
                 fy:"500"
             });
-        minimapRadialFill.append("stop")
+        thumbnailmapRadialFill.append("stop")
             .attr("offset", "0%")
             .attr("stop-color", "#FFFFFF");
-        minimapRadialFill.append("stop")
+        thumbnailmapRadialFill.append("stop")
             .attr("offset", "40%")
             .attr("stop-color", "#EEEEEE");
-        minimapRadialFill.append("stop")
+        thumbnailmapRadialFill.append("stop")
             .attr("offset", "100%")
             .attr("stop-color", "#E0E0E0");
 
         var outerWrapper = svg.append("g")
             .attr("class", "wrapper outer")
-            .attr("transform", "translate(0, " + minimapPadding + ")");
+            .attr("transform", "translate(0, " + thumbnailmapPadding + ")");
 
         outerWrapper.append("rect")
             .attr("class", "background")
-            .attr("width", _width + wrapperBorder*2)
-            .attr("height", _height + wrapperBorder*2);
+            .attr("width", _width + borderWrapper*2)
+            .attr("height", _height + borderWrapper*2);
 
         var innerWrapper = outerWrapper.append("g")
             .attr("class", "wrapper inner")
             .attr("clip-path", "url(#wrapperClipPathDemo01)")
-            .attr("transform", "translate(" + (wrapperBorder) + "," + (wrapperBorder) + ")")
+            .attr("transform", "translate(" + (borderWrapper) + "," + (borderWrapper) + ")")
             .call(zoom);
 
         innerWrapper.append("rect")
@@ -234,14 +243,14 @@ d3.demo.canvas = function() {
             .attr("width", _width)
             .attr("height", _height);
 
-        minimap = d3.demo.minimap()
+        thumbnailmap = d3.demo.thumbnailmap()
             .zoom(zoom)
             .target(panCanvas)
-            .minimapScale(minimapScale)
-            .x(_width + minimapPadding)
-            .y(minimapPadding);
+            .thumbnailmapScale(thumbnailmapScale)
+            .x(_width + thumbnailmapPadding)
+            .y(thumbnailmapPadding);
 
-        svg.call(minimap);
+        svg.call(thumbnailmap);
 
         // startoff zoomed in a bit to show pan/zoom rectangle
         zoom.scale(1.5);
@@ -250,7 +259,7 @@ d3.demo.canvas = function() {
         /** ADD SHAPE **/
         canvas.addItem = function(item) {
             panCanvas.node().appendChild(item.node());
-            minimap.render();
+            thumbnailmap.render();
         };
 
         canvas.loadTree = function() {
@@ -423,16 +432,16 @@ d3.demo.canvas = function() {
                 .attr("height", _height);
 
             svg
-                .attr("width",  _width  + (wrapperBorder*2) + minimapPadding*2 + (_width*minimapScale))
-                .attr("height", _height + (wrapperBorder*2));
+                .attr("width",  _width  + (borderWrapper*2) + thumbnailmapPadding*2 + (_width*thumbnailmapScale))
+                .attr("height", _height + (borderWrapper*2));
 
             outerWrapper
                 .select(".background")
-                .attr("width", _width + wrapperBorder*2)
-                .attr("height", _height + wrapperBorder*2);
+                .attr("width", _width + borderWrapper*2)
+                .attr("height", _height + borderWrapper*2);
 
             innerWrapper
-                .attr("transform", "translate(" + (wrapperBorder) + "," + (wrapperBorder) + ")")
+                .attr("transform", "translate(" + (borderWrapper) + "," + (borderWrapper) + ")")
                 .select(".background")
                 .attr("width", _width)
                 .attr("height", _height);
@@ -444,22 +453,23 @@ d3.demo.canvas = function() {
                 .attr("width", _width)
                 .attr("height", _height);
 
-            minimap
-                .x(_width + minimapPadding)
-                .y(minimapPadding)
+            thumbnailmap
+                .x(_width + thumbnailmapPadding)
+                .y(thumbnailmapPadding)
                 .render();
         };
 
-        canvas.zoomEnabled = function(isEnabled) {
-            if (!arguments.length) { return zoomEnabled; }
-            zoomEnabled = isEnabled;
+        canvas.enableZoom = function(isEnabled) {
+            if (!arguments.length) { return enableZoom; }
+            enableZoom = isEnabled;
         };
 
-        canvas.dragEnabled = function(isEnabled) {
-            if (!arguments.length) { return dragEnabled; }
-            dragEnabled = isEnabled;
+        canvas.enableDrag = function(isEnabled) {
+            if (!arguments.length) { return enableDrag; }
+            enableDrag = isEnabled;
         };
 
+		/*
         canvas.reset = function() {
             d3.transition().duration(750).tween("zoom", function() {
                 var ix = d3.interpolate(xScale.domain(), [-_width  / 2, _width  / 2]),
@@ -471,6 +481,7 @@ d3.demo.canvas = function() {
                 };
             });
         };
+		*/
 
 		canvas.reset1 = function() {
                 svg.call(zoom.event);
@@ -516,37 +527,37 @@ d3.demo.canvas = function() {
 
 
 
-/** MINIMAP **/
-d3.demo.minimap = function() {
+/** thumbnailMAP **/
+d3.demo.thumbnailmap = function() {
 
     "use strict";
 
-    var minimapScale    = 0.1,
+    var thumbnailmapScale    = 0.1,
         scale           = 1,
+		base            = null,
         zoom            = null,
-        base            = null,
         target          = null,
+		height          = 0,
         width           = 0,
-        height          = 0,
         x               = 0,
+		frameX          = 0,
         y               = 0,
-        frameX          = 0,
         frameY          = 0;
 
-    function minimap(selection) {
+    function thumbnailmap(selection) {
 
         base = selection;
 
         var container = selection.append("g")
-            .attr("class", "minimap")
+            .attr("class", "thumbnailmap")
             .call(zoom);
 
-        zoom.on("zoom.minimap", function() {
+        zoom.on("zoom.thumbnailmap", function() {
             scale = d3.event.scale;
         });
 
 
-        minimap.node = container.node();
+        thumbnailmap.node = container.node();
 
         var frame = container.append("g")
             .attr("class", "frame");
@@ -555,15 +566,15 @@ d3.demo.minimap = function() {
             .attr("class", "background")
             .attr("width", width)
             .attr("height", height)
-            .attr("filter", "url(#minimapDropShadow)");
+            .attr("filter", "url(#thumbnailmapDropShadow)");
 
         var drag = d3.behavior.drag()
-            .on("dragstart.minimap", function() {
+            .on("dragstart.thumbnailmap", function() {
                 var frameTranslate = d3.demo.util.getXYFromTranslate(frame.attr("transform"));
                 frameX = frameTranslate[0];
                 frameY = frameTranslate[1];
             })
-            .on("drag.minimap", function() {
+            .on("drag.thumbnailmap", function() {
                 d3.event.sourceEvent.stopImmediatePropagation();
                 frameX += d3.event.dx;
                 frameY += d3.event.dy;
@@ -576,13 +587,13 @@ d3.demo.minimap = function() {
         frame.call(drag);
 
         /** RENDER **/
-        minimap.render = function() {
+        thumbnailmap.render = function() {
             scale = zoom.scale();
-            container.attr("transform", "translate(" + x + "," + y + ")scale(" + minimapScale + ")");
+            container.attr("transform", "translate(" + x + "," + y + ")scale(" + thumbnailmapScale + ")");
             var node = target.node().cloneNode(true);
             node.removeAttribute("id");
-            base.selectAll(".minimap .panCanvas").remove();
-            minimap.node.appendChild(node);
+            base.selectAll(".thumbnailmap .panCanvas").remove();
+            thumbnailmap.node.appendChild(node);
             var targetTransform = d3.demo.util.getXYFromTranslate(target.attr("transform"));
             frame.attr("transform", "translate(" + (-targetTransform[0]/scale) + "," + (-targetTransform[1]/scale) + ")")
                 .select(".background")
@@ -599,56 +610,56 @@ d3.demo.minimap = function() {
     //============================================================
 
 
-    minimap.width = function(value) {
+    thumbnailmap.width = function(value) {
         if (!arguments.length) return width;
         width = parseInt(value, 10);
         return this;
     };
 
 
-    minimap.height = function(value) {
+    thumbnailmap.height = function(value) {
         if (!arguments.length) return height;
         height = parseInt(value, 10);
         return this;
     };
 
 
-    minimap.x = function(value) {
+    thumbnailmap.x = function(value) {
         if (!arguments.length) return x;
         x = parseInt(value, 10);
         return this;
     };
 
 
-    minimap.y = function(value) {
+    thumbnailmap.y = function(value) {
         if (!arguments.length) return y;
         y = parseInt(value, 10);
         return this;
     };
 
 
-    minimap.scale = function(value) {
+    thumbnailmap.scale = function(value) {
         if (!arguments.length) { return scale; }
         scale = value;
         return this;
     };
 
 
-    minimap.minimapScale = function(value) {
-        if (!arguments.length) { return minimapScale; }
-        minimapScale = value;
+    thumbnailmap.thumbnailmapScale = function(value) {
+        if (!arguments.length) { return thumbnailmapScale; }
+        thumbnailmapScale = value;
         return this;
     };
 
 
-    minimap.zoom = function(value) {
+    thumbnailmap.zoom = function(value) {
         if (!arguments.length) return zoom;
         zoom = value;
         return this;
     };
 
 
-    minimap.target = function(value) {
+    thumbnailmap.target = function(value) {
         if (!arguments.length) { return target; }
         target = value;
         width  = parseInt(target.attr("width"),  10);
@@ -656,7 +667,7 @@ d3.demo.minimap = function() {
         return this;
     };
 
-    return minimap;
+    return thumbnailmap;
 };
 
 
