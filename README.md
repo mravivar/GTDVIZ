@@ -1,18 +1,5 @@
-# GTDVIZ
-CSE 578 Project 2017 Spring.
-This project is for visualization of global terrorist database.
-
-Source of the dataset http://www.start.umd.edu/gtd/contact/.
-
-
-## Goal:
-Milestone 1:
-
-Milestone 2:
-
-Milestone 3: Demo the project, Fully functioning system.
-
-Milestone 4: Polished project
+# GTD Visualization
+Designed and developed an interactive visualization of Global Terrorism Dataset for the past 45 years. Dataset source: https://www.start.umd.edu/gtd/. This full stack web application helps to analyze and vizualize the past data, trends and patterns from the wide range of terror attacks.
 
 
 ## Tools Used:
